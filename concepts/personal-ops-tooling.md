@@ -2,15 +2,18 @@
 type: Concept
 status: draft
 title: Personal ops tooling (ro-*) - personal and unofficial
-description: maurolepore's PERSONAL, UNOFFICIAL command-line tooling for working with rOpenSci's software-review infrastructure - the ro-alert-if-bot-is-down script and the ro-do shell alias. NOT official rOpenSci infrastructure.
+description: maurolepore's PERSONAL, UNOFFICIAL command-line tooling for working with rOpenSci's software-review infrastructure - the ro-bot-alert-if-down script and the ro-do and ro-bot-releases shell aliases. NOT official rOpenSci infrastructure.
 tags: [ ropensci, software-review, personal, unofficial, ops, cli ]
 sources:
   - id: alert-script
-    title: ro-alert-if-bot-is-down script (verbatim contents)
-    resource: /Users/maurolepore/git/bin/ro-alert-if-bot-is-down
+    title: ro-bot-alert-if-down script (verbatim contents)
+    resource: /Users/maurolepore/git/bin/ro-bot-alert-if-down
   - id: aliases
-    title: aliases.zsh line 256
+    title: aliases.zsh lines 256-257
     resource: /Users/maurolepore/git/dotfiles/aliases.zsh
+  - id: bin-repo
+    title: maurolepore's bin repository (git history)
+    resource: /Users/maurolepore/git/bin
 generated: { by: opencode/kimi-k3, at: 2026-10-23T01:00:00Z }
 ---
 
@@ -18,11 +21,13 @@ generated: { by: opencode/kimi-k3, at: 2026-10-23T01:00:00Z }
 
 **This tooling is PERSONAL and UNOFFICIAL.** Everything on this page is maintained by [maurolepore](https://github.com/maurolepore) for his own day-to-day operations against rOpenSci's software-review infrastructure. It is **not part of, endorsed by, or documented by rOpenSci** - for the official system see [Software peer-review infrastructure architecture](./software-peer-review-architecture.md).
 
-The tooling consists of one `ro-*` shell script plus one `ro-*` shell alias, both operating on [roreviewapi](./roreviewapi.md) and its Digital Ocean droplet.
+The tooling consists of one `ro-bot-*` shell script plus two shell aliases, operating on the [buffy](./buffy.md) Heroku app and on [roreviewapi](./roreviewapi.md) with its Digital Ocean droplet.
 
 ## Details
 
-### `ro-alert-if-bot-is-down`
+### `ro-bot-alert-if-down`
+
+Formerly `ro-alert-if-bot-is-down` - renamed 2026-10-23 to group with the other `ro-bot-*` commands.[^bin-repo]
 
 The only `ro-*` file in its `bin` directory; it health-checks the review API:[^alert-script]
 
@@ -40,13 +45,14 @@ fi
 
 **Operational insight:** the [roreviewapi](./roreviewapi.md) plumber API has no route at `/`, so a healthy server answers HTTP 404 at the root. The script therefore treats `404` as UP and anything else as down (prints `reviewbot is down`, exits 1).[^alert-script]
 
-### Shell alias
+### Shell aliases
 
 Defined in the owner's dotfiles:[^aliases]
 
 | Alias | Line | Expansion | Purpose |
 | --- | --- | --- | --- |
 | `ro-do` | 256 | `ssh mauro@167.99.34.163` | SSH into the Digital Ocean droplet that hosts roreviewapi (reviewbot.ropensci.org) |
+| `ro-bot-releases` | 257 | `heroku releases -a radiant-garden-91913` | List the [buffy](./buffy.md) Heroku app's releases, newest first - check when buffy last deployed |
 
 ## Related
 
@@ -55,3 +61,4 @@ Defined in the owner's dotfiles:[^aliases]
 
 [^alert-script]: Source `alert-script` - see frontmatter `sources`.
 [^aliases]: Source `aliases` - see frontmatter `sources`.
+[^bin-repo]: Source `bin-repo` - see frontmatter `sources`.
