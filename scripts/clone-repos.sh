@@ -3,6 +3,10 @@
 # The KB repo itself tracks only curated content (index.md, concepts/, docs/, ...);
 # these clones are gitignored reference material (see root AGENTS.md).
 #
+# Scope: only the software peer-review infrastructure
+# (see concepts/software-peer-review-architecture.md), the dev guides
+# (general + stats), and the roweb3 blog.
+#
 # Usage:  scripts/clone-repos.sh        # from the KB root
 # Safe to re-run: existing clones are skipped.
 set -euo pipefail
@@ -24,15 +28,15 @@ clone ropensci/roweb3                               git@github.com:maurolepore/r
 clone ropensci/software-review                      git@github.com:ropensci/software-review.git
 clone ropensci/statistical-software-review-book     https://github.com/ropensci/statistical-software-review-book.git
 
-# ropensci-org
+# ropensci-org — buffy is the editorial bot, badges serves review-status badges.
 clone ropensci-org/badges                           git@github.com:ropensci-org/badges.git
 clone ropensci-org/buffy                            git@github.com:ropensci-org/buffy.git
-clone ropensci-org/pkgreviewr                       git@github.com:ropensci-org/pkgreviewr.git
 
-# ropensci-review-tools
+# ropensci-review-tools — roreviewapi plus the pkgcheck suite and dashboard
+# (see concepts/pkgcheck-suite.md). The ropensci-review-tools repo itself is
+# kept: its docs/overview.md and packages.md are cited sources.
 clone ropensci-review-tools/autotest                git@github.com:ropensci-review-tools/autotest.git
 clone ropensci-review-tools/dashboard               git@github.com:ropensci-review-tools/dashboard.git
-clone ropensci-review-tools/designlens              git@github.com:ropensci-review-tools/designlens.git
 clone ropensci-review-tools/pkgcheck                git@github.com:ropensci-review-tools/pkgcheck.git
 clone ropensci-review-tools/pkgcheck-action         git@github.com:ropensci-review-tools/pkgcheck-action.git
 clone ropensci-review-tools/pkgstats                git@github.com:ropensci-review-tools/pkgstats.git
@@ -40,9 +44,4 @@ clone ropensci-review-tools/ropensci-review-tools   git@github.com:ropensci-revi
 clone ropensci-review-tools/roreviewapi             git@github.com:ropensci-review-tools/roreviewapi.git
 clone ropensci-review-tools/srr                     git@github.com:ropensci-review-tools/srr.git
 
-# ropensci-training — software-review-private is a maurolepore fork.
-clone ropensci-training/saperlipopette              https://github.com/ropensci-training/saperlipopette
-clone ropensci-training/software-review             git@github.com:ropensci-training/software-review.git
-clone ropensci-training/software-review-private     git@github.com:maurolepore/software-review-private.git
-
-echo "Done. Note: ropensci/lyh970817 is not a git repo and is not re-created by this script."
+echo "Done."
