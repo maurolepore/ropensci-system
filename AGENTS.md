@@ -33,7 +33,7 @@ This directory is a **knowledge base for all things rOpenSci**, particularly the
 ## Boundaries
 
 - **External resources are read-only**: web fetch, `gh api` GETs, `heroku apps:info|config:json|logs` are fine; never mutate remote state.
-- **No git mutations** (`commit`, `push`, branch changes in clones) unless the user explicitly asks.
+- **No git mutations** (`commit`, `push`, branch changes in clones) unless the user explicitly asks. Exception: the KB repo's own working tree must be **committed immediately as you finish each task** - don't leave changes uncommitted when the task ends, or that work spills into some other agent's task.
 - New orgs/repos may be cloned into their `<org>/` directory when relevant (`gh repo clone <org>/<repo> <org>/<repo>`).
 
 ## Useful commands
