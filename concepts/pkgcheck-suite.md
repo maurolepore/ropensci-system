@@ -1,9 +1,9 @@
 ---
 type: Concept
-status: draft
+status: stable
 title: pkgcheck suite - the check machinery
 description: The family of ropensci-review-tools R packages (pkgcheck, pkgstats, autotest, srr, pkgmatch, pkgcheck-action) that power automated package checks in peer review.
-tags: [ropensci, software-review, pkgcheck, autotest, srr, pkgstats, pkgmatch]
+tags: [ ropensci, software-review, pkgcheck, autotest, srr, pkgstats, pkgmatch ]
 sources:
   - id: overview
     title: ropensci-review-tools documentation overview
