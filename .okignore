@@ -1,0 +1,7 @@
+# Cloned GitHub repos are reference material, not curated KB content.
+# They stay on disk for code exploration (native tools); curated knowledge
+# lives in index.md, concepts/, sources/, docs/.
+ropensci/
+ropensci-org/
+ropensci-review-tools/
+ropensci-training/
