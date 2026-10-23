@@ -3,7 +3,7 @@ type: Concept
 status: draft
 title: roreviewapi - the review plumber API
 description: The R plumber API behind reviewbot.ropensci.org that runs pkgcheck, matches similar packages, mints badges, and sends editor-search emails; Dockerized on a Digital Ocean droplet.
-tags: [ropensci, software-review, infrastructure, roreviewapi, plumber, digitalocean]
+tags: [ ropensci, software-review, infrastructure, roreviewapi, plumber, digitalocean ]
 sources:
   - id: readme
     title: roreviewapi README
@@ -20,6 +20,9 @@ sources:
   - id: plumber
     title: inst/plumber.R endpoint annotations
     resource: ropensci-review-tools/roreviewapi/inst/plumber.R
+  - id: editor-search-r
+    title: R/editor-search.R (send_search_and_post; ropenscilabs test-repo mail redirect)
+    resource: ropensci-review-tools/roreviewapi/R/editor-search.R
 generated: { by: opencode/kimi-k3, at: 2026-10-23T00:18:04Z }
 ---
 
@@ -36,7 +39,7 @@ generated: { by: opencode/kimi-k3, at: 2026-10-23T00:18:04Z }
 | `/pkgmatch` | Bot command `similar packages`: top-5 matches from rOpenSci + CRAN corpora via the pkgmatch package[^endpoints] |
 | `/srrcheck` | Bot command `check srr`: standards documentation checks for stats packages |
 | `/badge` | Badge creation/update on approval; `check readme` verifies the badge in the package README |
-| `/send_search` | Bot command `ping editors`: emails the editorial board requesting volunteers[^editorsearch] |
+| `/send_search` | Bot command `ping editors`: emails the editorial board requesting volunteers; runs as a background job and posts a success/failure comment back to the issue[^editorsearch][^editor-search-r] |
 | `/click/<token>` | Records a volunteer's click; token is the credential, no auth; notifies the Editor-in-Chief on first valid click[^editorsearch] |
 | `/list_searches` | Lists active/inactive editor searches (needs `secret`)[^editorsearch] |
 | `/deactivate_search` | Ends a search and deletes its recipient rows (called silently when an editor is assigned)[^editorsearch] |
@@ -54,10 +57,12 @@ generated: { by: opencode/kimi-k3, at: 2026-10-23T00:18:04Z }
 
 ## Editor-search email system
 
-- Sends from the `reviewbot@ropensci.org` alias via the **Gmail API** (`gmailr`), authorized once interactively by a maintainer's Google account; the refresh-token cache is portable to the droplet.[^editorsearch]
+- Sends from the `reviewbot@ropensci.org` Gmail account itself via the **Gmail API** (`gmailr`) - authorized once interactively **from that same account** (maintainers need 1Password access to it; there is no send-as alias and no per-maintainer token), and the refresh-token cache is portable to the droplet.[^editorsearch]
+- Transferring maintenance only requires adding the new person to the `ro-auto-email` Google Cloud project IAM and to 1Password - `reviewbot@ropensci.org`'s authorization itself stays unchanged (no new token per maintainer).[^editorsearch]
 - Google Cloud project **`ro-auto-email`** (owned by the rOpenSci Workspace Cloud Identity org): Gmail API enabled, OAuth consent screen **Internal**, Desktop-app OAuth client, scope `gmail.send`.[^editorsearch]
 - Credentials live in `/srv/roreviewapi/data/` on the droplet, bind-mounted into the container at `/data/email/`; env vars `GMAIL_SENDER`, `GMAIL_OAUTH_CLIENT_SECRET`, `GMAIL_TOKEN_CACHE`, `GMAIL_AUTH_EMAIL` are set in an untracked `.env`.[^editorsearch]
 - Search state lives in a SQLite database next to that directory; the current Editor-in-Chief email is fetched from Airtable at startup and refreshed every 24 h.[^editorsearch]
+- Search mail is redirected for testing: a search opened from a `ropenscilabs` test repo sends all emails (search batch and click notifications) to `reviewtools@ropensci.org` instead of the editorial board or the EiC.[^editor-search-r]
 
 ## Related
 
@@ -70,3 +75,4 @@ generated: { by: opencode/kimi-k3, at: 2026-10-23T00:18:04Z }
 [^editorsearch]: Source `editorsearch` - see frontmatter `sources`.
 [^admin]: Source `admin` - see frontmatter `sources`.
 [^plumber]: Source `plumber` - see frontmatter `sources`.
+[^editor-search-r]: Source `editor-search-r` - see frontmatter `sources`.
