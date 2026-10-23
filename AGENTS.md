@@ -34,6 +34,7 @@ This directory is a **knowledge base for all things rOpenSci**, particularly the
 
 - **External resources are read-only**: web fetch, `gh api` GETs, `heroku apps:info|config:json|logs` are fine; never mutate remote state.
 - **No git mutations** (`commit`, `push`, branch changes in clones) unless the user explicitly asks. Exception: the KB repo's own working tree must be **committed immediately as you finish each task** - don't leave changes uncommitted when the task ends, or that work spills into some other agent's task.
+- **Agent commits credit the agent as co-author**: every commit made by an agent MUST include the agent's details as a `Co-Authored-By` trailer in the commit message, using the agent's model + harness identity and a no-reply address, e.g. `Co-Authored-By: GLM-5.3-Flash (OpenCode) <noreply@z.ai>`. Human commits are unaffected.
 - New orgs/repos may be cloned into their `<org>/` directory when relevant (`gh repo clone <org>/<repo> <org>/<repo>`).
 
 ## Useful commands
