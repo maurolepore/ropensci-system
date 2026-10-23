@@ -81,3 +81,4 @@ External-service responders in the config wire commands to [roreviewapi](./rorev
 [^config]: Source `config` - see frontmatter `sources`.
 [^responders-tree]: Source `responders-tree` - see frontmatter `sources`.
 [^heroku]: Source `heroku` - see frontmatter `sources`.
+[^heroku-deploy]: Source `heroku-deploy` - see frontmatter `sources`.
