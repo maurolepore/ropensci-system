@@ -13,7 +13,8 @@ This directory is a **knowledge base for all things rOpenSci**, particularly the
 - `index.md` - bundle root (declares `okf_version`), the entry point.
 - `concepts/` - curated knowledge, one concept per file. Start at [software-peer-review-architecture](concepts/software-peer-review-architecture.md).
 - `docs/superpowers/plans/` - implementation plans for KB work.
-- `<org>/<repo>/` - cloned GitHub repositories (`ropensci/`, `ropensci-org/`, `ropensci-review-tools/`). These are **reference material**, excluded from the knowledge graph via `.okignore`. Read them with native tools (`read`/`grep`); never edit them except to add an `AGENTS.md`.
+- `<org>/<repo>/` - cloned GitHub repositories (`ropensci/`, `ropensci-org/`, `ropensci-review-tools/`, `ropenscilabs/`). These are **reference material**, excluded from the knowledge graph via `.okignore`. Read them with native tools (`read`/`grep`); never edit them except to add an `AGENTS.md`.
+  - `ropenscilabs/statistical-software-review/` - the test/sandbox review repository used to try out editorial tooling (buffy) without touching production; referenced in the 2022 chatops blog post's "initial preparation / installation steps" ([live issues](https://github.com/ropenscilabs/statistical-software-review/issues)).
 
 ## Git model
 

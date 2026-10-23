@@ -32,6 +32,11 @@ clone ropensci/statistical-software-review-book     https://github.com/ropensci/
 clone ropensci-org/badges                           git@github.com:ropensci-org/badges.git
 clone ropensci-org/buffy                            git@github.com:ropensci-org/buffy.git
 
+# ropenscilabs — sandbox repos mentioned in the chatops blog post; the
+# statistical-software-review clone is the test/sandbox review repository
+# for experimenting with editorial tooling without touching production.
+clone ropenscilabs/statistical-software-review      https://github.com/ropenscilabs/statistical-software-review.git
+
 # ropensci-review-tools — roreviewapi plus the pkgcheck suite and dashboard
 # (see concepts/pkgcheck-suite.md). The ropensci-review-tools repo itself is
 # kept: its docs/overview.md and packages.md are cited sources.
