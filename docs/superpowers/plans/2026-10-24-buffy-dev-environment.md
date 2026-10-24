@@ -12,7 +12,7 @@ generated:
 
 **Goal:** Make `bundle install` succeed and `bundle exec rspec` run green for ropensci-org/buffy on branch `ropensci` (79e65b3) on this macOS arm64 machine.
 
-**Architecture:** Ruby 4.0.2 comes from either a Docker container (fastest, zero installs; daemon already running) or a native mise install (daily-driver). Native gems (charlock_holmes, openssl, rugged, nokogiri, puma) are satisfied with two brew packages plus `PKG_CONFIG_PATH` pointing at keg-only icu4c/openssl@3. The test suite is fully self-contained — no Redis, no GitHub token, no cloc — because `spec/spec_helper.rb` sets `RACK_ENV=test` (loads `config/settings-test.yml` with dummy values), `WebMock.disable_net_connect!`, and `Sidekiq.testing!(:fake)`, and CI runs with no services.
+**Architecture:** Ruby 4.0.2 is delivered twice by design — Path A (Docker container: fastest, zero installs; daemon already running) runs first for an immediate green suite, then Path B (native mise install) becomes the standing daily-driver, with Path A staying available as a permanent fallback. (User decision, 2026-10-24: run BOTH paths.) Native gems (charlock_holmes, openssl, rugged, nokogiri, puma) are satisfied with two brew packages plus `PKG_CONFIG_PATH` pointing at keg-only icu4c/openssl@3. The test suite is fully self-contained — no Redis, no GitHub token, no cloc — because `spec/spec_helper.rb` sets `RACK_ENV=test` (loads `config/settings-test.yml` with dummy values), `WebMock.disable_net_connect!`, and `Sidekiq.testing!(:fake)`, and CI runs with no services.
 
 **Tech Stack:** Ruby 4.0.2, Bundler 4.0.6, Sinatra 4.2.1, Sidekiq 8.1.3, RSpec 3.13, Puma 8; Docker 29.6.1 or mise + Homebrew 7.0.10 on macOS 15.7.7 arm64.
 
@@ -64,18 +64,26 @@ git checkout ropensci
 
 Verify: `git branch --show-current` → `ropensci`; `git rev-parse --short HEAD` → `79e65b3`.
 
-### Task 2: Install Ruby 4.0.2 — pick exactly ONE path
+### Task 2: Install Ruby 4.0.2 — BOTH paths: A first (fast green suite), then B (standing setup)
 
 **Ground truth:** `.ruby-version`, `Gemfile.lock`, and CI all pin 4.0.2; CI uses `ruby/setup-ruby@v1`.
 
 | Option | System footprint | Time to green | Verdict |
 | --- | --- | --- | --- |
-| **Docker** (Path A) | nothing installed; image + named volume only | ~5 min (image pull + gem compile) | **Fastest** — daemon already running |
-| **mise** (Path B) | 3 brew formulae + one `~/.zshrc` line | ~15–25 min (source compile) | **Best native daily driver** — one tool, reads `.ruby-version` |
+| **Docker** (Path A) | nothing installed; image + named volume only | ~5 min (image pull + gem compile) | **Do first** — immediate green suite; stays as permanent fallback |
+| **mise** (Path B) | 3 brew formulae + one `~/.zshrc` line | ~15–25 min (source compile) | **Do second** — standing daily driver; one tool, reads `.ruby-version` |
 | rbenv + ruby-build | 2 brew formulae + shims + `~/.zshrc` line | ~15–25 min | equal result, more pieces; only if already installed (it is not) |
 | asdf | brew formula + plugin + `.tool-versions` (repo lacks one) | ~15–25 min | most moving parts; rejected |
 
-#### Path A — Docker (recommended for the fastest green suite)
+Both paths coexist cleanly — execute them in order:
+
+- mise owns the **host shell** (it reads the repo's `.ruby-version`); Docker never touches the host Ruby.
+- Gems live in **separate stores** (mise's gem home vs the `buffy-bundle` docker volume), so `bundle install`
+  runs once per path and the two don't interfere.
+- Once Path B is green, Path A remains the fallback for Review Focus #1/#2 (native-gem compile issues) and for
+  quick disposable checks.
+
+#### Path A — Docker (do first — immediate green suite)
 
 - [ ] **A1: Pull the exact image** [system-wide: docker state]
 
@@ -116,9 +124,9 @@ gem install bundler -v 4.0.6
 bundle install
 ```
 
-Verify: `bundle -v` → `Bundler version 4.0.6`; `bundle check` → `The Gemfile's dependencies are satisfied`. Then go to Task 4 (inside the container).
+Verify: `bundle -v` → `Bundler version 4.0.6`; `bundle check` → `The Gemfile's dependencies are satisfied`. Then go to Task 4 (inside the container). Once green, continue with Path B below — the container may be disposed; its bundle survives in the volume.
 
-#### Path B — native via mise (recommended for ongoing development)
+#### Path B — native via mise (do second — the standing daily-driver setup)
 
 - [ ] **B1: Install mise and the two missing build tools** [system-wide]
 
@@ -151,9 +159,9 @@ mise use -g ruby@4.0.2
 gem install bundler -v 4.0.6
 ```
 
-Verify: `bundle -v` → `Bundler version 4.0.6`.
+Verify: `bundle -v` → `Bundler version 4.0.6`. → continue directly to Task 3 (host `bundle install`).
 
-### Task 3: `bundle install` (Path B only — Path A already installed in A5)
+### Task 3: `bundle install` on the host (after Path B — Path A's copy lives inside the container (A5))
 
 **Consumes:** Task 2B's ruby/bundler on PATH. **Produces:** a satisfied Gemfile, proven by native-extension smoke test.
 
