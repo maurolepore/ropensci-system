@@ -62,7 +62,11 @@ Then ask an agent: "Generate the codebase wiki, audience public, depth standard.
 # 4. Guard the remotes (shared gitdir => covers both worktrees).
 #    Hook: mine only ever receives refs/heads/wiki; origin never does.
 #    Copy the hook from ropensci-org/buffy/.git/hooks/pre-push (the
-#    reference implementation) into <org>/<repo>/.git/hooks/pre-push.
+#    reference implementation - it is repo-GENERIC: at push time it derives
+#    the code/wiki worktree paths from the common gitdir and the upstream/
+#    fork coordinates from the clone's own remote URLs, but it assumes the
+#    recipe's conventions: remote names 'origin' and 'mine', branch 'wiki',
+#    sibling worktree '<repo>-wiki') into <org>/<repo>/.git/hooks/pre-push.
 #    THEN point the repo at its hooks dir with an ABSOLUTE path - a repo
 #    ".git/hooks" is silently ignored when core.hooksPath is set globally
 #    (e.g. ~/.config/git/hooks), and a RELATIVE hooksPath breaks in linked
