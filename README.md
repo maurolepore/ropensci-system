@@ -4,6 +4,6 @@ Knowledge base for rOpenSci
 
 See 
 
-- [index.md]
-- [AGENTS.md]
+- [index.md](index.md)
+- [AGENTS.md](AGENTS.md)
 
