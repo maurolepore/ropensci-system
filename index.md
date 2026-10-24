@@ -24,4 +24,5 @@ Knowledge base for all things [rOpenSci](https://ropensci.org/), particularly th
 ## Conventions
 
 - [Getting started](./concepts/getting-started.md) - purpose and conventions.
+- Implementation plans live in `plans/<owner>/<repo>/` - one plan per unit of work (a GitHub issue or PR), with the path mirroring the repo where the work happens; see the [bootstrap plan](./plans/maurolepore/ropensci-system/2026-10-22-ropensci-kb-bootstrap.md) for an example. They are committed working documents, in OK scope, but not curated concepts.
 - Cloned GitHub repositories live under `<org>/<repo>/` (e.g. `ropensci-org/buffy`); they are reference material excluded from the knowledge graph via `.okignore`, and concept docs cite them as sources. See the [architecture concept](./concepts/software-peer-review-architecture.md) for how they fit together.
