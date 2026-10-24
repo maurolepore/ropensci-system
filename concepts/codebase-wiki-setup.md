@@ -65,6 +65,10 @@ git commit -m "docs: add agent-authored codebase wiki (wiki/)"
 git push -u mine wiki
 ```
 
+## Make it discoverable (do not skip)
+
+A wiki nobody can find is dead weight. Patch the clone's \`<org>/<repo>/AGENTS.md\` bridge (it is what agents working there auto-load) with a "Codebase wiki" section: pointer to \`../<repo>-wiki/wiki/\`, the GitHub URL of the fork's wiki branch, the "this clone never pushes \`wiki\`; pushes here go to \`origin\` only" rule, and a link to this doc's **Working a feature** section. Mirror the buffy example (\`ropensci-org/buffy/AGENTS.md\`). Keep the chain short: AGENTS.md -> this doc, two hops max.
+
 ## Refresh (after the upstream code moves)
 
 ```bash
@@ -72,6 +76,18 @@ cd <org>/<repo>-wiki && git merge origin/main   # bring code snapshot current
 ```
 
 Then: "Refresh the codebase wiki" - the pack diffs `source_commit..HEAD` and updates only affected pages. Commit and push to `mine` again.[^ok-docs]
+
+## Working a feature (e.g. buffy\#142)
+
+Three directories, three layers, each with its own write target:
+
+- **ropensci-system/** - manage: the implementation plan (\`plans/<org>/<repo>/<issue>_<slug>.md\`), concepts, doctrine. Nothing here touches the clone's git.
+- **<org>/<repo>/** - code: implement on the feature branch checked out in the clone; push the branch to \`origin\` (upstream) and open the PR there. \`AGENTS.md\` in the clone requires explicit user approval for any git mutation.
+- **<org>/<repo>-wiki/** - document: the \`wiki\` branch worktree; pushed only to \`mine\` (the user's fork).
+
+Loop: orient in the KB (read the plan + concepts; research code via the wiki at \`../<repo>-wiki/wiki/\`) -> implement in the clone session -> push/PR upstream -> after merge, refresh the wiki (merge origin/main, "refresh the codebase wiki", push to mine) -> update the plan/concepts in the KB. Mid-flight design changes update the plan BEFORE code changes land.
+
+Wiki and PR cannot contaminate each other because they are different branches in different worktrees sharing only \`main\`: the PR never sees \`wiki/\` (it is not in the clone's working tree), and the wiki branch never sees feature commits unless they merged upstream first. Every push names its remote explicitly - never \`git push mine <feature-branch>\`, never \`git push origin wiki\`.
 
 ## Current wikis
 
