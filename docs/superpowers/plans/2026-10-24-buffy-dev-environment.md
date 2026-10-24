@@ -22,7 +22,7 @@ generated:
 
 Every task implicitly includes these verified facts:
 
-- Ruby **exactly 4.0.2** — `.ruby-version` = `4.0.2`; `Gemfile.lock` has `RUBY VERSION ruby 4.0.2` (bundler rejects other patch levels). The Gemfile itself has no `ruby` directive unless `CUSTOM_RUBY_VERSION` is set (Heroku deploy knob).
+- Ruby **4.0.2** is the development/deployment target — `.ruby-version` = `4.0.2`; `Gemfile.lock` records `RUBY VERSION ruby 4.0.2`. This is NOT a hard bundler gate: the Gemfile has no active `ruby` directive (only `if ENV["CUSTOM_RUBY_VERSION"]`), so bundler does not reject a different running Ruby — the repo's own CI runs this same Gemfile.lock green under ruby 3.3 and 3.4 (verified check runs on 79e65b3). Target 4.0.2 anyway for parity with `.ruby-version` and CI's 4.0 leg.
 - Bundler **exactly 4.0.6** — `Gemfile.lock` tail: `BUNDLED WITH 4.0.6`.
 - Work on branch `ropensci` (local `ropensci` == `origin/ropensci` == 79e65b3). `main` is upstream JOSS. The only authorized git mutation is switching to `ropensci`.
 - `.bundle/config` is a **tracked file** (`BUNDLE_FROZEN: "false"`) — do NOT let bundler write local build config into it (`bundle config set --local`); pass build flags via environment (`PKG_CONFIG_PATH`) instead.
@@ -37,7 +37,7 @@ Risks the spec implies but no step's happy-path test fully covers:
 
 1. `charlock_holmes 0.7.9` vs `icu4c@78` — unverified compile pairing; ICU ≥ 75 C++ API churn has broken native gems before. Mitigation: Task 3 step 3 smoke-test; fallback = Path A (Docker) or an older keg-only icu4c.
 2. `openssl 3.3.2` gem cannot find keg-only `openssl@3` by itself → Task 3 step 1 exports `PKG_CONFIG_PATH`; step 3 requires the lib to prove it.
-3. Docker tag `ruby:4.0.2` may not exist or `ruby:4.0` may be a newer patch that bundler rejects → Task 2A step 1 verifies exact `ruby -v` output; never edit the lockfile to relax the pin.
+3. Docker tag `ruby:4.0.2` may not exist (unverifiable while planning without pulling an image) → Task 2A step 1 verifies `ruby -v`. A slightly newer 4.0.x patch level is acceptable to bundler here (no active `ruby` directive; CI green on 3.3/3.4 with this lockfile), so if `ruby:4.0.2` is missing, `ruby:4.0` still yields a green suite. Never edit `Gemfile.lock` to relax the pin regardless.
 4. Dirty `.gitignore` on `142_set-hold-reminder` would be carried into (or block) the checkout → Task 1 stashes first.
 5. A fresh Ruby 4.0.2 may ship a bundler ≠ 4.0.6 → explicit `gem install bundler -v 4.0.6` before `bundle install` in both paths.
 
@@ -50,11 +50,11 @@ Risks the spec implies but no step's happy-path test fully covers:
 - [ ] **Step 1: Stash the dirty `.gitignore`** [repo-local]
 
 ```bash
-git diff .gitignore   # review first; if it is junk use: git checkout -- .gitignore
-git stash push -m "wip: gitignore on 142_set-hold-reminder"
+git stash push -m "wip: .gitignore on 142_set-hold-reminder"
+git stash show -p 'stash@{0}'   # review what was parked; restore later with git stash pop
 ```
 
-Verify: `git status -s` → empty.
+(Discarding the parked change — `git stash drop` or `git checkout -- .gitignore` — is a last resort for junk-only changes, never the default.) Verify: `git status -s` → empty.
 
 - [ ] **Step 2: Switch branch** [repo-local]
 
@@ -83,7 +83,7 @@ Verify: `git branch --show-current` → `ropensci`; `git rev-parse --short HEAD`
 docker pull ruby:4.0.2
 ```
 
-Verify: `docker run --rm ruby:4.0.2 ruby -v` → `ruby 4.0.2 ...`. If the tag is missing, `docker pull ruby:4.0` and re-verify the patch level is exactly 4.0.2 (Review Focus #3).
+Verify: `docker run --rm ruby:4.0.2 ruby -v` → `ruby 4.0.2 ...`. If the tag is missing, `docker pull ruby:4.0` — per Review Focus #3, a slightly newer 4.0.x patch level still yields a green suite (verify whatever `ruby -v` prints).
 
 - [ ] **A2: Persist the gem home in a named volume** [system-wide: docker state]
 
@@ -99,7 +99,7 @@ Verify: `docker volume inspect buffy-bundle > /dev/null && echo ok`.
 docker run --rm -it -v "$PWD":/app -w /app -v buffy-bundle:/usr/local/bundle ruby:4.0.2 bash
 ```
 
-(`/usr/local/bundle` is the ruby image's GEM_HOME; mounting the volume there keeps gems out of the repo and survives container exits.) Verify inside: `ruby -v` → `ruby 4.0.2`.
+(`/usr/local/bundle` is the ruby image's GEM_HOME; mounting the volume there keeps gems out of the repo and survives container exits.) Verify inside: `ruby -v` → `ruby 4.0.2`. The container is disposable (`--rm`): exiting mid-flow or after a green run means re-running A3→A5 costs only the ~1 min apt step; the bundle persists in the volume.
 
 - [ ] **A4: Native-build dependencies inside the container** [container-local]
 
@@ -126,16 +126,16 @@ Verify: `bundle -v` → `Bundler version 4.0.6`; `bundle check` → `The Gemfile
 brew install mise cmake pkg-config
 ```
 
-(openssl@3, icu4c@78, readline, libyaml, gmp already installed — re-check with `brew list --versions openssl@3 icu4c@78 readline libyaml gmp`.) Verify: `mise --version`; `cmake --version`; `pkg-config --version`.
+(openssl@3, icu4c@78, readline, libyaml, gmp already installed — re-check with `brew list --versions openssl@3 icu4c@78 readline libyaml gmp`.) Verify: `mise --version`; `cmake --version`; `pkg-config --version`. Note: mise's Ruby installer may itself `brew install` extra build deps (e.g. autoconf) on first use — the footprint can grow by a few formulae.
 
 - [ ] **B2: Activate mise in the shell** [system-wide: user dotfile]
 
 ```bash
-echo 'eval "$(mise activate zsh)"' >> ~/.zshrc
+grep -qF 'mise activate' ~/.zshrc || echo 'eval "$(mise activate zsh)"' >> ~/.zshrc
 eval "$(mise activate zsh)"
 ```
 
-Verify: `mise doctor` → no problems.
+Verify: `command -v ruby` → `/Users/<you>/.local/share/mise/shims/ruby`. (`mise doctor` may report benign warnings and exit non-zero on healthy setups — only missing shims are a real problem.)
 
 - [ ] **B3: Install Ruby 4.0.2 (source compile, ~10–20 min on arm64)** [user-level: ~/.local/share/mise]
 
@@ -161,9 +161,17 @@ Verify: `bundle -v` → `Bundler version 4.0.6`.
 
 ```bash
 export PKG_CONFIG_PATH="$(brew --prefix icu4c@78)/lib/pkgconfig:$(brew --prefix openssl@3)/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
+export CPATH="$(brew --prefix openssl@3)/include:$(brew --prefix icu4c@78)/include:${CPATH:-}"
+export LIBRARY_PATH="$(brew --prefix openssl@3)/lib:$(brew --prefix icu4c@78)/lib:${LIBRARY_PATH:-}"
 ```
 
-One env var covers both charlock_holmes (icu-i18n) and the openssl gem. Verify: `pkg-config --modversion icu-i18n openssl` prints two versions.
+PKG_CONFIG_PATH covers charlock_holmes (icu-i18n); CPATH/LIBRARY_PATH are belt-and-braces for the openssl gem, whose extconf may not consume pkg-config for a keg-only prefix (UNVERIFIED — no build was made while planning). If the openssl gem still fails to compile, install it directly before `bundle install`:
+
+```bash
+gem install openssl -v 3.3.2 -- --with-openssl-dir="$(brew --prefix openssl@3)"
+```
+
+Verify: `pkg-config --modversion icu-i18n openssl` prints two versions.
 
 - [ ] **Step 2: Install the bundle** [repo-local]
 
@@ -222,7 +230,8 @@ Verify: `docs/.venv/bin/sphinx-build --version` prints a version. (Requirements 
 From the clone root (≈5 minutes, nothing installed on the host):
 
 ```bash
-git stash push -m wip && git checkout ropensci
+cd /Users/maurolepore/git/ropensci-system/ropensci-org/buffy   # the clone; $PWD below must be this dir
+git diff .gitignore && git stash push -m wip && git checkout ropensci
 docker pull ruby:4.0.2 && docker volume create buffy-bundle
 docker run --rm -it -v "$PWD":/app -w /app -v buffy-bundle:/usr/local/bundle ruby:4.0.2 bash -c '
   apt-get update -qq &&
