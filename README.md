@@ -2,8 +2,4 @@
 
 Knowledge base for rOpenSci
 
-See 
-
-- [index.md](index.md)
-- [AGENTS.md](AGENTS.md)
-
+Start at [index.md](index.md)
