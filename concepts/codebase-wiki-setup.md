@@ -59,15 +59,23 @@ Then ask an agent: "Generate the codebase wiki, audience public, depth standard.
 - Stamp `source_commit` + profile in `wiki/OVERVIEW.md` frontmatter; append one dated entry to `wiki/log.md`.
 
 ```bash
-# 4. Commit and back up
+# 4. Guard the remotes (shared gitdir => covers both worktrees).
+#    Hook: mine only ever receives refs/heads/wiki; origin never does.
+#    Copy the hook from ropensci-org/buffy/.git/hooks/pre-push (the
+#    reference implementation) and:
+git -C <org>/<repo> config branch.wiki.pushRemote mine
+
+# 5. Commit and back up
 cd <org>/<repo>-wiki && git add -A
 git commit -m "docs: add agent-authored codebase wiki (wiki/)"
 git push -u mine wiki
 ```
 
-## Make it discoverable (do not skip)
+## Enforce the remotes (do not skip)
 
-A wiki nobody can find is dead weight. Patch the clone's \`<org>/<repo>/AGENTS.md\` bridge (it is what agents working there auto-load) with a "Codebase wiki" section: pointer to \`../<repo>-wiki/wiki/\`, the GitHub URL of the fork's wiki branch, the "this clone never pushes \`wiki\`; pushes here go to \`origin\` only" rule, and a link to this doc's **Working a feature** section. Mirror the buffy example (\`ropensci-org/buffy/AGENTS.md\`). Keep the chain short: AGENTS.md -> this doc, two hops max.
+Both worktrees share the clone's single seine remote config, so config alone cannot tell them apart. Install a `pre-push` hook in `<org>/<repo>/.git/hooks/` (shared by all worktrees) that rejects any push where `mine` would receive something other than `wiki`, or `origin` would receive `wiki`; it prints the correct command for each worktree. Also set `git config branch.wiki.pushRemote mine` so a bare `git push` on the wiki branch is correct by default.
+
+Discoverability needs **no per-clone files** (no personal `AGENTS.md` bridges in shared repos - they are untracked clutter and a PR-leak risk; keep clones shared-only). The KB root `AGENTS.md` carries the generalized convention - "wiki worktree always at `<org>/<repo>-wiki/`", "fork remote always `mine` = `maurolepore/<repo>`", push rules, and this doc's workflow - and OpenCode loads it upward in any session rooted inside the clones, and lazily when a KB-rooted session reads a clone's files.
 
 ## Refresh (after the upstream code moves)
 
@@ -82,7 +90,7 @@ Then: "Refresh the codebase wiki" - the pack diffs `source_commit..HEAD` and upd
 Three directories, three layers, each with its own write target:
 
 - **ropensci-system/** - manage: the implementation plan (\`plans/<org>/<repo>/<issue>_<slug>.md\`), concepts, doctrine. Nothing here touches the clone's git.
-- **<org>/<repo>/** - code: implement on the feature branch checked out in the clone; push the branch to \`origin\` (upstream) and open the PR there. \`AGENTS.md\` in the clone requires explicit user approval for any git mutation.
+- **<org>/<repo>/** - code: implement on the feature branch checked out in the clone; push the branch to \`origin\` (upstream) and open the PR there. The KB root \`AGENTS.md\` (loaded upward in any clone-rooted session) requires explicit user approval for any git mutation, and forbids adding personal files (e.g. \`AGENTS.md\` bridges) inside clones.
 - **<org>/<repo>-wiki/** - document: the \`wiki\` branch worktree; pushed only to \`mine\` (the user's fork).
 
 Loop: orient in the KB (read the plan + concepts; research code via the wiki at \`../<repo>-wiki/wiki/\`) -> implement in the clone session -> push/PR upstream -> after merge, refresh the wiki (merge origin/main, "refresh the codebase wiki", push to mine) -> update the plan/concepts in the KB. Mid-flight design changes update the plan BEFORE code changes land.

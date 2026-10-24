@@ -13,9 +13,20 @@ This directory is a **knowledge base for all things rOpenSci**, particularly the
 - `index.md` - bundle root (declares `okf_version`), the entry point.
 - `concepts/` - curated knowledge, one concept per file. Start at [software-peer-review-architecture](concepts/software-peer-review-architecture.md).
 - `plans/<owner>/<repo>/` - implementation plans, one plan per unit of work (typically one GitHub issue or PR): the path mirrors the GitHub repo where the work happens (`plans/maurolepore/ropensci-system/` for this KB, `plans/ropensci-org/buffy/` for the buffy clone). Issue/PR-plans are named after the git branch they implement, typically GitHub's suggested-branch format `<number>_<slug>.md` (e.g. `plans/ropensci-org/buffy/142_set-hold-reminder.md`) - the numeric prefix still makes the `gh` handle recoverable; repo-wide plans use `YYYY-MM-DD-<topic>.md`. Plans are working documents: they are committed to git but are not curated concepts and carry no `sources` requirement.
-- `<org>/<repo>/` - cloned GitHub repositories (`ropensci/`, `ropensci-org/`, `ropensci-review-tools/`, `ropenscilabs/`). These are **reference material**, excluded from the knowledge graph via `.okignore`. Read them with native tools (`read`/`grep`); never edit them except to add an `AGENTS.md`.
+- `<org>/<repo>/` - cloned GitHub repositories (`ropensci/`, `ropensci-org/`, `ropensci-review-tools/`, `ropenscilabs/`). These are **reference material**, excluded from the knowledge graph via `.okignore`. Read them with native tools (`read`/`grep`); never add or edit files inside them - no personal `AGENTS.md` bridges or other local-only files: shared repos must contain only shared content. Repo-specific facts already live in `concepts/`.
 - `<org>/<repo>-wiki/` - git worktrees of the clones on a dedicated `wiki` branch, each its own OpenKnowledge project holding an agent-authored **codebase wiki** (`wiki/`), pushed to the user's fork (`mine` remote), never upstream. Code-level "how" questions should read these wikis first. To add one for a new repo follow the [setup recipe](concepts/codebase-wiki-setup.md); to work a feature on any cloned repo, follow the [working-a-feature workflow](concepts/codebase-wiki-setup.md#working-a-feature-eg-buffy142) (manage here, code in the clone, document in the wiki worktree).
   - `ropenscilabs/statistical-software-review/` - the test/sandbox review repository used to try out editorial tooling (buffy) without touching production; referenced in the 2022 chatops blog post's "initial preparation / installation steps" ([live issues](https://github.com/ropenscilabs/statistical-software-review/issues)).
+
+## Repos, wikis, and remotes (applies to every clone)
+
+For any cloned repo `<org>/<repo>` that has a codebase wiki, the convention is the same everywhere:
+
+- The **wiki worktree is always at `<org>/<repo>-wiki/`** — a git worktree of the clone on the dedicated `wiki` branch; it holds the OpenKnowledge codebase-wiki project (`wiki/`).
+- The **fork remote is always `mine`** = `git@github.com:maurolepore/<repo>.git`.
+- **Push rules:** in the code worktree (`<org>/<repo>/`), push only approved feature branches to `origin` (upstream) and PR there; in the wiki worktree (`<org>/<repo>-wiki/`), push only the `wiki` branch to `mine`. Conversely, `wiki` never goes to `origin`, and feature branches never go to `mine`.
+- Both worktrees share one remote config, so a **`pre-push` hook installed in the clone's `.git/hooks/` enforces the rules in every worktree**: `mine` only ever receives `refs/heads/wiki`, `origin` never does. On violation it rejects the push and prints the correct command to run. `branch.wiki.pushRemote = mine` additionally makes a bare `git push` on the wiki branch correct by default.
+- Setup/refresh recipes and the working-a-feature loop: [codebase-wiki-setup](concepts/codebase-wiki-setup.md).
+- Current wikis live in the concept doc's table; add wikis lazily, only for actively worked repos.
 
 ## Git model
 
