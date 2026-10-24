@@ -1,8 +1,8 @@
 # Reference clones of GitHub orgs — not part of this knowledge base's git history.
 # Re-materialize them with scripts/clone-repos.sh.
-ropensci/
-ropensci-org/
-ropensci-review-tools/
-ropenscilabs/
+/ropensci/
+/ropensci-org/
+/ropensci-review-tools/
+/ropenscilabs/
 
 .DS_Store
