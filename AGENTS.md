@@ -28,6 +28,17 @@ For any cloned repo `<org>/<repo>` that has a codebase wiki, the convention is t
 - Setup/refresh recipes and the working-a-feature loop: [codebase-wiki-setup](concepts/codebase-wiki-setup.md).
 - Current wikis live in the concept doc's table; add wikis lazily, only for actively worked repos.
 
+## Keeping the KB true (end-of-task rule — part of finishing)
+
+Documentation debt is this KB's default failure mode, so updating the docs is part of the task itself: whenever your task changes anything the docs below describe, update them **in the same turn**, before the final commit:
+
+1. **`AGENTS.md`** (root and org-level files in the KB tree) — layout, conventions, structure
+2. **`index.md`** — concept list, Conventions section
+3. **`plans/**` — plans are working documents; reconcile with a dated addendum when a completed task departs from or supersedes a plan's design (never silently rewrite history)
+4. **Concept "current" tables** (e.g. the wikis table in [codebase-wiki-setup](concepts/codebase-wiki-setup.md)) — instance lists
+
+If a doc truly cannot be updated now, leave `(TODO: needs reconcile — <date>)` in it and surface that in your summary. This rule binds every agent working in this tree, including sessions rooted inside the clones (it reaches them through the parent `AGENTS.md` chain), for both KB markdown and clone-adjacent changes.
+
 ## Git model
 
 - The KB repo tracks curated content and plans (`index.md`, `concepts/`, `plans/`, `AGENTS.md`, `.gitignore`, `.okignore`, `scripts/`). The `<org>/` clone dirs are **gitignored** - clones are independent repos and never enter KB history.
