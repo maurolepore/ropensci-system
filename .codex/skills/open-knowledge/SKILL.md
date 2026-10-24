@@ -1,6 +1,6 @@
 ---
 name: open-knowledge
-description: "Authoritative agent-runtime contract for working inside an OpenKnowledge project — a markdown-CRDT knowledge base exposed over MCP. Use whenever reading, listing, searching, editing, or linting any `.md` or `.mdx` file in the project, and before any `mcp__open-knowledge__*` tool call (`exec`, `search`, `write`, `edit`, `lint`, and the rest). Installed by `ok init`, so its presence means this is an OpenKnowledge project and it governs every markdown file here. Covers the read/write tool surface, grounding and linking rules, folder/template conventions, the live browser preview, and the rule that OK's MCP tools — never native file tools — handle in-scope markdown."
+description: "Authoritative agent-runtime contract for working inside an OpenKnowledge project — a markdown-CRDT knowledge base exposed over MCP. Use whenever reading, listing, searching, editing, or linting any `.md` or `.mdx` file in the project, and before any `mcp__open-knowledge*` tool call (`exec`, `search`, `write`, `edit`, `lint`, and the rest). Installed by `ok init`, so its presence means this is an OpenKnowledge project and it governs every markdown file here. Covers the read/write tool surface, grounding and linking rules, folder/template conventions, the live browser preview, and the rule that OK's MCP tools — never native file tools — handle in-scope markdown."
 compatibility: "Any agent host with the OpenKnowledge MCP server configured; `ok init` wires the agents it detects on your machine. Some steps shell out to the `ok` CLI. Hosts that take an uploaded skill bundle instead of reading a project directory (Claude Desktop, Cowork, claude.ai) are covered by `ok cowork`."
 metadata:
   author: "Inkeep"
@@ -12,22 +12,43 @@ OpenKnowledge (OK) is a markdown-CRDT collaboration platform exposed via MCP. Th
 
 > Skill version tracks `@inkeep/open-knowledge-server`. `cat ~/.ok/skill-state.yml` shows what's installed. `ok seed` needs `@inkeep/open-knowledge` >= 0.4.0; if it errors `unknown command`, `npm install -g @inkeep/open-knowledge`.
 
-> **Setup (not connected yet?).** If the `mcp__open-knowledge__*` tools aren't available in your client, this project isn't wired up on this machine — see [`references/setup.md`](references/setup.md) for the rung ladder (approve `.mcp.json` → `ok start` CLI → optional desktop app) and the canonical quickstart.
+> **CLI name.** Commands here use Stable's `ok` (`open-knowledge`) and `~/.ok/`. With OpenKnowledge Beta, use `ok-beta` (`open-knowledge-beta`) and `~/.ok-beta/` instead; `preview_url`'s `okOpenCommand` already names the right one.
+
+> **Setup (not connected yet?).** If the `mcp__open-knowledge*` tools aren't available in your client, this project isn't wired up on this machine — see [`references/setup.md`](references/setup.md) for the rung ladder (approve `.mcp.json` → `ok start` CLI → optional desktop app) and the canonical quickstart.
 
 ## TL;DR — the 90% case
 
 1. **Reads:** `exec("cat …")` for one doc, `exec("ls -A …")` for a directory (folder defaults + template menu), `exec("grep …")` for literal, `search` for ranked retrieval. Native `Read` / `Grep` only on source code (`.ts` / `.py` / …), never on in-scope `.md` / `.mdx`.
 2. **Writes:** `write({ document: { path, content } })` for a new or full-replace doc; `edit({ document: { path, find, replace } })` for a body find/replace; `edit({ document: { path, frontmatter } })` for a frontmatter merge-patch (`null` deletes a key). `delete({ document })` removes, `move({ from, to })` moves/renames. Body find/replace is body-only. Pass a one-line `summary` (≤80 chars, user-facing outcome) on every content write.
 3. **Preview / open a doc — determine your ONE surface FIRST (once per session).** Stop at first match: **`OK_DESKTOP_TERMINAL` or `OK_HOSTED_AGENT` set** → you're inside OpenKnowledge (desktop terminal / in-app agent panel) → `ok open <name>` (switches the window the user is already looking at); never paste a `localhost` URL into your reply here · in-app browser (Claude Code Desktop's Browser pane, Cursor, Codex) → `preview_url`, then open/navigate it to the doc · else plain CLI → `ok open <name>`. `ok open <name>` opens a doc or folder (auto-detected); `--skill <name>` for a skill. The `previewUrl` field is a route id, **not** your open mechanism. Don't `preview_screenshot` to confirm edits. Full Step-0 procedure + per-surface how-to: `references/preview.md`.
-4. **Knowledge layers:** capturing a source (ingest), synthesizing findings (research), promoting a decision (consolidate) — procedures, **not tool calls**; there is no `ingest` tool. Ingest ships here (`references/ingest-and-sources.md`); research + consolidate come with the `knowledge-base` pack. Layer model + packs: `references/starter-packs.md`.
-5. **Direct questions:** a plain business question ("which customers…", "what did we decide about…") routes to `search` / `exec` + a cited chat answer — no "research" keyword needed. Persist only when durable + multi-doc + not already covered, and *offer* first. See `references/corpus-qa.md`.
-6. **Authoring or improving a skill** ("write/make/improve a skill", "turn this into a skill"): STOP and invoke **`/open-knowledge-write-skill`** for scope (project/global), contract, evaluation, and install. Author through `write({ skill })`, never a document path. Skills are real folders under editor `skills/` dirs (`.claude` · `.cursor` · `.codex` · `.github` · `.opencode` · `.pi` · `.agents`): one source plus managed copies/symlinks. **Read/edit via `skills` and `edit({ skill })` — they route to the source.** Never hand-edit a non-source copy: managed copies refresh from the source; editing one forks it and stops refresh.
+4. **Direct questions:** a plain business question ("which customers…", "what did we decide about…") routes to `search` / `exec` + a cited chat answer — no "research" keyword needed. Persist only when durable + multi-doc + not already covered, and *offer* first. See `references/corpus-qa.md`.
+5. **Authoring or improving a skill** ("write/make/improve a skill", "turn this into a skill"): STOP and invoke **`/open-knowledge-write-skill`** for scope (project/global), contract, evaluation, and install. Author through `write({ skill })`, never a document path. Skills are real folders under editor `skills/` dirs (`.claude` · `.cursor` · `.codex` · `.github` · `.opencode` · `.pi` · `.agents`): one source plus managed copies/symlinks. **Read/edit via `skills` and `edit({ skill })` — they route to the source.** Never hand-edit a non-source copy: recorded, unedited copies refresh from the source when the skill watcher runs or the server starts, so a source edit can precede the refresh. Editing a copy directly forks it and stops refresh.
 
-## Tool index — 21 tools (router; the MCP tool descriptions carry each tool's full contract)
+## Tool index — 19 tools (router; calling contracts live in tool descriptions and input schemas)
 
-- **Reads** — `exec` (primary; `cat`/`ls`/`grep`/… on a read-only filesystem, plus frontmatter/backlink/history enrichment; one command or one pipe, not a shell), `search` (ranked BM25 + recency), `history` (doc versions), `links` (`kind: backlinks|forward|dead|orphans|hubs|suggest`, or an array for one call), `skills` (search + read: `query` → skills.sh; omit `name` to LIST managed (Project + Global); `name` READs one — by `name`+`scope`, never path), `config` (resolved config), `palette` (authoring forms + `html preview` starters + theme tokens; `palette({ components })` for JSX schemas), `preview_url` (browser preview URL on demand), `share_link` (GitHub-substrate share URL; read-only, errors without a GitHub remote), `lint` (markdown-lint violations: `document` for one doc, omit for the project; `fix: true` with `document` auto-fixes fixable rules in place — attributed, live in the preview; the rest need `edit`/`write`), `audit` (every lint violation + broken internal link in one read-only report, by source file with lines; `path` scopes; for link VALIDATION use this, not `links`; caveats in `references/linking.md`). **Read `ran` on successful `lint`/`audit` results to see which enabled source families were selected. A family absent from `ran` was not checked, and `[]` means no checks were selected at all.**
-- **Writes** — four native CRUD verbs, polymorphic over `document` / `folder` / `template` / `skill` / `asset` (pass EXACTLY ONE target, nested under its address key): `write` (create/overwrite; `write({ skill: {…} })` authors a skill as a REAL folder at the project's default skill home — live immediately for that folder's agent), `edit` (body find/replace/frontmatter merge-patch; no asset), `delete` (remove), `move` (move/rename, rewrites referrers; a skill also takes `scope`/`toScope` for Project↔Global — history resets, re-`install`). Output mirrors the input key; the preview envelope (`previewUrl`, `warning`) stays top-level. Plus `install` (WHERE a `skill` lives: `add`/`remove` locations additively — editor ids, `agents`, or custom roots; `mode` + `convert` re-form ONLY the locations named; `source` moves the real folder. The source folder IS the skill — no "uninstall everywhere"; a skill dies only via `delete`), `import` (acquire a skill-dir into `add`'s locations; scripts never run), `checkpoint` (named version), and `restore_version` (roll back). A folder's frontmatter is open-shape and self-only (does NOT cascade); templates are what new docs start with.
-- **Conflicts** — `conflicts` (`kind: list|content`), `resolve_conflict` (write a resolution + commit; destructive). See `references/conflict-resolution.md`.
+- `exec` — read files and directories with document context.
+- `search` — retrieve ranked workspace matches.
+- `links` — inspect link relationships and suggestions.
+- `lint` — check content rules and apply automatic fixes.
+- `audit` — validate content rules and internal links.
+- `write` — create or replace content.
+- `edit` — change content or metadata in place.
+- `delete` — remove content.
+- `move` — rename or relocate content through managed operations.
+- `install` — manage skill source and editor locations.
+- `import` — acquire a skill folder without running scripts.
+- `history` — inspect document, folder or skill versions.
+- `skills` — discover, list or read skills by name and scope.
+- `checkpoint` — save a named version.
+- `restore_version` — restore a document or skill version.
+- `palette` — discover components and authoring forms.
+- `config` — read resolved configuration.
+- `preview_url` — get the browser preview URL.
+- `share_link` — get a GitHub-backed sharing link.
+
+**Read `ran`** on successful lint/audit results: a family absent from `ran` was not checked, and `[]` means no checks were selected. For link VALIDATION use audit; links reports relationships and raw dead-link state. Caveats: `references/linking.md`.
+
+Skill placement is separate from skill content: the source folder IS the skill, and removing an installed copy does not delete the skill. For a Project↔Global move, history resets; only what the destination level can host re-projects; the rest is removed at source, returned as `droppedLocations` (success: re-add with install). Read the returned outcome before recovery. A folder's frontmatter is open-shape and self-only (does NOT cascade); templates are what new docs start with.
 
 **Self-correcting on misuse:** constraints JSON Schema can't express ("exactly one target", "`find` needs a `replace`", body-XOR-frontmatter) return `isError: true` with a one-line corrective shape. Read it and retry with that shape; don't guess.
 
@@ -40,7 +61,7 @@ Tools NOT in OK MCP (your host's): `preview_start`, `preview_screenshot`, `WebFe
 - **Native `Read` / `Grep` / `Glob` on in-scope `.md` / `.mdx`** — the original case.
 - **`Bash ls` / `Bash find` / `Bash cat` on dirs containing in-scope markdown** — use `exec("ls -A …")` / `exec("find … -name '*.md'")` / `exec("cat …")`. Native returns bare names; `exec` adds frontmatter, backlinks, and recent activity. `-A` shows hidden entries without `.`/`..`.
 - **Glob patterns that target markdown** — `exec` expands file operands (`cat specs/*.md`); quoted patterns and a command's own pattern (`find -name`) stay literal.
-- **Dispatching the Explore / general-purpose subagent for markdown-heavy exploration** — subagents use native tools internally and bypass OK. Do markdown exploration yourself via `exec` / `search`. Subagents remain appropriate for **source-code** exploration.
+- **Dispatching the Explore / general-purpose subagent for markdown-heavy exploration** — a subagent may start without this skill loaded and then read markdown with its native tools, bypassing OK. Do markdown exploration yourself via `exec` / `search`. Subagents remain appropriate for **source-code** exploration.
 - **Native `Read` / `Grep` on in-scope markdown inside `.ok/`** — `.ok/` is in-scope; treat its `.md` / `.mdx` like any other KB file.
 - **`ls` / `cat` / `find` on skill folders to discover or read a skill** — skills are addressed by `name`+`scope`, not by path (a skill can live in any editor dir, the `.agents/skills/` hub, or a custom root, with copies elsewhere). Use the `skills` tool.
 
@@ -49,13 +70,6 @@ Tools NOT in OK MCP (your host's): `preview_start`, `preview_screenshot`, `WebFe
 **Escape hatch.** Native `Read` / `Grep` / `Glob` on `.md` / `.mdx` is allowed **only** when, after running tool discovery (above), no OpenKnowledge MCP server is registered for this project, **or** immediately after you actually invoked an MCP call and it failed — then begin a user-visible sentence with `OpenKnowledge MCP unavailable:`. "Not registered" is a conclusion you may only reach after tool discovery turned it up empty — never from the initial tool list alone. Never use the hatch because you skipped your client's MCP path, didn't see `exec` as a top-level tool, didn't run tool discovery, or rationalized the skill wasn't necessary.
 
 **Source code and non-markdown files** (`.ts`, `.py`, `package.json`, …): native `Read` / `Grep` / `Glob` always.
-
-## Reads — examples
-
-- Read a file: `exec("cat <path>.md")` — contents + full enrichment.
-- List a directory: `exec("ls -A <dir>")` — per-child frontmatter, recursive markdown counts, most-recently-updated doc per subdir, the folder's own `title`/`description`/`tags` + `templates_available`. Prefer `-A` over plain `ls`.
-- Literal search: `exec("grep -rn <term> <dir> | head -5")` — matches + enrichment on matched files.
-- Ranked search: `search({ query })` — title boost + body BM25 + recency; use when picking the best doc, not when listing every occurrence.
 
 ## Writing
 
@@ -79,7 +93,7 @@ KB docs are factual artifacts: every claim traceable, and **the source lives ins
 - **No evidence?** Search and ingest the result, OR mark `(TODO: needs source)`, OR don't write the claim. Do NOT fabricate — unsourced speculation rots into untraceable tribal lore.
 ## Linking — standard markdown links (MUST)
 
-Link every noun-phrase that names another document — `[text](./relative/path.md)` — and link liberally. **Every link must resolve to a doc that exists by the time you're done** (a same-pass forward-reference you create later in the pass is fine; for one that genuinely won't exist, leave the mention as plain prose + a tracked task). Never backtick a link (`` `[text](./foo.md)` `` is a bug) and never use HTML `<a>`. **Read `brokenLinks` on every `write`/`edit` response: `[]` means all links resolve; a populated list names each broken `href` + `reason` (`no-such-doc` / `no-such-file` / `unresolvable`) — fix them in a follow-up `edit`.** `audit` is the authoritative end-state link check (the editor's red-underline is slug-tolerant and lies, so trust the tool). External web sources are NOT inline body links (see Grounding). Full rule set + the `[[Page]]` legacy note: `references/linking.md`.
+Link every noun-phrase that names another document — `[text](./relative/path.md)` — and link liberally. To point at one section of a long doc, in chat replies too, link `./path.md#heading-slug`. **Every link must resolve to a doc that exists by the time you're done** (a same-pass forward-reference you create later in the pass is fine; for one that genuinely won't exist, leave the mention as plain prose + a tracked task). Never backtick a link (`` `[text](./foo.md)` `` is a bug) and never use HTML `<a>`. **After every `write`/`edit`, read `brokenLinks`: fix reported `href`s; `[]` means all links resolve unless `brokenLinkSuppression` withheld reserved-log findings (not yours to repair) or a `link-check-deferred` warning says nothing was checked yet (the server was still starting or busy with other writes; that doc is re-checked only by a later write/edit of it or an `audit`, which may time out while the server is still starting).** `audit` is authoritative; its same marker carries the same meaning. External web sources are NOT inline body links (see Grounding). Full rule set, slug rule + the `[[Page]]` legacy note: `references/linking.md`.
 
 ## Folders, frontmatter, templates
 
@@ -89,9 +103,9 @@ Every `.md` / `.mdx` needs YAML frontmatter — `title` + `description` required
 - **Use a template when one fits (MUST).** Instantiate via `write({ document: { path, template } })`; inherited templates count. Skip only when none match or the user asked for free-form (note why in chat). Create templates proactively when a shape recurs.
 - **When recurring per-doc properties emerge (MUST).** Writing the same frontmatter on multiple siblings → bake those starting values into a template (`write({ template })`). Folder frontmatter does not cascade values into docs.
 
-## Conflict-aware writes
+## Write outcomes
 
-Projects with GitHub sync may carry docs in merge-conflict state; mutating calls against them return RFC 9457 `urn:ok:error:doc-in-conflict` (409). Detect proactively — `exec("cat <path>.md")` returns `lifecycle: {status, reason} | null`; on `status === 'conflict'` switch to the `conflicts` + `resolve_conflict` flow. Full flow: `references/conflict-resolution.md`.
+For every write result, read `outcome` and follow `nextStep` (`references/conflict-resolution.md` has each outcome's move): never repeat a write that landed (`merged-first`, `both-kept`, `projection-held`), and when a refusal says `nextStep: none`, nothing you send changes it: tell the user which file and what the result says, and carry on.
 
 ## Anti-patterns — the top offenders
 
@@ -126,14 +140,10 @@ Onboarding a repo that already has content: `references/onboard-existing-repo.md
 
 ## Capabilities beyond this skill
 
-OK does more than this skill describes, and what it does changes between releases. When a request implies something not covered here, read rather than guess:
+OK does more than this skill describes, and it changes between releases. Not covered here? Read rather than guess:
 
 - **Docs** — <https://openknowledge.ai/docs>
 - **Source** — <https://github.com/inkeep/open-knowledge>
-
-## Server lifecycle
-
-If `write` / `edit` returns `"Hocuspocus server is not running"`, run `ok start` (via Bash) and retry. Never fall back to native `Edit` / `Write` for in-scope markdown.
 
 ## Scope recap
 
