@@ -127,6 +127,10 @@ gh repo clone ropensci-org/pkgreviewr ropensci-org/pkgreviewr
 - [ ] **Step 2:** Write the four org-level `AGENTS.md`.
 - [ ] **Step 3:** Write the three repo-level `AGENTS.md`.
 
+### 2026-10-24 addendum: codebase-wiki layer (post-bootstrap)
+
+After this plan completed, a second layer was added beyond its scope: per-repo OpenKnowledge **codebase wikis** for the clones (first instance: `ropensci-org/buffy`, worktree `ropensci-org/buffy-wiki`, branch `wiki`, pushed to the fork remote `mine`). Notably, **Task 5's per-clone `AGENTS.md` bridges were later removed** - shared repos keep only shared content; orientation is carried by the parent `AGENTS.md` chain plus a generalized "Repos, wikis, and remotes" section at the KB root, with push misfires guarded by a repo-generic `pre-push` hook. The authoritative recipes and rationale live in `concepts/codebase-wiki-setup.md`.
+
 ### Task 6: Verify and report
 
 - [ ] **Step 1: Lint**
