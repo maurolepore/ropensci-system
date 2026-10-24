@@ -62,7 +62,13 @@ Then ask an agent: "Generate the codebase wiki, audience public, depth standard.
 # 4. Guard the remotes (shared gitdir => covers both worktrees).
 #    Hook: mine only ever receives refs/heads/wiki; origin never does.
 #    Copy the hook from ropensci-org/buffy/.git/hooks/pre-push (the
-#    reference implementation) and:
+#    reference implementation) into <org>/<repo>/.git/hooks/pre-push.
+#    THEN point the repo at its hooks dir with an ABSOLUTE path - a repo
+#    ".git/hooks" is silently ignored when core.hooksPath is set globally
+#    (e.g. ~/.config/git/hooks), and a RELATIVE hooksPath breaks in linked
+#    worktrees. Carry over any global hooks the repo should keep (e.g. a
+#    global commit-msg hook is a symlink in the global hooks dir):
+git -C <org>/<repo> config core.hooksPath /abs/path/<org>/<repo>/.git/hooks
 git -C <org>/<repo> config branch.wiki.pushRemote mine
 
 # 5. Commit and back up
@@ -70,6 +76,8 @@ cd <org>/<repo>-wiki && git add -A
 git commit -m "docs: add agent-authored codebase wiki (wiki/)"
 git push -u mine wiki
 ```
+
+Verified live (2026-10-24): the day this recipe shipped, a real `push origin wiki` went THROUGH because the hook was never consulted (a global `core.hooksPath` (~/.config/git/hooks) silently disabled `.git/hooks`) and the branch reached the shared upstream briefly; after the absolute `core.hooksPath` was set, the same push (and `push mine <feature>`) was rejected with corrective guidance, and `push mine wiki` passed as "Everything up-to-date". Always smoke-test guard hooks by running the WRONG pushes on purpose.
 
 ## Enforce the remotes (do not skip)
 
