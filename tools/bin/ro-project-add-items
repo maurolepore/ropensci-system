@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Exit immediately if a command exits with a non-zero status
+set -euo pipefail
+
+# Check if repository argument is provided
+if [ -z "${1:-}" ]; then
+  echo "Usage: $0 <owner/repo>"
+  echo "Example: $0 ropenscilabs/statistical-software-review"
+  exit 1
+fi
+
+REPO="$1"
+PROJECT_NUMBER=12
+PROJECT_OWNER="ropensci"
+
+echo "Fetching open issues from repository: ${REPO}..."
+
+# Fetch open issue URLs and add each to the specified GitHub Project board
+gh issue list --repo "${REPO}" --state open --json url --jq '.[].url' | \
+while read -r url; do
+  echo "Adding $url to project ${PROJECT_NUMBER}..."
+  gh project item-add "${PROJECT_NUMBER}" --owner "${PROJECT_OWNER}" --url "$url"
+done
+
+echo "Done!"
+
