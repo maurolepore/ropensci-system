@@ -53,6 +53,7 @@ The `README.Rmd` (which generates `README.md`) renders the current editor/team l
 
 - [Software peer-review infrastructure architecture](./software-peer-review-architecture.md) - system overview
 - [buffy](./buffy.md) - the bot acting on this repo
+- [statistical-software-review](./statistical-software-review.md) - the legacy sandbox where changes to this repo are tested
 
 [^blog]: Source `blog` - see frontmatter `sources`.
 [^config]: Source `config` - see frontmatter `sources`.

@@ -65,7 +65,7 @@ External-service responders in the config wire commands to [roreviewapi](./rorev
 
 ## Operations notes
 
-- Test changes against a **test review repository** with the same templates and labels, not production.[^blog] rOpenSci's own such sandbox is [ropenscilabs/statistical-software-review](https://github.com/ropenscilabs/statistical-software-review) - a legacy repo "used only for internal testing of tools and workflows", which is why real submissions go to the [software-review repository](./software-review-repo.md) instead.[^test-repo]
+- Test changes against a **test review repository** with the same templates and labels, not production.[^blog] rOpenSci's own such sandbox is [ropenscilabs/statistical-software-review](./statistical-software-review.md) - a legacy repo "used only for internal testing of tools and workflows", which is why real submissions go to the [software-review repository](./software-review-repo.md) instead.[^test-repo]
 - The rOpenSci fork documents its custom responders at <https://buffy-ropensci.readthedocs.io/en/latest/> (rOpenSci responders are listed at the bottom).[^blog]
 - Heroku app must be always-on (not sleeping) to receive webhooks; logs via `heroku logs --app radiant-garden-91913`.[^blog]
 

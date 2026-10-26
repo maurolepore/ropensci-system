@@ -13,6 +13,7 @@ Knowledge base for all things [rOpenSci](https://ropensci.org/), particularly th
 - [roreviewapi](./concepts/roreviewapi.md) - the plumber API at reviewbot.ropensci.org
 - [pkgcheck suite](./concepts/pkgcheck-suite.md) - automated check machinery
 - [software-review repository](./concepts/software-review-repo.md) - the venue where reviews happen
+- [statistical-software-review](./concepts/statistical-software-review.md) - the legacy sandbox for testing editorial tooling
 - [bot accounts](./concepts/bot-accounts.md) - ropensci-review-bot vs ropenscibot
 - [Badges service](./concepts/badges-service.md) - review-status SVG badges
 - [Review dashboard](./concepts/review-dashboard.md) - dashboard.ropensci.org
