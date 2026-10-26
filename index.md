@@ -17,9 +17,9 @@ Knowledge base for all things [rOpenSci](https://ropensci.org/), particularly th
 - [Badges service](./concepts/badges-service.md) - review-status SVG badges
 - [Review dashboard](./concepts/review-dashboard.md) - dashboard.ropensci.org
 
-## Personal ops tooling (unofficial)
+## Personal ops tooling
 
-- [Personal ops tooling (ro-*)](./concepts/personal-ops-tooling.md) - maurolepore's personal, unofficial CLI tools for the review infrastructure, hosted in this repo's `tools/` directory (NOT official rOpenSci infrastructure)
+- [Personal ops tooling (ro-*)](./concepts/personal-ops-tooling.md) - maurolepore's personal CLI tools for the review infrastructure, hosted in this repo's `tools/` directory
 
 ## Conventions
 

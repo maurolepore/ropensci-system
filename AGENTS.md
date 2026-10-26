@@ -56,6 +56,18 @@ If a doc truly cannot be updated now, leave `(TODO: needs reconcile — <date>)`
 - **Grounding**: every factual claim cites a source in frontmatter `sources` - prefer paths into the local clones plus the canonical URL. Do not fabricate; mark gaps as `(TODO: needs source)`.
 - **Secrets**: never record secret values (tokens, keys). Config-var NAMES only, values redacted.
 
+## Writing style
+
+maurolepore's preference for KB docs: useful, disclosing information gradually from high level to detail, and as maintainable as possible.
+
+- **Summary first, specifics below**: the Summary is one or two plain sentences at the highest level. Details move down into tables/sections or the concept docs they link to - don't duplicate reference-level specifics in the summary.
+- **Quiet ownership**: one soft sentence (e.g. "maurolepore's personal tools.") says all that is needed - it implies the tools are not rOpenSci's official ones. No CAPS, no shouted disclaimers.
+- **Latest state only**: no historical narratives (renames, move dates, "formerly X", "since YYYY-MM-DD") - that is git history's job. Exception: the rare case where the history is the fact itself.
+- **No verbatim code** in concept docs: describe behavior in a sentence and point to the source file. Agents and humans can open it, and commands are findable with `which`. Code dumps bloat the docs and rot out of sync.
+- **Tool inventories**: name + description in a table, sorted alphabetically.
+
+Based on the [personal-ops-tooling](concepts/personal-ops-tooling.md) rewrite (2026-10-25); applies to all concept docs going forward.
+
 ## Boundaries
 
 - **External resources are read-only**: web fetch, `gh api` GETs, `heroku apps:info|config:json|logs` are fine; never mutate remote state.
