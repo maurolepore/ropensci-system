@@ -58,15 +58,15 @@ If a doc truly cannot be updated now, leave `(TODO: needs reconcile — <date>)`
 
 ## Writing style
 
-maurolepore's preference for KB docs: useful, disclosing information gradually from high level to detail, and as maintainable as possible.
+maurolepore's preference for docs in this KB: useful, disclosing information gradually from high level to detail, and as maintainable as possible.
 
-- **Summary first, specifics below**: the Summary is one or two plain sentences at the highest level. Details move down into tables/sections or the concept docs they link to - don't duplicate reference-level specifics in the summary.
-- **Quiet ownership**: one soft sentence (e.g. "maurolepore's personal tools.") says all that is needed - it implies the tools are not rOpenSci's official ones. No CAPS, no shouted disclaimers.
-- **Latest state only**: no historical narratives (renames, move dates, "formerly X", "since YYYY-MM-DD") - that is git history's job. Exception: the rare case where the history is the fact itself.
-- **No verbatim code** in concept docs: describe behavior in a sentence and point to the source file. Agents and humans can open it, and commands are findable with `which`. Code dumps bloat the docs and rot out of sync.
-- **Tool inventories**: name + description in a table, sorted alphabetically.
+- **Disclose progressively**: the Summary is one or two plain sentences at the highest level - enough for a reader to know what the doc is about and whether to go deeper. Details live further down, in tables/sections or in the linked concept docs. Write each level so detail gets added below it without rewriting what is above.
+- **One fact, one home**: never copy reference-level detail (or code) into the Summary or across docs - duplicated text rots out of sync and fights every future expansion. Describe in a sentence, link to the anchor.
+- **Quiet tone**: state every fact once, plainly. Ownership too - "maurolepore's personal tools." already implies unofficial, so no CAPS, no shouted disclaimers, no repeated warnings within a doc.
+- **Document the present**: a doc says how things are, not how they got that way - renames, moves, and dates are git history's job. Keep history only when the history is itself the subject.
+- **Describe, don't paste code**: for each command/script, an inventory table gives name plus a one-sentence behavior description, sorted alphabetically, with the source file referenced via frontmatter `sources` + footnote; `which` locates commands. A concept doc says what a thing is and when to reach for it - the source is the full story.
 
-Based on the [personal-ops-tooling](concepts/personal-ops-tooling.md) rewrite (2026-10-25); applies to all concept docs going forward.
+Pattern source: the [personal-ops-tooling](concepts/personal-ops-tooling.md) rewrite.
 
 ## Boundaries
 
