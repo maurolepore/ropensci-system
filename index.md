@@ -19,7 +19,7 @@ Knowledge base for all things [rOpenSci](https://ropensci.org/), particularly th
 
 ## Personal ops tooling (unofficial)
 
-- [Personal ops tooling (ro-*)](./concepts/personal-ops-tooling.md) - maurolepore's personal, unofficial CLI tools for the review infrastructure (NOT official rOpenSci infrastructure)
+- [Personal ops tooling (ro-*)](./concepts/personal-ops-tooling.md) - maurolepore's personal, unofficial CLI tools for the review infrastructure, hosted in this repo's `tools/` directory (NOT official rOpenSci infrastructure)
 
 ## Conventions
 

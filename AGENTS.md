@@ -17,6 +17,9 @@ This directory is a **knowledge base for all things rOpenSci**, particularly the
 - `<org>/<repo>-wiki/` - git worktrees of the clones on a dedicated `wiki` branch, each its own OpenKnowledge project holding an agent-authored **codebase wiki** (`wiki/`), pushed to the user's fork (`mine` remote), never upstream. Code-level "how" questions should read these wikis first. To add one for a new repo follow the [setup recipe](concepts/codebase-wiki-setup.md); to work a feature on any cloned repo, follow the [working-a-feature workflow](concepts/codebase-wiki-setup.md#working-a-feature-eg-buffy142) (manage here, code in the clone, document in the wiki worktree).
   - `ropenscilabs/statistical-software-review/` - the test/sandbox review repository used to try out editorial tooling (buffy) without touching production; referenced in the 2022 chatops blog post's "initial preparation / installation steps" ([live issues](https://github.com/ropenscilabs/statistical-software-review/issues)).
 
+- `tools/` - maurolepore's personal, unofficial shell tooling: `aliases.zsh` (sourced by the dotfiles `zshrc`) and `bin/` helper scripts (on `PATH`); described in [personal-ops-tooling](concepts/personal-ops-tooling.md).
+- `scripts/` - setup helpers (e.g. `clone-repos.sh`).
+
 ## Repos, wikis, and remotes (applies to every clone)
 
 For any cloned repo `<org>/<repo>` that has a codebase wiki, the convention is the same everywhere:
