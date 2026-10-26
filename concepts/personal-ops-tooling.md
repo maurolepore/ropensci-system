@@ -26,11 +26,7 @@ type: Concept
 ---
 ## Summary
 
-maurolepore's personal tools.
-
-They are not part of official rOpenSci infrastructure; for the official system see [Software peer-review infrastructure architecture](./software-peer-review-architecture.md).
-
-The tools operate on the [buffy](./buffy.md) Heroku app and on [roreviewapi](./roreviewapi.md) with its Digital Ocean droplet. The dotfiles `zshrc` puts `ropensci-system/tools/bin` on `PATH` and sources `ropensci-system/tools/aliases.zsh`;[^zshrc] use `which <name>` to locate a tool.
+maurolepore's personal tools. They are not part of official rOpenSci infrastructure; for the official system see [Software peer-review infrastructure architecture](./software-peer-review-architecture.md). Use `which <name>` to locate a tool.
 
 ## Tools
 
