@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Exit immediately if a command exits with a non-zero status
+set -euo pipefail
+
+# Check if repository argument is provided
+if [ -z "${1:-}" ]; then
+  echo "Usage: $0 <owner/repo>"
+  echo "Example: $0 ropenscilabs/statistical-software-review"
+  exit 1
+fi
+
+REPO="$1"
+PROJECT_NUMBER=12
+PROJECT_OWNER="ropensci"
+
+echo "Fetching project items from repository: ${REPO}..."
+
+# Fetch project item IDs for the repository and remove each from the
+# specified GitHub Project board. Only the board entry is deleted; the
+# underlying issue is left untouched (state, labels, comments).
+gh project item-list "${PROJECT_NUMBER}" --owner "${PROJECT_OWNER}" --limit 1000 --format json | \
+  jq -r --arg repo "${REPO}" '.items[] | select(.content != null and .content.repository == $repo) | .id' | \
+while read -r id; do
+  echo "Removing item ${id} from project ${PROJECT_NUMBER}..."
+  gh project item-delete "${PROJECT_NUMBER}" --owner "${PROJECT_OWNER}" --id "$id"
+done
+
+echo "Done!"
