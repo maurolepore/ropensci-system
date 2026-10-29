@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Run every routine job as one sweep, e.g. a morning check.
+# Each job runs for real; a failing job does not stop the remaining jobs.
+# Exit status is non-zero if any job failed, so a scheduler can alert.
+
+# Exit on unset variables only; failures are handled per job below
+set -u
+
+JOBS=(
+  ro-bot-alert-if-down
+  ro-project-sync
+)
+
+failed=()
+
+for job in "${JOBS[@]}"; do
+  printf '\n==> %s\n' "$job"
+  if ! command -v "$job" >/dev/null 2>&1; then
+    printf '<== %s: not found\n' "$job"
+    failed+=("$job")
+    continue
+  fi
+  if out=$("$job" 2>&1); then
+    printf '%s\n' "$out"
+    printf '<== %s: OK\n' "$job"
+  else
+    printf '%s\n' "$out"
+    printf '<== %s: FAILED\n' "$job"
+    failed+=("$job")
+  fi
+done
+
+if [ "${#failed[@]}" -gt 0 ]; then
+  printf '\nFailed: %s\n' "${failed[*]}"
+  exit 1
+fi
+
+printf '\nAll %d jobs OK\n' "${#JOBS[@]}"

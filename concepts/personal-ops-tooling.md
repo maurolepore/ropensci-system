@@ -19,6 +19,9 @@ sources:
   - id: alert-script
     title: ro-bot-alert-if-down script
     resource: /Users/maurolepore/git/bin/ro-bot-alert-if-down
+  - id: jobs-script
+    title: tools/bin/ro-jobs
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-jobs
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -41,6 +44,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | --- | --- | --- |
 | `ro-bot-alert-if-down` | script in the owner's `~/git/bin/`, outside this repo[^alert-script] | Health-check the review API. The [roreviewapi](./roreviewapi.md) plumber API has no route at `/`, so a healthy server answers HTTP 404 at the root; the script treats `404` as UP and anything else as down. |
 | `ro-bot-releases` | alias[^aliases] | List the [buffy](./buffy.md) Heroku app's releases, newest first - check when buffy last deployed. |
+| `ro-jobs` | script in this repo's `tools/bin/`[^jobs-script] | Run every routine job as one sweep, e.g. a morning check. Runs `ro-bot-alert-if-down` and `ro-project-sync` for real; a failing job does not stop the remaining jobs, and the exit status is non-zero if any job failed so a scheduler can alert. |
 | `ro-meet-me` | alias[^aliases] | Copy Mauro's Google Calendar booking link to the clipboard. |
 | `ro-project-browse` | alias[^aliases] | Open the ropensci GitHub Project board (project 12) in a web browser. |
 | `ro-project-item-add` | script in this repo's `tools/bin/`[^project-script] | Bulk-add every open issue of a GitHub repository to the ropensci GitHub Project board (project 12). Usage: `ro-project-item-add <owner/repo>`. |
@@ -61,3 +65,4 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^project-delete-script]: Source `project-delete-script` - see frontmatter `sources`.
 [^project-sync-script]: Source `project-sync-script` - see frontmatter `sources`.
 [^alert-script]: Source `alert-script` - see frontmatter `sources`.
+[^jobs-script]: Source `jobs-script` - see frontmatter `sources`.
