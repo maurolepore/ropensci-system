@@ -8,11 +8,11 @@ sources:
     title: dotfiles zshrc (PATH + sourcing)
     resource: /Users/maurolepore/git/dotfiles/zshrc
   - id: project-script
-    title: tools/bin/ro-project-add-items
-    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-project-add-items
-  - id: project-remove-script
-    title: tools/bin/ro-project-remove-items
-    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-project-remove-items
+    title: tools/bin/ro-project-item-add
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-project-item-add
+  - id: project-delete-script
+    title: tools/bin/ro-project-item-delete
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-project-item-delete
   - id: alert-script
     title: ro-bot-alert-if-down script
     resource: /Users/maurolepore/git/bin/ro-bot-alert-if-down
@@ -38,9 +38,9 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `ro-bot-alert-if-down` | script in the owner's `~/git/bin/`, outside this repo[^alert-script] | Health-check the review API. The [roreviewapi](./roreviewapi.md) plumber API has no route at `/`, so a healthy server answers HTTP 404 at the root; the script treats `404` as UP and anything else as down. |
 | `ro-bot-releases` | alias[^aliases] | List the [buffy](./buffy.md) Heroku app's releases, newest first - check when buffy last deployed. |
 | `ro-meet-me` | alias[^aliases] | Copy Mauro's Google Calendar booking link to the clipboard. |
-| `ro-project-add-items` | script in this repo's `tools/bin/`[^project-script] | Bulk-add every open issue of a GitHub repository to the ropensci GitHub Project board (project 12). Usage: `ro-project-add-items <owner/repo>`. |
-| `ro-project-remove-items` | script in this repo's `tools/bin/`[^project-remove-script] | Remove every project-board item of a GitHub repository from the ropensci GitHub Project board (project 12). Only the board entry is deleted; the underlying issue is untouched. Usage: `ro-project-remove-items <owner/repo>`. |
 | `ro-project-browse` | alias[^aliases] | Open the ropensci GitHub Project board (project 12) in a web browser. |
+| `ro-project-item-add` | script in this repo's `tools/bin/`[^project-script] | Bulk-add every open issue of a GitHub repository to the ropensci GitHub Project board (project 12). Usage: `ro-project-item-add <owner/repo>`. |
+| `ro-project-item-delete` | script in this repo's `tools/bin/`[^project-delete-script] | Remove every project-board item of a GitHub repository from the ropensci GitHub Project board (project 12). Only the board entry is deleted; the underlying issue is untouched. Usage: `ro-project-item-delete <owner/repo>`. |
 | `ro-project-query` | alias[^aliases] | List the ropensci GitHub Project (project 12) items matching a filter query, e.g. `ro-project-query "assignee:@me is:issue"`. |
 | `ro-project-status` | alias[^aliases] | Show the Status of the items assigned to you in the current iteration - runs `ro-project-query` with the default query `assignee:@me iteration:@current`. |
 | `ro-server` | alias[^aliases] | SSH into the Digital Ocean droplet that hosts roreviewapi (reviewbot.ropensci.org). |
@@ -53,5 +53,5 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^aliases]: Source `aliases` - see frontmatter `sources`.
 [^zshrc]: Source `zshrc` - see frontmatter `sources`.
 [^project-script]: Source `project-script` - see frontmatter `sources`.
-[^project-remove-script]: Source `project-remove-script` - see frontmatter `sources`.
+[^project-delete-script]: Source `project-delete-script` - see frontmatter `sources`.
 [^alert-script]: Source `alert-script` - see frontmatter `sources`.
