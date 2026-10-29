@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# Exit immediately if a command exits with a non-zero status
+set -euo pipefail
+
+PROJECT_NUMBER=12
+PROJECT_OWNER="ropensci"
+SNAPSHOT_LIMIT=2000
+
+DRY_RUN=0
+if [ "$#" -gt 1 ] || { [ "$#" -eq 1 ] && [ "$1" != "--dry-run" ]; }; then
+  echo "Usage: $0 [--dry-run]"
+  exit 1
+fi
+if [ "$#" -eq 1 ]; then
+  DRY_RUN=1
+fi
+export DRY_RUN
+
+snapshot=$(mktemp)
+trap 'rm -f "$snapshot"' EXIT
+
+board=$(gh project item-list "${PROJECT_NUMBER}" --owner "${PROJECT_OWNER}" -L "${SNAPSHOT_LIMIT}" --format json)
+
+if [ "$(jq '.items | length' <<<"$board")" -ge "${SNAPSHOT_LIMIT}" ]; then
+  echo "Snapshot limit of ${SNAPSHOT_LIMIT} items reached; project ${PROJECT_NUMBER} may be truncated. Aborting."
+  exit 1
+fi
+
+jq -r '.items[] | select(.content.url != null) | .content.url' <<<"$board" | sort -u > "$snapshot"
+repos=$(jq -r '.items[] | select(.content.repository != null) | .content.repository' <<<"$board" | sort -u)
+
+while read -r repo; do
+  open=$({
+    gh issue list --repo "$repo" --state open --limit 1000 --json url --jq '.[].url'
+    gh pr list --repo "$repo" --state open --limit 1000 --json url --jq '.[].url'
+  } | grep . | sort -u || true)
+  to_add=$(printf '%s\n' "$open" | grep -vxF -f "$snapshot" | grep . || true)
+
+  open_n=$(printf '%s\n' "$open" | grep -c . || true)
+  to_add_n=$(printf '%s\n' "$to_add" | grep -c . || true)
+  printf '%s: %d open, %d on board, %d to add\n' "$repo" "$open_n" "$((open_n - to_add_n))" "$to_add_n"
+  if [ "$to_add_n" -gt 0 ]; then
+    printf '%s\n' "$to_add" | sed 's/^/  /'
+  fi
+done <<<"$repos"
