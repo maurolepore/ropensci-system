@@ -135,10 +135,14 @@ Executed via subagent-driven development directly on the KB working tree (commit
 **How to run the manual apply** — take a fresh baseline; the plan item-count references have already drifted, the board moves under this tool:
 
 ```bash
-ro-project-item-sync --dry-run    # eyeball per-repo counts + the exact URLs to add
+ro-project-sync --dry-run    # eyeball per-repo counts + the exact URLs to add
 gh project item-list 12 --owner ropensci -L 2000 --format json --jq ".items | length"  # baseline board count
-ro-project-item-sync              # the real run; prints the same report, then item-add per URL
+ro-project-sync              # the real run; prints the same report, then item-add per URL
 gh project item-list 12 --owner ropensci -L 2000 --format json --jq ".items | length"  # expect: baseline + dry-run total
 ```
 
-Then re-run ro-project-item-sync --dry-run: every repo must report 0 to add. That re-run is the idempotency proof in place of plan Task 2 Step 2, on a real run.
+Then re-run ro-project-sync --dry-run: every repo must report 0 to add. That re-run is the idempotency proof in place of plan Task 2 Step 2, on a real run.
+
+### Addendum 2026-10-28 — rename
+
+`tools/bin/ro-project-item-sync` is now `tools/bin/ro-project-sync` (user request); the run commands above use the new name. References above the execution addendum keep the name in force at the time.
