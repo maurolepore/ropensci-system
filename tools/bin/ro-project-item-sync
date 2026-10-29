@@ -31,10 +31,10 @@ jq -r '.items[] | select(.content.url != null) | .content.url' <<<"$board" | sor
 repos=$(jq -r '.items[] | select(.content.repository != null) | .content.repository' <<<"$board" | sort -u)
 
 while read -r repo; do
-  open=$({
-    gh issue list --repo "$repo" --state open --limit 1000 --json url --jq '.[].url'
-    gh pr list --repo "$repo" --state open --limit 1000 --json url --jq '.[].url'
-  } | grep . | sort -u || true)
+  [ -n "$repo" ] || continue
+  issues=$(gh issue list --repo "$repo" --state open --limit 1000 --json url --jq '.[].url')
+  prs=$(gh pr list --repo "$repo" --state open --limit 1000 --json url --jq '.[].url')
+  open=$(printf '%s\n%s\n' "$issues" "$prs" | grep . | sort -u || true)
   to_add=$(printf '%s\n' "$open" | grep -vxF -f "$snapshot" | grep . || true)
 
   open_n=$(printf '%s\n' "$open" | grep -c . || true)
