@@ -10,6 +10,8 @@ SNAPSHOT_LIMIT=2000
 DRY_RUN=0
 if [ "$#" -gt 1 ] || { [ "$#" -eq 1 ] && [ "$1" != "--dry-run" ]; }; then
   echo "Usage: $0 [--dry-run]"
+  echo "  no args    report, then add missing open issues/PRs to the board"
+  echo "  --dry-run  report only"
   exit 1
 fi
 if [ "$#" -eq 1 ]; then
@@ -42,5 +44,10 @@ while read -r repo; do
   printf '%s: %d open, %d on board, %d to add\n' "$repo" "$open_n" "$((open_n - to_add_n))" "$to_add_n"
   if [ "$to_add_n" -gt 0 ]; then
     printf '%s\n' "$to_add" | sed 's/^/  /'
+  fi
+  if [ "$to_add_n" -gt 0 ] && [ "$DRY_RUN" -eq 0 ]; then
+    printf '%s\n' "$to_add" | while read -r url; do
+      gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --url "$url" </dev/null
+    done
   fi
 done <<<"$repos"
