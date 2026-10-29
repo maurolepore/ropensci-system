@@ -120,3 +120,25 @@ Run: `ok lint` (expect clean)
 git add concepts/personal-ops-tooling.md
 git commit -m "docs(personal-ops-tooling): register ro-project-item-sync"
 ```
+
+---
+
+### Addendum 2026-10-28 — execution record
+
+Executed via subagent-driven development directly on the KB working tree (commits: plan 510499c, Task 1 1fd4f93 + fix 8149467, Task 2 091c4ac, Task 3 481efb3, plus a doc-format cleanup). Tasks 1-3 are done and reviewed; this addendum records where execution departed from the plan text.
+
+1. **No git worktree.** Tasks ran directly on the KB repo main branch, one commit per task, per AGENTS.md: the KB itself is the working tree, and its convention overrides the executor skill worktree default.
+2. **The real apply run is the user manual step.** Plan Task 2 Step 1 (run without the flag, after the user OKs it) and its idempotency re-run were deliberately not executed by agents; the apply branch was verified code-level only, through a gh shim that logs item-add calls without mutating GitHub (28 calls logged, none real). Corrected detail: the Review Focus line "idempotency - pinned in Task 3" is wrong; the idempotency check lives in Task 2 Step 2, and per this addendum it is the user manual run that proves it.
+3. **Scope is repos represented on the board**: a repo with zero board items is invisible to this tool by design.
+4. **Known bounded failure mode (ruled during execution):** project item-list output carries no archived-state field, so an open issue whose item was deliberately archived on the board is invisible to the snapshot and may be re-added (GitHub returns the existing item rather than creating a duplicate).
+
+**How to run the manual apply** — take a fresh baseline; the plan item-count references have already drifted, the board moves under this tool:
+
+```bash
+ro-project-item-sync --dry-run    # eyeball per-repo counts + the exact URLs to add
+gh project item-list 12 --owner ropensci -L 2000 --format json --jq ".items | length"  # baseline board count
+ro-project-item-sync              # the real run; prints the same report, then item-add per URL
+gh project item-list 12 --owner ropensci -L 2000 --format json --jq ".items | length"  # expect: baseline + dry-run total
+```
+
+Then re-run ro-project-item-sync --dry-run: every repo must report 0 to add. That re-run is the idempotency proof in place of plan Task 2 Step 2, on a real run.

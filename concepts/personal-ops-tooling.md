@@ -1,6 +1,24 @@
 ---
 description: maurolepore's personal command-line tooling for working with rOpenSci's software-review infrastructure - shell aliases and helper scripts hosted in this KB's tools/ directory. Not official rOpenSci infrastructure.
-sources: [ { id: aliases, title: tools/aliases.zsh (this repo), resource: /Users/maurolepore/git/ropensci-system/tools/aliases.zsh }, { id: zshrc, title: dotfiles zshrc (PATH + sourcing), resource: /Users/maurolepore/git/dotfiles/zshrc }, { id: project-script, title: tools/bin/ro-project-item-add, resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-project-item-add }, { id: project-delete-script, title: tools/bin/ro-project-item-delete, resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-project-item-delete }, { id: project-sync-script, title: tools/bin/ro-project-item-sync, resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-project-item-sync }, { id: alert-script, title: ro-bot-alert-if-down script, resource: /Users/maurolepore/git/bin/ro-bot-alert-if-down } ]
+sources:
+  - id: aliases
+    title: tools/aliases.zsh (this repo)
+    resource: /Users/maurolepore/git/ropensci-system/tools/aliases.zsh
+  - id: zshrc
+    title: dotfiles zshrc (PATH + sourcing)
+    resource: /Users/maurolepore/git/dotfiles/zshrc
+  - id: project-script
+    title: tools/bin/ro-project-item-add
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-project-item-add
+  - id: project-delete-script
+    title: tools/bin/ro-project-item-delete
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-project-item-delete
+  - id: project-sync-script
+    title: tools/bin/ro-project-item-sync
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-project-item-sync
+  - id: alert-script
+    title: ro-bot-alert-if-down script
+    resource: /Users/maurolepore/git/bin/ro-bot-alert-if-down
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -12,6 +30,7 @@ tags:
   - cli
 type: Concept
 ---
+
 ## Summary
 
 maurolepore's personal tools. They are not part of official rOpenSci infrastructure; for the official system see [Software peer-review infrastructure architecture](./software-peer-review-architecture.md). Use `which <name>` to locate a tool.
