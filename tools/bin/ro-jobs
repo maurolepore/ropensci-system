@@ -13,6 +13,8 @@ JOBS=(
 )
 
 failed=()
+added_issues=0
+added_prs=0
 
 for job in "${JOBS[@]}"; do
   printf '\n==> %s\n' "$job"
@@ -24,6 +26,11 @@ for job in "${JOBS[@]}"; do
   if out=$("$job" 2>&1); then
     printf '%s\n' "$out"
     printf '<== %s: OK\n' "$job"
+    if [ "$job" = "ro-project-sync" ] &&
+       counts=$(printf '%s\n' "$out" | grep '^Added ' | sed -E 's/^Added ([0-9]+) issues? and ([0-9]+) PRs?$/\1 \2/'); then
+      added_issues=${counts%% *}
+      added_prs=${counts##* }
+    fi
   else
     printf '%s\n' "$out"
     printf '<== %s: FAILED\n' "$job"
@@ -33,7 +40,9 @@ done
 
 if [ "${#failed[@]}" -gt 0 ]; then
   printf '\nFailed: %s\n' "${failed[*]}"
+  printf '\nsystem DOWN | added %d issues and %d PRs\n' "$added_issues" "$added_prs"
   exit 1
 fi
 
 printf '\nAll %d jobs OK\n' "${#JOBS[@]}"
+printf '\nsystem OK | added %d issues and %d PRs\n' "$added_issues" "$added_prs"

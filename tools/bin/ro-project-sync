@@ -32,6 +32,9 @@ fi
 jq -r '.items[] | select(.content.url != null) | .content.url' <<<"$board" | sort -u > "$snapshot"
 repos=$(jq -r '.items[] | select(.content.repository != null) | .content.repository' <<<"$board" | sort -u)
 
+added_issues=0
+added_prs=0
+
 while read -r repo; do
   [ -n "$repo" ] || continue
   issues=$(gh issue list --repo "$repo" --state open --limit 1000 --json url --jq '.[].url')
@@ -46,8 +49,15 @@ while read -r repo; do
     printf '%s\n' "$to_add" | sed 's/^/  /'
   fi
   if [ "$to_add_n" -gt 0 ] && [ "$DRY_RUN" -eq 0 ]; then
-    printf '%s\n' "$to_add" | while read -r url; do
+    while read -r url; do
+      [ -n "$url" ] || continue
       gh project item-add "$PROJECT_NUMBER" --owner "$PROJECT_OWNER" --url "$url" </dev/null
-    done
+      case "$url" in
+        */pull/*) added_prs=$((added_prs + 1)) ;;
+        *) added_issues=$((added_issues + 1)) ;;
+      esac
+    done < <(printf '%s\n' "$to_add")
   fi
 done <<<"$repos"
+
+printf 'Added %d issues and %d PRs\n' "$added_issues" "$added_prs"
