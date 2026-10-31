@@ -71,7 +71,7 @@ echo "Channel members: $(jq 'length' "$TMP_DIR/members.json")" >&2
 echo >&2
 
 {
-  printf "NAME\tUSERNAME\tSTATUS\tEMOJI\n"
+  printf "NAME\tUSERNAME\tSTATUS\n"
 
   jq -r \
     --slurpfile members "$TMP_DIR/members.json" \
@@ -85,8 +85,7 @@ echo >&2
       | [
           (.real_name // .name // ""),
           (.name // ""),
-          (.profile.status_text // ""),
-          (.profile.status_emoji // "")
+          (.profile.status_text // "")
         ]
       | @tsv
     ' "$TMP_DIR/users.json"
