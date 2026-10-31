@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+CHANNEL_ID="G8DJAUNV8"
+ONLY_UNAVAILABLE=false
+
+if [[ "${1:-}" == "--unavailable" ]]; then
+  ONLY_UNAVAILABLE=true
+fi
+
+if [[ -z "${SLACK_TOKEN:-}" ]]; then
+  echo "Error: SLACK_TOKEN is not set." >&2
+  exit 1
+fi
+
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+# Fetch all pages from a Slack API endpoint into a JSON file.
+fetch_all() {
+  local method="$1"
+  local collection="$2"
+  local output_file="$3"
+  shift 3
+
+  local cursor=""
+  local response
+
+  printf '[]' > "$output_file"
+
+  while true; do
+    local args=("$@" "limit=200")
+
+    if [[ -n "$cursor" ]]; then
+      args+=("cursor=$cursor")
+    fi
+
+    response=$(slack --token "$SLACK_TOKEN" api "$method" "${args[@]}")
+
+    if [[ "$(jq -r '.ok' <<< "$response")" != "true" ]]; then
+      echo "Slack API error: $(jq -r '.error' <<< "$response")" >&2
+      return 1
+    fi
+
+    # Extract this page into a temporary file.
+    jq -c --arg key "$collection" '.[$key] // []' \
+      <<< "$response" > "$TMP_DIR/batch.json"
+
+    # Append the page without passing large JSON through arguments.
+    jq -s '.[0] + .[1]' \
+      "$output_file" "$TMP_DIR/batch.json" \
+      > "$TMP_DIR/combined.json"
+
+    mv "$TMP_DIR/combined.json" "$output_file"
+
+    cursor=$(jq -r '.response_metadata.next_cursor // empty' <<< "$response")
+
+    [[ -z "$cursor" ]] && break
+  done
+}
+
+echo "Fetching channel members..." >&2
+fetch_all conversations.members members "$TMP_DIR/members.json" \
+  "channel=$CHANNEL_ID"
+
+echo "Fetching workspace users..." >&2
+fetch_all users.list members "$TMP_DIR/users.json"
+
+echo "Channel members: $(jq 'length' "$TMP_DIR/members.json")" >&2
+echo >&2
+
+{
+  printf "NAME\tUSERNAME\tSTATUS\tEMOJI\n"
+
+  jq -r \
+    --slurpfile members "$TMP_DIR/members.json" \
+    --arg only "$ONLY_UNAVAILABLE" '
+      .[]
+      | select(.id as $id | ($members[0] | index($id)) != null)
+      | select(
+          $only != "true" or
+          ((.profile.status_text // "" | ascii_downcase) == "unavailable")
+        )
+      | [
+          (.real_name // .name // ""),
+          (.name // ""),
+          (.profile.status_text // ""),
+          (.profile.status_emoji // "")
+        ]
+      | @tsv
+    ' "$TMP_DIR/users.json"
+
+} | column -t -s $'\t'
+
