@@ -6,3 +6,4 @@
 /ropenscilabs/
 
 .DS_Store
+.env
