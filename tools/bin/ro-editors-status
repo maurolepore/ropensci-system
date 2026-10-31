@@ -90,6 +90,9 @@ echo >&2
         ]
       | @tsv
     ' "$TMP_DIR/users.json"
-
+} | {
+  IFS= read -r header
+  printf '%s\n' "$header"
+  sort -f
 } | column -t -s $'\t'
 
