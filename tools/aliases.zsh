@@ -9,4 +9,5 @@ alias ro-project-status='STRING="assignee:@me iteration:@current" && echo $STRIN
 # gh scoped to specific repos
 alias ro-gh-review="gh -R ropensci/software-review"
 alias ro-gh-review-meta="gh -R ropensci/software-review-meta"
+alias ro-email="echo 'reviewtools@ropensci.org'; echo https://groups.google.com/a/ropensci.org/g/reviewtools/about"
 
