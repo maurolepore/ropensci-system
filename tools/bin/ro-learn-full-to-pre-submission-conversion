@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cat tools/skills/pre-submission-conversion.md
