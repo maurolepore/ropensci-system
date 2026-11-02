@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+#
+# ro-commits-monthly - Display monthly Git commit counts as a histogram.
+# Usage: ro-commits-monthly [--commits-per-dot NUM] [NUM]
+
+set -euo pipefail
+
+# Ensure inside Git repo
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "Error: Not a git repository." >&2
+    exit 1
+fi
+
+COMMITS_PER_DOT=1
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -c|--commits-per-dot)
+            if [[ -n "${2:-}" ]]; then
+                COMMITS_PER_DOT="$2"
+                shift 2
+            else
+                echo "Error: --commits-per-dot requires a numeric argument." >&2
+                exit 1
+            fi
+            ;;
+        -h|--help)
+            echo "Usage: $(basename "$0") [--commits-per-dot NUM] [NUM]"
+            echo ""
+            echo "Prints monthly commit frequency with zero-gap months."
+            echo "  -c, --commits-per-dot NUM   Number of commits per dot (default: 1)"
+            echo "  -h, --help                  Show this help message"
+            exit 0
+            ;;
+        *)
+            COMMITS_PER_DOT="$1"
+            shift
+            ;;
+    esac
+done
+
+# Validate scale factor is a positive integer
+if ! [[ "$COMMITS_PER_DOT" =~ ^[1-9][0-9]*$ ]]; then
+    echo "Error: --commits-per-dot must be a positive integer." >&2
+    exit 1
+fi
+
+# Extract log dates and generate histogram
+git log --date=format:"%Y-%m" --pretty=format:"%ad" | awk -v scale="$COMMITS_PER_DOT" '
+NF {
+    count[$1]++
+    if (min == "" || $1 < min) min = $1
+    if (max == "" || $1 > max) max = $1
+}
+END {
+    if (min == "") exit
+    
+    split(min, start, "-")
+    split(max, end, "-")
+    
+    y = start[1] + 0
+    m = start[2] + 0
+    end_y = end[1] + 0
+    end_m = end[2] + 0
+    
+    while (y < end_y || (y == end_y && m <= end_m)) {
+        ym = sprintf("%04d-%02d", y, m)
+        
+        num_dots = int(count[ym] / scale)
+        dots = ""
+        for (i = 0; i < num_dots; i++) {
+            dots = dots "."
+        }
+        
+        printf "%s\t%s\n", ym, dots
+        
+        m++
+        if (m > 12) {
+            m = 1
+            y++
+        }
+    }
+}'
+
+

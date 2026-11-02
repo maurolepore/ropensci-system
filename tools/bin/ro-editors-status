@@ -10,14 +10,14 @@ if [[ "${1:-}" == "--unavailable" ]]; then
 fi
 
 if [[ -z "${SLACK_TOKEN:-}" ]]; then
-  echo "Error: SLACK_TOKEN is not set." >&2
+  echo "Error: SLACK_TOKEN environment variable is not set." >&2
   exit 1
 fi
 
 TMP_DIR=$(mktemp -d)
 trap 'rm -rf "$TMP_DIR"' EXIT
 
-# Fetch all pages from a Slack API endpoint into a JSON file.
+# Fetch all pages from a Slack API endpoint into a JSON file
 fetch_all() {
   local method="$1"
   local collection="$2"
@@ -25,67 +25,85 @@ fetch_all() {
   shift 3
 
   local cursor=""
-  local response
-
-  printf '[]' > "$output_file"
+  local page=0
+  local pages_dir="$TMP_DIR/pages_$collection"
+  mkdir -p "$pages_dir"
 
   while true; do
     local args=("$@" "limit=200")
+    [[ -n "$cursor" ]] && args+=("cursor=$cursor")
 
-    if [[ -n "$cursor" ]]; then
-      args+=("cursor=$cursor")
-    fi
-
+    local response
     response=$(slack --token "$SLACK_TOKEN" api "$method" "${args[@]}")
 
-    if [[ "$(jq -r '.ok' <<< "$response")" != "true" ]]; then
-      echo "Slack API error: $(jq -r '.error' <<< "$response")" >&2
+    local is_ok
+    is_ok=$(jq -r '.ok // false' <<< "$response")
+    if [[ "$is_ok" != "true" ]]; then
+      local err_msg
+      err_msg=$(jq -r '.error // "Unknown error"' <<< "$response")
+      echo "Slack API Error on $method: $err_msg" >&2
       return 1
     fi
 
-    # Extract this page into a temporary file.
-    jq -c --arg key "$collection" '.[$key] // []' \
-      <<< "$response" > "$TMP_DIR/batch.json"
-
-    # Append the page without passing large JSON through arguments.
-    jq -s '.[0] + .[1]' \
-      "$output_file" "$TMP_DIR/batch.json" \
-      > "$TMP_DIR/combined.json"
-
-    mv "$TMP_DIR/combined.json" "$output_file"
+    # Extract collection array and save to page batch
+    jq -c --arg key "$collection" '.[$key] // []' <<< "$response" > "$pages_dir/page_$page.json"
 
     cursor=$(jq -r '.response_metadata.next_cursor // empty' <<< "$response")
-
     [[ -z "$cursor" ]] && break
+    ((page++))
   done
+
+  # Merge all page arrays into a single flat array
+  jq -s 'add // []' "$pages_dir"/page_*.json > "$output_file"
 }
 
 echo "Fetching channel members..." >&2
-fetch_all conversations.members members "$TMP_DIR/members.json" \
-  "channel=$CHANNEL_ID"
+fetch_all conversations.members members "$TMP_DIR/members.json" "channel=$CHANNEL_ID"
 
 echo "Fetching workspace users..." >&2
 fetch_all users.list members "$TMP_DIR/users.json"
 
-echo "Channel members: $(jq 'length' "$TMP_DIR/members.json")" >&2
+MEMBERS_COUNT=$(jq 'length' "$TMP_DIR/members.json")
+USERS_COUNT=$(jq 'length' "$TMP_DIR/users.json")
+
+echo "Channel members found: $MEMBERS_COUNT" >&2
+echo "Workspace users found: $USERS_COUNT" >&2
 echo >&2
 
+if [[ "$MEMBERS_COUNT" -eq 0 ]]; then
+  echo "Warning: No channel members returned. Verify channel ID and permissions." >&2
+  exit 0
+fi
+
 {
-  printf "NAME\tUSERNAME\tSTATUS\n"
+  printf "NAME\tUSERNAME\tSTATUS\tEXPIRATION\n"
 
   jq -r \
     --slurpfile members "$TMP_DIR/members.json" \
     --arg only "$ONLY_UNAVAILABLE" '
-      .[]
-      | select(.id as $id | ($members[0] | index($id)) != null)
+      # Build a lookup map of channel member IDs: { "U123": true, ... }
+      ($members[0] | map({key: ., value: true}) | from_entries) as $member_map
+      | .[]
+      # Filter for users who are in the channel member list
+      | select($member_map[.id] == true)
+      # Filter out bots and deleted users if desired
+      | select(.is_bot == false and .deleted == false)
+      # Apply --unavailable filter if requested
       | select(
           $only != "true" or
           ((.profile.status_text // "" | ascii_downcase) == "unavailable")
         )
       | [
-          (.real_name // .name // ""),
-          (.name // ""),
-          (.profile.status_text // "")
+          (.real_name // .name // "N/A"),
+          (.name // "N/A"),
+          (if (.profile.status_text // "") == "" then "-" else .profile.status_text end),
+          (
+            if (.profile.status_expiration // 0) > 0 then
+              (.profile.status_expiration | strftime("%Y-%m-%d %H:%M UTC"))
+            else
+              "No Expiration"
+            end
+          )
         ]
       | @tsv
     ' "$TMP_DIR/users.json"

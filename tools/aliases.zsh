@@ -13,10 +13,3 @@ alias ro-email="echo 'reviewtools@ropensci.org'; echo https://groups.google.com/
 
 alias ro-url-airtable-eic-rotation='echo https://airtable.com/app8dssb6a7PG6Vwj/tblicWp7nb1VCs9Zz/viwueKpkievjFhehj'
 
-# Functions
-ro-code-frequency() {
-  git log --date=format:"%G-W%V" --pretty=format:"%ad" --numstat | \
-    awk 'NF==1 {week=$1; next} $1!="-" {add[week]+=$1; del[week]+=$2} END {for (w in add) printf "%s\t+%d\t-%d\n", w, add[w], del[w]}' | \
-    sort
-}
-
