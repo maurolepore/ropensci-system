@@ -31,6 +31,9 @@ sources:
   - id: pre-submission-conversion-skill
     title: tools/skills/pre-submission-conversion.md
     resource: /Users/maurolepore/git/ropensci-system/tools/skills/pre-submission-conversion.md
+  - id: my-thread-summary-style-skill
+    title: tools/skills/my-thread-summary-style.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/skills/my-thread-summary-style.md
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -71,6 +74,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 
 | Skill | Description |
 | --- | --- |
+| `my-thread-summary-style`[^my-thread-summary-style-skill] | Turn the `summarize-thread` thread analysis into an EiC rotation-start summary comment written in Mauro Lepore's (GitHub `@maurolepore`) own voice, derived with evidence counts from 40 of his real EiC comments - ready to paste on the issue, but never posted: the human reviews and pastes. |
 | `summarize-thread`[^summarize-thread-skill] | Analyze a software-review GitHub thread into `Current Status` (from issue labels), `Summary of Events`, and `Next Steps` (action, responsible actor, timeframe), with exact dates for milestones. It refuses to guess when the page has hidden comments behind a "Load more" pagination control, and requires expanding them first. |
 | `pre-submission-conversion`[^pre-submission-conversion-skill] | Populate a pre-submission-inquiry template (EN, ES, or PT) from the raw first comment of a full-submission issue. |
 
@@ -88,4 +92,5 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^jobs-script]: Source `jobs-script` - see frontmatter `sources`.
 [^editors-status-script]: Source `editors-status-script` - see frontmatter `sources`.
 [^summarize-thread-skill]: Source `summarize-thread-skill` - see frontmatter `sources`.
+[^my-thread-summary-style-skill]: Source `my-thread-summary-style-skill` - see frontmatter `sources`.
 [^pre-submission-conversion-skill]: Source `pre-submission-conversion-skill` - see frontmatter `sources`.
