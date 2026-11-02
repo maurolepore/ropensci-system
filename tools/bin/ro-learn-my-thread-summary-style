@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cat tools/skills/my-thread-summary-style.md
