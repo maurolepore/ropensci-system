@@ -22,6 +22,15 @@ sources:
   - id: jobs-script
     title: tools/bin/ro-jobs
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-jobs
+  - id: editors-status-script
+    title: tools/bin/ro-editors-status
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-editors-status
+  - id: summarize-thread-skill
+    title: tools/skills/summarize-thread.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/skills/summarize-thread.md
+  - id: pre-submission-conversion-skill
+    title: tools/skills/pre-submission-conversion.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/skills/pre-submission-conversion.md
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -44,6 +53,8 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | --- | --- | --- |
 | `ro-bot-alert-if-down` | script in the owner's `~/git/bin/`, outside this repo[^alert-script] | Health-check the review API. The [roreviewapi](./roreviewapi.md) plumber API has no route at `/`, so a healthy server answers HTTP 404 at the root; the script treats `404` as UP and anything else as down. |
 | `ro-bot-releases` | alias[^aliases] | List the [buffy](./buffy.md) Heroku app's releases, newest first - check when buffy last deployed. |
+| `ro-editors-status` | script in this repo's `tools/bin/`[^editors-status-script] | List the members of the ropensci reviewtools Slack channel with their Slack status, alphabetized; `--unavailable` shows only members whose Slack status is `unavailable`. Reads the `SLACK_TOKEN` environment variable. |
+| `ro-email` | alias[^aliases] | Print the reviewtools@ropensci.org address and the reviewtools Google Group URL. |
 | `ro-jobs` | script in this repo's `tools/bin/`[^jobs-script] | Run every routine job as one sweep, e.g. a morning check. Runs `ro-bot-alert-if-down` and `ro-project-sync` for real; a failing job does not stop the remaining jobs, and the exit status is non-zero if any job failed so a scheduler can alert. Ends with a one-line summary, `system OK\|DOWN \| added N issues and M PRs`, where the count covers the items `ro-project-sync` actually added. |
 | `ro-meet-me` | alias[^aliases] | Copy Mauro's Google Calendar booking link to the clipboard. |
 | `ro-project-browse` | alias[^aliases] | Open the ropensci GitHub Project board (project 12) in a web browser. |
@@ -53,6 +64,15 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `ro-project-status` | alias[^aliases] | Show the Status of the items assigned to you in the current iteration - runs `ro-project-query` with the default query `assignee:@me iteration:@current`. |
 | `ro-project-sync` | script in this repo's `tools/bin/`[^project-sync-script] | Add every open issue and pull request of every repository already represented on the ropensci GitHub Project board (project 12), skipping anything already on the board; ends with a count of the items actually added. `--dry-run` prints the report without mutating. |
 | `ro-server` | alias[^aliases] | SSH into the Digital Ocean droplet that hosts roreviewapi (reviewbot.ropensci.org). |
+
+## Skills
+
+`tools/skills/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching `tools/bin/ro-learn-<name>` wrapper, ready to paste or to feed a prompt to an agent.
+
+| Skill | Description |
+| --- | --- |
+| `summarize-thread`[^summarize-thread-skill] | Analyze a software-review GitHub thread into `Current Status` (from issue labels), `Summary of Events`, and `Next Steps` (action, responsible actor, timeframe), with exact dates for milestones. It refuses to guess when the page has hidden comments behind a "Load more" pagination control, and requires expanding them first. |
+| `pre-submission-conversion`[^pre-submission-conversion-skill] | Populate a pre-submission-inquiry template (EN, ES, or PT) from the raw first comment of a full-submission issue. |
 
 ## Related
 
@@ -66,3 +86,6 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^project-sync-script]: Source `project-sync-script` - see frontmatter `sources`.
 [^alert-script]: Source `alert-script` - see frontmatter `sources`.
 [^jobs-script]: Source `jobs-script` - see frontmatter `sources`.
+[^editors-status-script]: Source `editors-status-script` - see frontmatter `sources`.
+[^summarize-thread-skill]: Source `summarize-thread-skill` - see frontmatter `sources`.
+[^pre-submission-conversion-skill]: Source `pre-submission-conversion-skill` - see frontmatter `sources`.
