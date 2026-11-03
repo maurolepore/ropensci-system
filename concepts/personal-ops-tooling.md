@@ -25,6 +25,9 @@ sources:
   - id: editors-status-script
     title: tools/bin/ro-editors-status
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-editors-status
+  - id: commits-monthly-script
+    title: tools/bin/ro-commits-monthly
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-commits-monthly
   - id: summarize-thread-skill
     title: tools/skills/summarize-thread.md
     resource: /Users/maurolepore/git/ropensci-system/tools/skills/summarize-thread.md
@@ -56,8 +59,11 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | --- | --- | --- |
 | `ro-bot-alert-if-down` | script in the owner's `~/git/bin/`, outside this repo[^alert-script] | Health-check the review API. The [roreviewapi](./roreviewapi.md) plumber API has no route at `/`, so a healthy server answers HTTP 404 at the root; the script treats `404` as UP and anything else as down. |
 | `ro-bot-releases` | alias[^aliases] | List the [buffy](./buffy.md) Heroku app's releases, newest first - check when buffy last deployed. |
+| `ro-commits-monthly` | script in this repo's `tools/bin/`[^commits-monthly-script] | Print a text histogram of the Git commit count per month for the current Git repository, including zero-commit months; `--commits-per-dot NUM` (or a positional `NUM`) marks one dot per NUM commits (default 1). |
 | `ro-editors-status` | script in this repo's `tools/bin/`[^editors-status-script] | List the members of the ropensci reviewtools Slack channel with their Slack status, alphabetized; `--unavailable` shows only members whose Slack status is `unavailable`. Reads the `SLACK_TOKEN` environment variable. |
 | `ro-email` | alias[^aliases] | Print the reviewtools@ropensci.org address and the reviewtools Google Group URL. |
+| `ro-gh-review` | alias[^aliases] | Run a `gh` command against the [software-review repository](./software-review-repo.md), e.g. `ro-gh-review issue list`. |
+| `ro-gh-review-meta` | alias[^aliases] | Run a `gh` command against the software-review-meta repository, e.g. `ro-gh-review-meta issue list`. |
 | `ro-jobs` | script in this repo's `tools/bin/`[^jobs-script] | Run every routine job as one sweep, e.g. a morning check. Runs `ro-bot-alert-if-down` and `ro-project-sync` for real; a failing job does not stop the remaining jobs, and the exit status is non-zero if any job failed so a scheduler can alert. Ends with a one-line summary, `system OK\|DOWN \| added N issues and M PRs`, where the count covers the items `ro-project-sync` actually added. |
 | `ro-meet-me` | alias[^aliases] | Copy Mauro's Google Calendar booking link to the clipboard. |
 | `ro-project-browse` | alias[^aliases] | Open the ropensci GitHub Project board (project 12) in a web browser. |
@@ -67,10 +73,11 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `ro-project-status` | alias[^aliases] | Show the Status of the items assigned to you in the current iteration - runs `ro-project-query` with the default query `assignee:@me iteration:@current`. |
 | `ro-project-sync` | script in this repo's `tools/bin/`[^project-sync-script] | Add every open issue and pull request of every repository already represented on the ropensci GitHub Project board (project 12), skipping anything already on the board; ends with a count of the items actually added. `--dry-run` prints the report without mutating. |
 | `ro-server` | alias[^aliases] | SSH into the Digital Ocean droplet that hosts roreviewapi (reviewbot.ropensci.org). |
+| `ro-url-airtable-eic-rotation` | alias[^aliases] | Print the Airtable view URL used for the EiC rotation. |
 
 ## Skills
 
-`tools/skills/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching `tools/bin/ro-learn-<name>` wrapper, ready to paste or to feed a prompt to an agent.
+`tools/skills/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching `tools/bin/ro-learn-<name>` wrapper (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` skill, named after its input format), ready to paste or to feed a prompt to an agent.
 
 | Skill | Description |
 | --- | --- |
@@ -83,6 +90,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 - [roreviewapi](./roreviewapi.md) - the droplet-hosted plumber API these tools operate on
 - [Software peer-review infrastructure architecture](./software-peer-review-architecture.md) - the official system this tooling is not part of
 
+[^commits-monthly-script]: Source `commits-monthly-script` - see frontmatter `sources`.
 [^aliases]: Source `aliases` - see frontmatter `sources`.
 [^zshrc]: Source `zshrc` - see frontmatter `sources`.
 [^project-script]: Source `project-script` - see frontmatter `sources`.

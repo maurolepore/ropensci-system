@@ -1,3 +1,7 @@
+---
+type: Skill
+---
+
 ### System & Analysis Instructions
 
 Analyze the provided rOpenSci software peer review GitHub thread and extract the current status, a summary of events, and immediate next steps. Include critical dates and explicit timeframes (e.g., when the editor search or prep phase started and how long it has been since then as of today).

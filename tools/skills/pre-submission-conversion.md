@@ -1,3 +1,7 @@
+---
+type: Skill
+---
+
 I'll give you two templates: full (populated) and pre (empty). Extract
 the information from full to populate pre.
 
