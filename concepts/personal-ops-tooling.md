@@ -40,6 +40,9 @@ sources:
   - id: onboard-editor-skill
     title: tools/skills/onboard-editor.md
     resource: /Users/maurolepore/git/ropensci-system/tools/skills/onboard-editor.md
+  - id: offboard-editor-skill
+    title: tools/skills/offboard-editor.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/skills/offboard-editor.md
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -88,6 +91,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `summarize-thread`[^summarize-thread-skill] | Analyze a software-review GitHub thread into `Current Status` (from issue labels), `Summary of Events`, and `Next Steps` (action, responsible actor, timeframe), with exact dates for milestones. It refuses to guess when the page has hidden comments behind a "Load more" pagination control, and requires expanding them first. |
 | `pre-submission-conversion`[^pre-submission-conversion-skill] | Populate a pre-submission-inquiry template (EN, ES, or PT) from the raw first comment of a full-submission issue. |
 | `onboard-editor`[^onboard-editor-skill] | Onboarding checklist for a new guest or full editor - the details to collect, the links used at each step, the full-editor and guest-editor setup items (each split into Invite and Confirm sub-tasks), and a hidden TODO block for items to send in one email. |
+| `offboard-editor`[^offboard-editor-skill] | Offboarding checklist for an editor who is leaving - thanking them, the newsletter notice, the Slack and GitHub removals, the `team.json` edit (`roles` to `past_roles` plus `alumnus`), the two Airtable changes, and the day-after check that the generated editor lists moved them to past editors. |
 
 ## Related
 
@@ -107,3 +111,4 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^my-thread-summary-style-skill]: Source `my-thread-summary-style-skill` - see frontmatter `sources`.
 [^pre-submission-conversion-skill]: Source `pre-submission-conversion-skill` - see frontmatter `sources`.
 [^onboard-editor-skill]: Source `onboard-editor-skill` - see frontmatter `sources`.
+[^offboard-editor-skill]: Source `offboard-editor-skill` - see frontmatter `sources`.
