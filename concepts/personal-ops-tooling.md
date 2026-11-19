@@ -37,6 +37,9 @@ sources:
   - id: my-thread-summary-style-skill
     title: tools/skills/my-thread-summary-style.md
     resource: /Users/maurolepore/git/ropensci-system/tools/skills/my-thread-summary-style.md
+  - id: onboard-editor-skill
+    title: tools/skills/onboard-editor.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/skills/onboard-editor.md
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -84,6 +87,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `my-thread-summary-style`[^my-thread-summary-style-skill] | Turn the `summarize-thread` thread analysis into an EiC rotation-start summary comment written in Mauro Lepore's (GitHub `@maurolepore`) own voice, derived with evidence counts from 40 of his real EiC comments - ready to paste on the issue, but never posted: the human reviews and pastes. |
 | `summarize-thread`[^summarize-thread-skill] | Analyze a software-review GitHub thread into `Current Status` (from issue labels), `Summary of Events`, and `Next Steps` (action, responsible actor, timeframe), with exact dates for milestones. It refuses to guess when the page has hidden comments behind a "Load more" pagination control, and requires expanding them first. |
 | `pre-submission-conversion`[^pre-submission-conversion-skill] | Populate a pre-submission-inquiry template (EN, ES, or PT) from the raw first comment of a full-submission issue. |
+| `onboard-editor`[^onboard-editor-skill] | Onboarding checklist for a new guest or full editor - the details to collect, the links used at each step, the full-editor and guest-editor setup items (each split into Invite and Confirm sub-tasks), and a hidden TODO block for items to send in one email. |
 
 ## Related
 
@@ -102,3 +106,4 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^summarize-thread-skill]: Source `summarize-thread-skill` - see frontmatter `sources`.
 [^my-thread-summary-style-skill]: Source `my-thread-summary-style-skill` - see frontmatter `sources`.
 [^pre-submission-conversion-skill]: Source `pre-submission-conversion-skill` - see frontmatter `sources`.
+[^onboard-editor-skill]: Source `onboard-editor-skill` - see frontmatter `sources`.
