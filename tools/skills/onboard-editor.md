@@ -57,7 +57,7 @@ Guest editors start here
   - [ ] Invite
   - [ ] Confirm
 
-- [ ] Update the "editor" field in the Airtable ["reviewers-prod" table](https://airtable.com/app8dssb6a7PG6Vwj/tblIBMYXKsF4DwhEW) (this is used to identify and list current editors within this _Dev Guide_) {to Guest}
+- [ ] In the Airtable ["reviewers-prod" table](https://airtable.com/app8dssb6a7PG6Vwj/tblIBMYXKsF4DwhEW) update the `editor` field to "Guest" (this is used to identify and list current editors within this Dev Guide).
 
 - [ ] Invite them to the private "editors-only" channel in rOpenSci's Slack workspace (and to the Slack workspace in general if they're not yet there).
 
