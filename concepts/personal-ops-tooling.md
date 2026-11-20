@@ -43,6 +43,9 @@ sources:
   - id: offboard-editor-skill
     title: tools/skills/offboard-editor.md
     resource: /Users/maurolepore/git/ropensci-system/tools/skills/offboard-editor.md
+  - id: shrink-git-skill
+    title: tools/skills/shrink-git.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/skills/shrink-git.md
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -92,6 +95,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `pre-submission-conversion`[^pre-submission-conversion-skill] | Populate a pre-submission-inquiry template (EN, ES, or PT) from the raw first comment of a full-submission issue. |
 | `onboard-editor`[^onboard-editor-skill] | Onboarding checklist for a new guest or full editor - the details to collect, the links used at each step, the full-editor and guest-editor setup items (each split into Invite and Confirm sub-tasks), and a hidden TODO block for items to send in one email. |
 | `offboard-editor`[^offboard-editor-skill] | Offboarding checklist for an editor who is leaving, mirroring the dev guide - thank them, tell staff so the newsletter announces the departure, remove them from the "editors-only" channel and the GitHub editors team, edit `team.json`, remove Airtable access and relabel them "Emeritus" there, then check the generated editor lists the next day. |
+| `shrink-git`[^shrink-git-skill] | Agent prompt to shrink a Git repo bloated by a committed `docs/` (pkgdown) directory: confirm sizes, move the site to `gh-pages` with `usethis::use_pkgdown_github_pages()`, back up, purge `docs/` from all history with git-filter-repo, and hand back force-push commands without pushing. |
 
 ## Related
 
@@ -112,3 +116,4 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^pre-submission-conversion-skill]: Source `pre-submission-conversion-skill` - see frontmatter `sources`.
 [^onboard-editor-skill]: Source `onboard-editor-skill` - see frontmatter `sources`.
 [^offboard-editor-skill]: Source `offboard-editor-skill` - see frontmatter `sources`.
+[^shrink-git-skill]: Source `shrink-git-skill` - see frontmatter `sources`.
