@@ -91,7 +91,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `summarize-thread`[^summarize-thread-skill] | Analyze a software-review GitHub thread into `Current Status` (from issue labels), `Summary of Events`, and `Next Steps` (action, responsible actor, timeframe), with exact dates for milestones. It refuses to guess when the page has hidden comments behind a "Load more" pagination control, and requires expanding them first. |
 | `pre-submission-conversion`[^pre-submission-conversion-skill] | Populate a pre-submission-inquiry template (EN, ES, or PT) from the raw first comment of a full-submission issue. |
 | `onboard-editor`[^onboard-editor-skill] | Onboarding checklist for a new guest or full editor - the details to collect, the links used at each step, the full-editor and guest-editor setup items (each split into Invite and Confirm sub-tasks), and a hidden TODO block for items to send in one email. |
-| `offboard-editor`[^offboard-editor-skill] | Offboarding checklist for an editor who is leaving, mirroring the dev guide - thank them, tell staff so the newsletter announces the departure, remove them from Slack and the GitHub editors team, edit `team.json`, remove Airtable access, then check the generated editor lists the next day. |
+| `offboard-editor`[^offboard-editor-skill] | Offboarding checklist for an editor who is leaving, mirroring the dev guide - thank them, tell staff so the newsletter announces the departure, remove them from the "editors-only" channel and the GitHub editors team, edit `team.json`, remove Airtable access and relabel them "Emeritus" there, then check the generated editor lists the next day. |
 
 ## Related
 
