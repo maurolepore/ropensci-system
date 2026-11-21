@@ -46,6 +46,9 @@ sources:
   - id: shrink-git-skill
     title: tools/skills/shrink-git.md
     resource: /Users/maurolepore/git/ropensci-system/tools/skills/shrink-git.md
+  - id: editor-checklist-skill
+    title: tools/skills/editor-checklist.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/skills/editor-checklist.md
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -96,6 +99,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `onboard-editor`[^onboard-editor-skill] | Onboarding checklist for a new guest or full editor - the details to collect, the links used at each step, the full-editor and guest-editor setup items (each split into Invite and Confirm sub-tasks), and a hidden TODO block for items to send in one email. |
 | `offboard-editor`[^offboard-editor-skill] | Offboarding checklist for an editor who is leaving, mirroring the dev guide - thank them, tell staff so the newsletter announces the departure, remove them from the "editors-only" channel and the GitHub editors team, edit `team.json`, remove Airtable access and relabel them "Emeritus" there, then check the generated editor lists the next day. |
 | `shrink-git`[^shrink-git-skill] | Agent prompt to shrink a Git repo bloated by a committed `docs/` (pkgdown) directory: confirm sizes, move the site to `gh-pages` with `usethis::use_pkgdown_github_pages()`, back up, purge `docs/` from all history with git-filter-repo, and hand back force-push commands without pushing. |
+| `editor-checklist`[^editor-checklist-skill] | Ready-to-paste editor-checks comment for a submission issue: the required dev-guide checkboxes for the author to address or justify, a request to keep the `mlNN` tag sequence and the branch stable, a note that AI must not write the posted comments, and a hidden TODO block of Mauro's review commands. |
 
 ## Related
 
@@ -117,3 +121,4 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^onboard-editor-skill]: Source `onboard-editor-skill` - see frontmatter `sources`.
 [^offboard-editor-skill]: Source `offboard-editor-skill` - see frontmatter `sources`.
 [^shrink-git-skill]: Source `shrink-git-skill` - see frontmatter `sources`.
+[^editor-checklist-skill]: Source `editor-checklist-skill` - see frontmatter `sources`.
