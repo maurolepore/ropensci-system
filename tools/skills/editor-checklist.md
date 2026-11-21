@@ -77,13 +77,40 @@ Feel free to ping me for any question you may have.
 
 - mlxx. air format .; git status -s
 
-For stats packages also https://stats-devguide.ropensci.org/pkgsubmission.html#handling-editor-checklist
+- mlxx. Rscript -e 'usethis::use_tidy_description()'
+
+- mlxx. rg expect_error tests
+
+- mlxx. Examples in all docs
+
+- mlxx. Development-component in version names to enable `mode: auto` in pkgdown
+
+- mlxx. Cyclomatic complexity
+
+- mlxx. Modulatiry
+
+- mlxx. Mutation/fuzzy testing
+
+### For stats packages 
+
+https://stats-devguide.ropensci.org/pkgsubmission.html#handling-editor-checklist
 
 - [ ] Any issues raised during initial processing by EiC have been resolved (or there were none).
 - [ ] Issues raised in the goodpractice checks, statistical anomalies, and other details of the report do not appear to be major problems and can be directed to reviewers for further scrutiny.
 - [ ] Either (i) this package is aiming for a bronze badge, or, (ii) for packages aiming for silver or gold badges, the authors have clarified which of the four aspects listed in the “Guide for Authors” section on silver badges they intend to fulfil.
 
-To copy-paste
+### Common comments
+
+- mlxx. Consider mutation testing with [mutator](https://prl-prg.github.io/mutator/) or [autotest](https://docs.ropensci.org/autotest/))
+
+<details>
+
+Mutation testing can find missing assertions, by introducing small code mutations and checking whether the test suite catches them.
+-- https://martinfowler.com/articles/sensors-for-coding-agents.html
+
+</details>
+
+### Boilerplate
 
 <details>
 
