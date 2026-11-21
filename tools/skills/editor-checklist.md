@@ -101,6 +101,10 @@ https://stats-devguide.ropensci.org/pkgsubmission.html#handling-editor-checklist
 
 ### Common comments
 
+- [Frequent checks](https://gist.github.com/maurolepore/7e8222b0c7e61a9f30acaf988fc11408)
+
+- mlxx. ...
+
 - mlxx. Consider mutation testing with [mutator](https://prl-prg.github.io/mutator/) or [autotest](https://docs.ropensci.org/autotest/))
 
 <details>
