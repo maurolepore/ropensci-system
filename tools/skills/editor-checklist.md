@@ -1,19 +1,23 @@
-<@auhor>
+<@author>
 
-I'll go ahead and share my editor-checks. Please address or justify the items marked with a checkbox. The others are optional.
+Thanks again for sharing your work with rOpenSci. Here are my editor-checks. 
 
-Once you address the required comments we'll start searching for reviewers. At that time the branch listed in the Repository: field at the top must stay stable. You may change it before then but FYI currently I see:
+The items marked with a checkbox can help make the review process smoother; please address or justify them. The comments marked with regular bullets are optional.
 
-```yaml
-Repository: https://github.com/<OWNER/REPO>
-```
+Once we check all boxes we'll start searching for reviewers. And once we assign reviewers the branch under review must stay stable (i.e. the value of the `Repository:` field at the top).
 
-When you respond to my comments, please preserve the tags and sequence, e.g. ml01, ml02 and so on. This helps track each comment's tread until resolution.
+<details>
 
-You may use AI except to write the comments you post here. This really helps to keep the conversation human and preserves our community values.
+> While your package is under review, please refrain from making any change, apart from hot fixes. Indeed, reviewers should be able to review the latest (best until now) version of your software, and that version should not be changing.
+> -- https://devdevguide.netlify.app/softwarereview_author.html#the-review-process 
+
+</details>
+
+When you respond to my comments, please preserve the tags and sequence, e.g. ml01, ml02 and so on. This helps track each thread.
+
+You may use AI except for the human-to-human comments you post here. This really helps to keep the conversation human and preserves our community values. If you do use AI please tall us how so we learn from and adapt to our community ([AI policy](https://ropensci.org/blog/2026/02/26/ropensci-ai-policy/)).
 
 Feel free to ping me for any question you may have.
-
 
 ### Editor checks:
 
@@ -32,6 +36,16 @@ Feel free to ping me for any question you may have.
 #### Editor comments
 
 <!-- hide start
+
+- [ ] ml01. Please suggest 3 reviewers. We'll use 1 at most but helps to know the expertise you're after.
+
+<details>
+
+> Sources of information for finding reviewers include:
+> - Potential suggestions made by the submitter(s), (although submitters may have a narrow view of the types of expertise needed. We suggest not using more than one of the suggested reviewers);
+> -- https://devguide.ropensci.org/softwarereview_editor.html#finding-reviewers
+
+</details>
 
 - mlxx. gh repo clone <Repository url> (git checkout a non-default branch?)
 
