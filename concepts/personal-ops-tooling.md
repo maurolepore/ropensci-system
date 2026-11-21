@@ -37,12 +37,12 @@ sources:
   - id: my-thread-summary-style-skill
     title: tools/skills/my-thread-summary-style.md
     resource: /Users/maurolepore/git/ropensci-system/tools/skills/my-thread-summary-style.md
-  - id: onboard-editor-skill
-    title: tools/skills/onboard-editor.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/onboard-editor.md
-  - id: offboard-editor-skill
-    title: tools/skills/offboard-editor.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/offboard-editor.md
+  - id: checklist-onboard-editor-skill
+    title: tools/skills/checklist-onboard-editor.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/skills/checklist-onboard-editor.md
+  - id: checklist-offboard-editor-skill
+    title: tools/skills/checklist-offboard-editor.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/skills/checklist-offboard-editor.md
   - id: checklist-editor-skill
     title: tools/skills/checklist-editor.md
     resource: /Users/maurolepore/git/ropensci-system/tools/skills/checklist-editor.md
@@ -89,15 +89,15 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 
 ## Skills
 
-`tools/skills/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching wrapper in `tools/bin/` - `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` skill, named after its input format), except checklist skills, which use `ro-checklist-<name>` (`ro-checklist-editor` and `ro-checklist-blog-new-editor`) - ready to paste or to feed a prompt to an agent.
+`tools/skills/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching wrapper in `tools/bin/` - `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` skill, named after its input format), except checklist skills, which use `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, and `ro-checklist-offboard-editor`) - ready to paste or to feed a prompt to an agent.
 
 | Skill | Description |
 | --- | --- |
 | `my-thread-summary-style`[^my-thread-summary-style-skill] | Turn the `summarize-thread` thread analysis into an EiC rotation-start summary comment written in Mauro Lepore's (GitHub `@maurolepore`) own voice, derived with evidence counts from 40 of his real EiC comments - ready to paste on the issue, but never posted: the human reviews and pastes. |
 | `summarize-thread`[^summarize-thread-skill] | Analyze a software-review GitHub thread into `Current Status` (from issue labels), `Summary of Events`, and `Next Steps` (action, responsible actor, timeframe), with exact dates for milestones. It refuses to guess when the page has hidden comments behind a "Load more" pagination control, and requires expanding them first. |
 | `pre-submission-conversion`[^pre-submission-conversion-skill] | Populate a pre-submission-inquiry template (EN, ES, or PT) from the raw first comment of a full-submission issue. |
-| `onboard-editor`[^onboard-editor-skill] | Onboarding checklist for a new guest or full editor - the details to collect, the links used at each step, the full-editor and guest-editor setup items (each split into Invite and Confirm sub-tasks), and a hidden TODO block for items to send in one email. |
-| `offboard-editor`[^offboard-editor-skill] | Offboarding checklist for an editor who is leaving, mirroring the dev guide - thank them, tell staff so the newsletter announces the departure, remove them from the "editors-only" channel and the GitHub editors team, edit `team.json`, remove Airtable access and relabel them "Emeritus" there, then check the generated editor lists the next day. |
+| `checklist-onboard-editor`[^checklist-onboard-editor-skill] | Onboarding checklist for a new guest or full editor - the details to collect, the links used at each step, the full-editor and guest-editor setup items (each split into Invite and Confirm sub-tasks), and a hidden TODO block for items to send in one email. |
+| `checklist-offboard-editor`[^checklist-offboard-editor-skill] | Offboarding checklist for an editor who is leaving, mirroring the dev guide - thank them, tell staff so the newsletter announces the departure, remove them from the "editors-only" channel and the GitHub editors team, edit `team.json`, remove Airtable access and relabel them "Emeritus" there, then check the generated editor lists the next day. |
 | `checklist-editor`[^checklist-editor-skill] | Ready-to-paste editor-checks comment for a submission issue: the required dev-guide checkboxes for the author to address or justify, a request to keep the `mlNN` tag sequence and the branch stable, a note that AI must not write the posted comments, and a hidden TODO block of Mauro's review commands. |
 | `checklist-blog-new-editor`[^checklist-blog-new-editor-skill] | Details to collect from a new editor for their welcome blog post - full name and preferred spelling, headshot, links, the date they joined, a bio, and a quote about why they joined; links to the 2024 editors post as an example. |
 
@@ -118,7 +118,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^summarize-thread-skill]: Source `summarize-thread-skill` - see frontmatter `sources`.
 [^my-thread-summary-style-skill]: Source `my-thread-summary-style-skill` - see frontmatter `sources`.
 [^pre-submission-conversion-skill]: Source `pre-submission-conversion-skill` - see frontmatter `sources`.
-[^onboard-editor-skill]: Source `onboard-editor-skill` - see frontmatter `sources`.
-[^offboard-editor-skill]: Source `offboard-editor-skill` - see frontmatter `sources`.
+[^checklist-onboard-editor-skill]: Source `checklist-onboard-editor-skill` - see frontmatter `sources`.
+[^checklist-offboard-editor-skill]: Source `checklist-offboard-editor-skill` - see frontmatter `sources`.
 [^checklist-editor-skill]: Source `checklist-editor-skill` - see frontmatter `sources`.
 [^checklist-blog-new-editor-skill]: Source `checklist-blog-new-editor-skill` - see frontmatter `sources`.
