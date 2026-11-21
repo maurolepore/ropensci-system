@@ -105,6 +105,8 @@ https://stats-devguide.ropensci.org/pkgsubmission.html#handling-editor-checklist
 
 - mlxx. ...
 
+- mlxx. [Ensure that the package gets tested on multiple platforms](https://devguide.ropensci.org/softwarereview_editor.html#initial-editorial-comments)
+
 - mlxx. Consider mutation testing with [mutator](https://prl-prg.github.io/mutator/) or [autotest](https://docs.ropensci.org/autotest/))
 
 <details>
