@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-cat tools/skills/editor-checklist.md

@@ -43,9 +43,9 @@ sources:
   - id: offboard-editor-skill
     title: tools/skills/offboard-editor.md
     resource: /Users/maurolepore/git/ropensci-system/tools/skills/offboard-editor.md
-  - id: editor-checklist-skill
-    title: tools/skills/editor-checklist.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/editor-checklist.md
+  - id: checklist-editor-skill
+    title: tools/skills/checklist-editor.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/skills/checklist-editor.md
   - id: checklist-blog-new-editor-skill
     title: tools/skills/checklist-blog-new-editor.md
     resource: /Users/maurolepore/git/ropensci-system/tools/skills/checklist-blog-new-editor.md
@@ -89,7 +89,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 
 ## Skills
 
-`tools/skills/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching `tools/bin/ro-learn-<name>` wrapper (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` skill, named after its input format), ready to paste or to feed a prompt to an agent.
+`tools/skills/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching wrapper in `tools/bin/` - `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` skill, named after its input format), except checklist skills, which use `ro-checklist-<name>` (`ro-checklist-editor` and `ro-checklist-blog-new-editor`) - ready to paste or to feed a prompt to an agent.
 
 | Skill | Description |
 | --- | --- |
@@ -98,7 +98,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `pre-submission-conversion`[^pre-submission-conversion-skill] | Populate a pre-submission-inquiry template (EN, ES, or PT) from the raw first comment of a full-submission issue. |
 | `onboard-editor`[^onboard-editor-skill] | Onboarding checklist for a new guest or full editor - the details to collect, the links used at each step, the full-editor and guest-editor setup items (each split into Invite and Confirm sub-tasks), and a hidden TODO block for items to send in one email. |
 | `offboard-editor`[^offboard-editor-skill] | Offboarding checklist for an editor who is leaving, mirroring the dev guide - thank them, tell staff so the newsletter announces the departure, remove them from the "editors-only" channel and the GitHub editors team, edit `team.json`, remove Airtable access and relabel them "Emeritus" there, then check the generated editor lists the next day. |
-| `editor-checklist`[^editor-checklist-skill] | Ready-to-paste editor-checks comment for a submission issue: the required dev-guide checkboxes for the author to address or justify, a request to keep the `mlNN` tag sequence and the branch stable, a note that AI must not write the posted comments, and a hidden TODO block of Mauro's review commands. |
+| `checklist-editor`[^checklist-editor-skill] | Ready-to-paste editor-checks comment for a submission issue: the required dev-guide checkboxes for the author to address or justify, a request to keep the `mlNN` tag sequence and the branch stable, a note that AI must not write the posted comments, and a hidden TODO block of Mauro's review commands. |
 | `checklist-blog-new-editor`[^checklist-blog-new-editor-skill] | Details to collect from a new editor for their welcome blog post - full name and preferred spelling, headshot, links, the date they joined, a bio, and a quote about why they joined; links to the 2024 editors post as an example. |
 
 ## Related
@@ -120,5 +120,5 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^pre-submission-conversion-skill]: Source `pre-submission-conversion-skill` - see frontmatter `sources`.
 [^onboard-editor-skill]: Source `onboard-editor-skill` - see frontmatter `sources`.
 [^offboard-editor-skill]: Source `offboard-editor-skill` - see frontmatter `sources`.
-[^editor-checklist-skill]: Source `editor-checklist-skill` - see frontmatter `sources`.
+[^checklist-editor-skill]: Source `checklist-editor-skill` - see frontmatter `sources`.
 [^checklist-blog-new-editor-skill]: Source `checklist-blog-new-editor-skill` - see frontmatter `sources`.
