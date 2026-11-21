@@ -9,13 +9,13 @@ Once we check all boxes we'll start searching for reviewers. And once we assign 
 <details>
 
 > While your package is under review, please refrain from making any change, apart from hot fixes. Indeed, reviewers should be able to review the latest (best until now) version of your software, and that version should not be changing.
-> -- https://devdevguide.netlify.app/softwarereview_author.html#the-review-process 
+> -- https://devguide.ropensci.org/softwarereview_author.html#the-review-process 
 
 </details>
 
 When you respond to my comments, please preserve the tags and sequence, e.g. ml01, ml02 and so on. This helps track each thread.
 
-You may use AI except for the human-to-human comments you post here. This really helps to keep the conversation human and preserves our community values. If you do use AI please tall us how so we learn from and adapt to our community ([AI policy](https://ropensci.org/blog/2026/02/26/ropensci-ai-policy/)).
+You may use AI except for the human-to-human comments you post here. This really helps to keep the conversation human and preserves our community values. If you do use AI please tell us how so we learn from and adapt to our community ([AI policy](https://ropensci.org/blog/2026/02/26/ropensci-ai-policy/)).
 
 Feel free to ping me for any question you may have.
 
