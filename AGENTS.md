@@ -54,6 +54,7 @@ If a doc truly cannot be updated now, leave `(TODO: needs reconcile — <date>)`
 - **Markdown inside `<org>/<repo>/` clones is out of scope** (`.gitignore`) - native tools are fine there.
 - **OKF rules**: every concept doc needs frontmatter with a non-empty `type` (use `type: Concept`); record provenance in `sources` (with `id`s + `[^id]` footnotes in the body); timestamps are ISO 8601 with explicit UTC offset; standard Markdown links, no wiki-links.
 - **Grounding**: every factual claim cites a source in frontmatter `sources` - prefer paths into the local clones plus the canonical URL. Do not fabricate; mark gaps as `(TODO: needs source)`.
+- **Quoted text must cite its exact source**: when a document quotes text and credits it with a URL (e.g. a blockquote followed by `> -- <url>`), the URL must point to the specific page - and the anchor, where one exists - where that passage appears. Never replace such a citation with a site root, homepage, or "canonical" URL; the reader must be able to follow the link and land on the exact quote. The "canonical URL" in the `sources` rule above is provenance metadata, not a license to widen a quote's attribution.
 - **Secrets**: never record secret values (tokens, keys). Config-var NAMES only, values redacted.
 
 ## Writing style
