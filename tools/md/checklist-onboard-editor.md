@@ -1,9 +1,3 @@
----
-name: Onboarding checklist for a new editor
-about: Onboarding checklist as [guest/full] editor for [name]
-type: PromptTemplate
----
-
 <!-- For discoverability please use the title: "Onboarding checklist as [guest/full] editor for [name] -->
 
 Details of the new editor

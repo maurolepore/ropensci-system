@@ -1,9 +1,3 @@
----
-name: Offboarding checklist for an editor
-about: Offboarding checklist for [name]
-type: PromptTemplate
----
-
 <!-- For discoverability please use the title: "Offboarding checklist for [name]" -->
 
 Details of the departing editor

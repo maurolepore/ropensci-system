@@ -1,7 +1,3 @@
----
-type: PromptTemplate
----
-
 # Mauro's EiC rotation-start summary: how to write the comment
 
 Turn the output of the thread analysis (the `### Current Status` /
