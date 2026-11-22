@@ -6,7 +6,7 @@ type: Skill
 
 Turn the output of the thread analysis (the `### Current Status` /
 `### Summary of Events` / `### Next Steps` format produced by the
-`summarize-thread` skill) into a comment written in Mauro Lepore's
+`summarize-thread` template) into a comment written in Mauro Lepore's
 (GitHub: `@maurolepore`) voice, ready to paste on the rOpenSci
 `ropensci/software-review` GitHub issue. Do not post it: the human
 reviews and pastes.
