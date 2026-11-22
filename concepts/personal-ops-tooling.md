@@ -31,6 +31,9 @@ sources:
   - id: server-check-script
     title: tools/bin/ro-server-check-gh-pat
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-server-check-gh-pat
+  - id: copy-script
+    title: tools/bin/ro-server-copy
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-server-copy
   - id: summarize-thread-template
     title: tools/md/summarize-thread.md
     resource: /Users/maurolepore/git/ropensci-system/tools/md/summarize-thread.md
@@ -98,6 +101,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `ro-project-sync` | script in this repo's `tools/bin/`[^project-sync-script] | Add every open issue and pull request of every repository already represented on the ropensci GitHub Project board (project 12), skipping anything already on the board; ends with a count of the items actually added. `--dry-run` prints the report without mutating. |
 | `ro-server` | alias[^aliases] | SSH into the Digital Ocean droplet that hosts roreviewapi (reviewbot.ropensci.org). |
 | `ro-server-check-gh-pat` | script in this repo's `tools/bin/`[^server-check-script] | Print each expected result and run read-only checks that the GitHub PAT used by the roreviewapi container is valid, belongs to `ropensci-review-bot`, can read the rOpenSci editors team, and can write to `ropensci/software-review` issues and `ropensci-review-tools/roreviewapi` (gh-pages). Run on the droplet from the project directory; nothing is changed. |
+| `ro-server-copy` | script in this repo's `tools/bin/`[^copy-script] | Copy a local file to the roreviewapi droplet with `scp`, preserving mode and timestamps. Usage: `ro-server-copy <file> [server-destination]`; with no destination the file lands in `/tmp/` on the server. |
 | `ro-url-airtable-eic-rotation` | alias[^aliases] | Print the Airtable view URL used for the EiC rotation. |
 
 ## Prompt templates
@@ -131,6 +135,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^alert-script]: Source `alert-script` - see frontmatter `sources`.
 [^jobs-script]: Source `jobs-script` - see frontmatter `sources`.
 [^server-check-script]: Source `server-check-script` - see frontmatter `sources`.
+[^copy-script]: Source `copy-script` - see frontmatter `sources`.
 [^editors-status-script]: Source `editors-status-script` - see frontmatter `sources`.
 [^summarize-thread-template]: Source `summarize-thread-template` - see frontmatter `sources`.
 [^my-thread-summary-style-template]: Source `my-thread-summary-style-template` - see frontmatter `sources`.

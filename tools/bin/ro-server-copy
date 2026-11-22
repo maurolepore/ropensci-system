@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#
+# ro-server-copy - Copy a local file to the roreviewapi droplet.
+# Usage: ro-server-copy <file> [server-destination]
+# The default destination is /tmp/ on the server. Pass a trailing slash for a
+# directory; otherwise scp treats the destination as a file name. Credentials
+# are handled by ssh/scp, which prompt interactively when needed.
+
+set -euo pipefail
+
+# Mirrors the ro-server alias in tools/aliases.zsh; override with RO_SERVER_HOST.
+SERVER="${RO_SERVER_HOST:-mauro@167.99.34.163}"
+
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+    echo "Usage: ro-server-copy <file> [server-destination]" >&2
+    exit 2
+fi
+
+src=$1
+if [ ! -f "$src" ]; then
+    echo "Error: Not a file: $src" >&2
+    exit 1
+fi
+
+dest=${2:-/tmp/}
+printf 'Copying %s to %s:%s\n' "$src" "$SERVER" "$dest"
+scp -p "$src" "$SERVER:$dest"
