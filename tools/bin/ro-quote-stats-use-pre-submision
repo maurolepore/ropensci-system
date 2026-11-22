@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-cat tools/md/quote-stats-use-pre-submision.md
