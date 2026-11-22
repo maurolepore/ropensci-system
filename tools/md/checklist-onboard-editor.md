@@ -52,8 +52,7 @@ Guest editors start here
   - [ ] Invite
   - [ ] Confirm
 
-- [ ] Invite them to the AirTable database of software review (linked in the description of the editors-only channel on Slack).
-  Ensure invitation is "Read only".
+- [ ] Invite them to the [AirTable database of software review](https://airtable.com/app8dssb6a7PG6Vwj/pagDnNgnYqa9VY93y/edit). Ensure invitation is "Read only".
   - [ ] Invite
   - [ ] Confirm
 
