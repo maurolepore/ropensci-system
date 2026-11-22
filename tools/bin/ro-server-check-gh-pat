@@ -26,7 +26,7 @@ expect () {
     printf 'expect: %s\n' "$want"
     got=$("$@" 2>&1) || status=$?
     # Ignore R's "Tracing function ..." startup noise and blank lines.
-    got=$(printf '%s\n' "$got" | grep -v 'Tracing function' | grep -v '^$' | tail -n 1 || true)
+    got=$(printf '%s\n' "$got" | grep -v 'Tracing function' | grep -v '^$' | tail -n 1 | sed 's/[[:space:]]*$//' || true)
     if [ "$status" -eq 0 ] && [ "$got" = "$want" ]; then
         printf 'PASS %s\n' "$label"
         passed=$((passed + 1))
