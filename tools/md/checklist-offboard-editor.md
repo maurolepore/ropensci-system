@@ -1,7 +1,7 @@
 ---
 name: Offboarding checklist for an editor
 about: Offboarding checklist for [name]
-type: Skill
+type: PromptTemplate
 ---
 
 <!-- For discoverability please use the title: "Offboarding checklist for [name]" -->

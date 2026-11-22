@@ -1,5 +1,5 @@
 ---
-type: Skill
+type: PromptTemplate
 ---
 
 I'll give you two templates: full (populated) and pre (empty). Extract

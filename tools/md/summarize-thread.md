@@ -1,5 +1,5 @@
 ---
-type: Skill
+type: PromptTemplate
 ---
 
 ### System & Analysis Instructions

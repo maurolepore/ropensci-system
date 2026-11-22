@@ -1,5 +1,5 @@
 ---
-type: Skill
+type: PromptTemplate
 ---
 
 # Mauro's EiC rotation-start summary: how to write the comment

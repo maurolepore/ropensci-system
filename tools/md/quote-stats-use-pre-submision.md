@@ -1,5 +1,5 @@
 ---
-type: Skill
+type: PromptTemplate
 ---
 
 > All statistical software submissions should begin with a pre-submission enquiry,
