@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cat tools/md/pattern-unstable-repo.md

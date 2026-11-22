@@ -55,6 +55,9 @@ sources:
   - id: pattern-short-history-template
     title: tools/md/pattern-short-history.md
     resource: /Users/maurolepore/git/ropensci-system/tools/md/pattern-short-history.md
+  - id: pattern-unstable-repo-template
+    title: tools/md/pattern-unstable-repo.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/md/pattern-unstable-repo.md
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -95,7 +98,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 
 ## Prompt templates
 
-`tools/md/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching wrapper in `tools/bin/` - `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` template, named after its input format), checklist templates use `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, and `ro-checklist-offboard-editor`), and pattern templates use `ro-pattern-<name>` (`ro-pattern-stats-need-pre-submission`, `ro-pattern-short-history`) - ready to paste or to feed a prompt to an agent.
+`tools/md/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching wrapper in `tools/bin/` - `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` template, named after its input format), checklist templates use `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, and `ro-checklist-offboard-editor`), and pattern templates use `ro-pattern-<name>` (`ro-pattern-stats-need-pre-submission`, `ro-pattern-short-history`, `ro-pattern-unstable-repo`) - ready to paste or to feed a prompt to an agent.
 
 | Template | Description |
 | --- | --- |
@@ -104,6 +107,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `pre-submission-conversion`[^pre-submission-conversion-template] | Populate a pre-submission-inquiry template (EN, ES, or PT) from the raw first comment of a full-submission issue. |
 | `pattern-stats-need-pre-submission`[^pattern-stats-template] | Ready-to-paste quote from the stats dev guide that all statistical software submissions should begin with a pre-submission enquiry, with its source URL; printed by `ro-pattern-stats-need-pre-submission`. |
 | `pattern-short-history`[^pattern-short-history-template] | Ready-to-paste comment for a submission whose repo has a short history: flags instability and the need for a stable branch, links the code-frequency graph, and puts the submission on hold with bot reminders every 3 months up to 1 year; printed by `ro-pattern-short-history`. |
+| `pattern-unstable-repo`[^pattern-unstable-repo-template] | Ready-to-paste quote from the dev guide asking the author to keep the branch unchanged during review apart from hot fixes, so reviewers assess a stable version; printed by `ro-pattern-unstable-repo`. |
 | `checklist-onboard-editor`[^checklist-onboard-editor-template] | Onboarding checklist for a new guest or full editor - the details to collect, the links used at each step, the full-editor and guest-editor setup items (each split into Invite and Confirm sub-tasks), and a hidden TODO block for items to send in one email. |
 | `checklist-offboard-editor`[^checklist-offboard-editor-template] | Offboarding checklist for an editor who is leaving, mirroring the dev guide - thank them, tell staff so the newsletter announces the departure, remove them from the "editors-only" channel and the GitHub editors team, edit `team.json`, remove Airtable access and relabel them "Emeritus" there, then check the generated editor lists the next day. |
 | `checklist-editor`[^checklist-editor-template] | Ready-to-paste editor-checks comment for a submission issue: the required dev-guide checkboxes for the author to address or justify, a request to keep the `mlNN` tag sequence and the branch stable, a note that AI must not write the posted comments, and a hidden TODO block of Mauro's review commands. |
@@ -132,3 +136,4 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^checklist-blog-new-editor-template]: Source `checklist-blog-new-editor-template` - see frontmatter `sources`.
 [^pattern-stats-template]: Source pattern-stats-template - see frontmatter `sources`.
 [^pattern-short-history-template]: Source pattern-short-history-template - see frontmatter `sources`.
+[^pattern-unstable-repo-template]: Source pattern-unstable-repo-template - see frontmatter `sources`.
