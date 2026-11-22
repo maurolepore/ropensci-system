@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cat tools/md/pattern-short-history.md
