@@ -28,12 +28,18 @@ check () {
     fi
 }
 
+# The droplet's login user is not in the docker group; restart.sh is likewise
+# run with sudo. sudo may prompt for the password once.
+compose () {
+    sudo docker compose "$@"
+}
+
 in_container () {
-    docker compose exec -T plumber Rscript -e "$1"
+    compose exec -T plumber Rscript -e "$1"
 }
 
 check 'Containers' 'plumber running (healthy), nginx running' \
-    docker compose ps
+    compose ps
 
 check 'HTTP health' '200' \
     curl -s -o /dev/null -w '%{http_code}\n' https://reviewbot.ropensci.org/mean
