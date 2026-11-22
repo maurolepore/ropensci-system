@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#
+# ro-server-copy-check-gh-pat - Copy the read-only GitHub PAT check to the
+# roreviewapi droplet's /tmp directory.
+# Usage: ro-server-copy-check-gh-pat
+# Credentials are handled by scp, which prompts interactively when needed.
+
+set -euo pipefail
+
+# Mirrors the ro-server alias in tools/aliases.zsh; override with RO_SERVER_HOST.
+SERVER="${RO_SERVER_HOST:-mauro@167.99.34.163}"
+src="$(cd "$(dirname "$0")" && pwd)/ro-server-check-gh-pat"
+
+if [ ! -f "$src" ]; then
+    echo "Error: check script not found: $src" >&2
+    exit 1
+fi
+
+printf 'Copying %s to %s:/tmp/\n' "$src" "$SERVER"
+scp -p "$src" "$SERVER:/tmp/"
