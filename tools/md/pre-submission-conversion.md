@@ -7,11 +7,16 @@ Return markdown escaped in 4 backtics
 your resopnse
 ````
 
-## Full
+IMPORTANT: 
+
+Avoid errors reported in previous runs:
+- The URL and BugReports fields in the DESCRIPTION block had been rendered as Markdown links inside the code block.
+
+# Full
 
 TODO Paste here the raw contents of the first comment
 
-## Pre
+# Pre
 
 TODO Paste here the raw contents of the corresponding language-template:
 - EN:
