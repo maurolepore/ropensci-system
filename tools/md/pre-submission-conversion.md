@@ -7,10 +7,27 @@ Return markdown escaped in 4 backtics
 your resopnse
 ````
 
-IMPORTANT: 
+IMPORTANT: Ensure not to make this error, reported in previous runs: The URL and BugReports fields in the DESCRIPTION block had been rendered as Markdown links inside the code block.
 
-Avoid errors reported in previous runs:
-- The URL and BugReports fields in the DESCRIPTION block had been rendered as Markdown links inside the code block.
+    Good
+    ```
+    URL: https://github.com/diogoprov/lagprotest, https://provetelab.org/lagprotest/
+    ```
+
+    Bad
+    ```
+    URL: [https://github.com/diogoprov/lagprotest](https://github.com/diogoprov/lagprotest), [https://provetelab.org/lagprotest/](https://provetelab.org/lagprotest/)
+
+
+    Good
+    ```
+    BugReports: https://github.com/diogoprov/lagprotest/issues
+    ```
+
+    Bad
+    ```
+    BugReports:[https://github.com/diogoprov/lagprotest/issues](https://github.com/diogoprov/lagprotest/issues)
+    ```
 
 # Full
 
