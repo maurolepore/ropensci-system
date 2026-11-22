@@ -1,63 +1,66 @@
 #!/usr/bin/env bash
-# Read-only checks that the GitHub PAT used by roreviewapi is valid and has the
-# permissions the API needs. Run on the reviewbot droplet, from the project
-# directory (/home/shared/roreviewapi by default, or set
-# ROREVIEWAPI_PROJECT_DIR). Each check prints what to expect, then runs.
-# Nothing is changed; the only side effects are Docker status reads, one GET to
-# the public /mean endpoint, and GitHub API reads.
-set -u
+#
+# ro-server-check-gh-pat - Read-only checks that the GitHub PAT used by
+# roreviewapi is valid and has the permissions the API needs.
+# Run on the droplet: sudo bash /tmp/ro-server-check-gh-pat
+# Each check prints its expectation, runs, and is asserted automatically;
+# the script exits non-zero if any check fails. Nothing is changed: the only
+# side effects are Docker status reads, one GET to the public /mean endpoint,
+# and GitHub API reads.
+set -euo pipefail
 
+# Defaults to the droplet's project directory; override with
+# ROREVIEWAPI_PROJECT_DIR if the compose file lives elsewhere.
 PROJECT_DIR="${ROREVIEWAPI_PROJECT_DIR:-/home/shared/roreviewapi}"
 if [ ! -f docker-compose.yml ] && [ -f "$PROJECT_DIR/docker-compose.yml" ]; then
-    cd "$PROJECT_DIR" || exit 1
+    cd "$PROJECT_DIR"
 fi
 
-fail=0
+passed=0
+failed=0
 
-check () {
-    label=$1
-    expected=$2
+expect () {
+    local label=$1 want=$2 status=0 got
     shift 2
     printf '\n== %s ==\n' "$label"
-    printf 'expect: %s\n' "$expected"
-    "$@"
-    status=$?
-    if [ "$status" -ne 0 ]; then
-        printf 'command failed (exit %s)\n' "$status"
-        fail=1
+    printf 'expect: %s\n' "$want"
+    got=$("$@" 2>&1) || status=$?
+    # Ignore R's "Tracing function ..." startup noise and blank lines.
+    got=$(printf '%s\n' "$got" | grep -v 'Tracing function' | grep -v '^$' | tail -n 1 || true)
+    if [ "$status" -eq 0 ] && [ "$got" = "$want" ]; then
+        printf 'PASS %s\n' "$label"
+        passed=$((passed + 1))
+    else
+        printf 'FAIL %s: got "%s" (command exit %s)\n' "$label" "${got:-<no output>}" "$status"
+        failed=$((failed + 1))
     fi
 }
 
-# The droplet's login user is not in the docker group; restart.sh is likewise
-# run with sudo. sudo may prompt for the password once.
-compose () {
-    sudo docker compose "$@"
+containers () {
+    local ps
+    ps=$(docker compose ps 2>&1 || true)
+    printf '%s\n' "$ps"
+    if printf '%s\n' "$ps" | grep -Eq 'plumber.*\(healthy\)' &&
+       printf '%s\n' "$ps" | grep -Eq 'nginx.*Up'; then
+        echo ok
+    else
+        echo mismatch
+    fi
 }
 
 in_container () {
-    compose exec -T plumber Rscript -e "$1"
+    docker compose exec -T plumber Rscript -e "$1"
 }
 
-check 'Containers' 'plumber running (healthy), nginx running' \
-    compose ps
+expect 'Containers' 'ok' containers
+expect 'HTTP health' '200' curl -s -o /dev/null -w '%{http_code}\n' https://reviewbot.ropensci.org/mean
+expect 'Token in container' 'TRUE' in_container 'cat(nzchar(Sys.getenv("GITHUB_TOKEN")), "\n")'
+expect 'Token owner' 'ropensci-review-bot' in_container 'cat(gh::gh("/user")$login, "\n")'
+expect 'Org team read (editor search)' '1' in_container 'q <- "{organization(login:\"ropensci\"){team(slug:\"editors\"){members(first:1, membership:IMMEDIATE){nodes{login}}}}}"; cat(length(gh::gh_gql(query = q)$data$organization$team$members$nodes), "\n")'
+expect 'Write to software-review issues' 'TRUE' in_container 'cat(gh::gh("/repos/ropensci/software-review")$permissions$push, "\n")'
+expect 'Write to roreviewapi (gh-pages)' 'TRUE' in_container 'cat(gh::gh("/repos/ropensci-review-tools/roreviewapi")$permissions$push, "\n")'
 
-check 'HTTP health' '200' \
-    curl -s -o /dev/null -w '%{http_code}\n' https://reviewbot.ropensci.org/mean
-
-check 'Token in container' 'TRUE' \
-    in_container 'cat(nzchar(Sys.getenv("GITHUB_TOKEN")), "\n")'
-
-check 'Token owner' 'ropensci-review-bot' \
-    in_container 'cat(gh::gh("/user")$login, "\n")'
-
-check 'Org team read (editor search)' '1' \
-    in_container 'q <- "{organization(login:\"ropensci\"){team(slug:\"editors\"){members(first:1, membership:IMMEDIATE){nodes{login}}}}}"; cat(length(gh::gh_gql(query = q)$data$organization$team$members$nodes), "\n")'
-
-check 'Write to software-review issues' 'TRUE' \
-    in_container 'cat(gh::gh("/repos/ropensci/software-review")$permissions$push, "\n")'
-
-check 'Write to roreviewapi (gh-pages)' 'TRUE' \
-    in_container 'cat(gh::gh("/repos/ropensci-review-tools/roreviewapi")$permissions$push, "\n")'
-
-printf '\nDone. Compare each result with its "expect" line; a non-zero exit means a command failed.\n'
-exit "$fail"
+printf '\nResult: %s passed, %s failed.\n' "$passed" "$failed"
+if [ "$failed" -gt 0 ]; then
+    exit 1
+fi
