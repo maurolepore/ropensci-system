@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cat tools/skills/checklist-onboard-editor.md
+cat tools/md/checklist-onboard-editor.md

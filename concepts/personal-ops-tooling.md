@@ -29,29 +29,29 @@ sources:
     title: tools/bin/ro-commits-monthly
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-commits-monthly
   - id: summarize-thread-skill
-    title: tools/skills/summarize-thread.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/summarize-thread.md
+    title: tools/md/summarize-thread.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/md/summarize-thread.md
   - id: pre-submission-conversion-skill
-    title: tools/skills/pre-submission-conversion.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/pre-submission-conversion.md
+    title: tools/md/pre-submission-conversion.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/md/pre-submission-conversion.md
   - id: my-thread-summary-style-skill
-    title: tools/skills/my-thread-summary-style.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/my-thread-summary-style.md
+    title: tools/md/my-thread-summary-style.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/md/my-thread-summary-style.md
   - id: checklist-onboard-editor-skill
-    title: tools/skills/checklist-onboard-editor.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/checklist-onboard-editor.md
+    title: tools/md/checklist-onboard-editor.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/md/checklist-onboard-editor.md
   - id: checklist-offboard-editor-skill
-    title: tools/skills/checklist-offboard-editor.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/checklist-offboard-editor.md
+    title: tools/md/checklist-offboard-editor.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/md/checklist-offboard-editor.md
   - id: checklist-editor-skill
-    title: tools/skills/checklist-editor.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/checklist-editor.md
+    title: tools/md/checklist-editor.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/md/checklist-editor.md
   - id: checklist-blog-new-editor-skill
-    title: tools/skills/checklist-blog-new-editor.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/checklist-blog-new-editor.md
+    title: tools/md/checklist-blog-new-editor.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/md/checklist-blog-new-editor.md
   - id: quote-stats-skill
-    title: tools/skills/quote-stats-use-pre-submision.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/skills/quote-stats-use-pre-submision.md
+    title: tools/md/quote-stats-use-pre-submision.md
+    resource: /Users/maurolepore/git/ropensci-system/tools/md/quote-stats-use-pre-submision.md
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -92,7 +92,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 
 ## Skills
 
-`tools/skills/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching wrapper in `tools/bin/` - `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` skill, named after its input format), checklist skills use `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, and `ro-checklist-offboard-editor`), and quote skills use `ro-quote-<name>` (`ro-quote-stats-use-pre-submision`) - ready to paste or to feed a prompt to an agent.
+`tools/md/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching wrapper in `tools/bin/` - `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` skill, named after its input format), checklist skills use `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, and `ro-checklist-offboard-editor`), and quote skills use `ro-quote-<name>` (`ro-quote-stats-use-pre-submision`) - ready to paste or to feed a prompt to an agent.
 
 | Skill | Description |
 | --- | --- |
