@@ -5,5 +5,5 @@
 - [ ] A bio paragraph(s): your role, background, what you work on.
 - [ ] A quote from you about how you got involved with rOpenSci / why you are excited to join as editor
 
-[Example](https://ropensci.org/blog/2024/07/03/editors2024/))
+[Example](https://ropensci.org/blog/2024/07/03/editors2024/)
 
