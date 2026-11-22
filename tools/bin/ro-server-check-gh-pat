@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Read-only checks that the GitHub PAT used by roreviewapi is valid and has the
+# permissions the API needs. Run on the reviewbot droplet, from the project
+# directory (/home/shared/roreviewapi by default, or set
+# ROREVIEWAPI_PROJECT_DIR). Each check prints what to expect, then runs.
+# Nothing is changed; the only side effects are Docker status reads, one GET to
+# the public /mean endpoint, and GitHub API reads.
+set -u
+
+PROJECT_DIR="${ROREVIEWAPI_PROJECT_DIR:-/home/shared/roreviewapi}"
+if [ ! -f docker-compose.yml ] && [ -f "$PROJECT_DIR/docker-compose.yml" ]; then
+    cd "$PROJECT_DIR" || exit 1
+fi
+
+fail=0
+
+check () {
+    label=$1
+    expected=$2
+    shift 2
+    printf '\n== %s ==\n' "$label"
+    printf 'expect: %s\n' "$expected"
+    "$@"
+    status=$?
+    if [ "$status" -ne 0 ]; then
+        printf 'command failed (exit %s)\n' "$status"
+        fail=1
+    fi
+}
+
+in_container () {
+    docker compose exec -T plumber Rscript -e "$1"
+}
+
+check 'Containers' 'plumber running (healthy), nginx running' \
+    docker compose ps
+
+check 'HTTP health' '200' \
+    curl -s -o /dev/null -w '%{http_code}\n' https://reviewbot.ropensci.org/mean
+
+check 'Token in container' 'TRUE' \
+    in_container 'cat(nzchar(Sys.getenv("GITHUB_TOKEN")), "\n")'
+
+check 'Token owner' 'ropensci-review-bot' \
+    in_container 'cat(gh::gh("/user")$login, "\n")'
+
+check 'Org team read (editor search)' '1' \
+    in_container 'q <- "{organization(login:\"ropensci\"){team(slug:\"editors\"){members(first:1, membership:IMMEDIATE){nodes{login}}}}}"; cat(length(gh::gh_gql(query = q)$data$organization$team$members$nodes), "\n")'
+
+check 'Write to software-review issues' 'TRUE' \
+    in_container 'cat(gh::gh("/repos/ropensci/software-review")$permissions$push, "\n")'
+
+check 'Write to roreviewapi (gh-pages)' 'TRUE' \
+    in_container 'cat(gh::gh("/repos/ropensci-review-tools/roreviewapi")$permissions$push, "\n")'
+
+printf '\nDone. Compare each result with its "expect" line; a non-zero exit means a command failed.\n'
+exit "$fail"

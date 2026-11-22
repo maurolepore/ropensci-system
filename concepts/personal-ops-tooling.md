@@ -28,6 +28,9 @@ sources:
   - id: commits-monthly-script
     title: tools/bin/ro-commits-monthly
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-commits-monthly
+  - id: server-check-script
+    title: tools/bin/ro-server-check-gh-pat
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-server-check-gh-pat
   - id: summarize-thread-template
     title: tools/md/summarize-thread.md
     resource: /Users/maurolepore/git/ropensci-system/tools/md/summarize-thread.md
@@ -94,6 +97,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `ro-project-status` | alias[^aliases] | Show the Status of the items assigned to you in the current iteration - runs `ro-project-query` with the default query `assignee:@me iteration:@current`. |
 | `ro-project-sync` | script in this repo's `tools/bin/`[^project-sync-script] | Add every open issue and pull request of every repository already represented on the ropensci GitHub Project board (project 12), skipping anything already on the board; ends with a count of the items actually added. `--dry-run` prints the report without mutating. |
 | `ro-server` | alias[^aliases] | SSH into the Digital Ocean droplet that hosts roreviewapi (reviewbot.ropensci.org). |
+| `ro-server-check-gh-pat` | script in this repo's `tools/bin/`[^server-check-script] | Print each expected result and run read-only checks that the GitHub PAT used by the roreviewapi container is valid, belongs to `ropensci-review-bot`, can read the rOpenSci editors team, and can write to `ropensci/software-review` issues and `ropensci-review-tools/roreviewapi` (gh-pages). Run on the droplet from the project directory; nothing is changed. |
 | `ro-url-airtable-eic-rotation` | alias[^aliases] | Print the Airtable view URL used for the EiC rotation. |
 
 ## Prompt templates
@@ -126,6 +130,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^project-sync-script]: Source `project-sync-script` - see frontmatter `sources`.
 [^alert-script]: Source `alert-script` - see frontmatter `sources`.
 [^jobs-script]: Source `jobs-script` - see frontmatter `sources`.
+[^server-check-script]: Source `server-check-script` - see frontmatter `sources`.
 [^editors-status-script]: Source `editors-status-script` - see frontmatter `sources`.
 [^summarize-thread-template]: Source `summarize-thread-template` - see frontmatter `sources`.
 [^my-thread-summary-style-template]: Source `my-thread-summary-style-template` - see frontmatter `sources`.
