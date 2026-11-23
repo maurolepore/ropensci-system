@@ -54,11 +54,14 @@ Guest editors start here
 
 - [ ] Invite them to the private "editors-only" channel in rOpenSci's Slack workspace (and to the Slack workspace in general if they're not yet there).
 
-Meet or chat with at least one [staff member of the software peer-review project](https://ropensci.org/software-review/) acting as an onboarding mentor: 
+- [ ] Before handling the first submission, meet or chat with at least one [staff member of the software peer-review project](https://ropensci.org/software-review/) acting as an onboarding mentor, for personal connection and questions
 
-- [ ] Before handling the first submission for personal connection and questions
-- [ ] After handling the first submission for a retrospective and to discuss interest in becoming a full editor
+- [ ] After handling the first submission, meet or chat with at least one [staff member of the software peer-review project](https://ropensci.org/software-review/) acting as an onboarding mentor, for a retrospective and to discuss need/interest in joining as full editor:
   - What went well?
   - What didn't go so well?
   - How can we improve?
+
+- Joins as full editor?
+  - [ ] Yes: Use the checklist for full editors.
+  - [ ] No: Thank them for their work in the next news letter. 
 
