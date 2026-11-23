@@ -1,7 +1,7 @@
 - [ ] On GitHub switch to ropensci-review-bot
 - [ ] Create a new PAT: https://github.com/settings/tokens/new
   - note: yyyy-mm-dd-for-env-in-digitalocean-ropensci-roreviewapi2
-  - scopes: repo, read:org
+  - scopes: TODO check the PAT you're about to revoke
   - expire: 90 days
 - [ ] Login to the server
 - [ ] Copy the script to test the PAT
@@ -36,7 +36,8 @@
 - [ ] Save the updated .env in a password manager
 - [ ] Notify in #review-infra: https://ropensci.slack.com/archives/C0CAN1WUSQ0
   ```
-  New GITHUB_PAT in /home/shared/roreviewapi/.env
-  yyyy-mm-dd-for-env-in-digitalocean-ropensci-roreviewapi2
-  Expires on yyyy-mm-dd  
+  New GITHUB_PAT in the server ropensci roreviewapi2 at /home/shared/roreviewapi/.env
+  TODO paste the info from https://github.com/settings/tokens, e.g.
+  for-env-in-digitalocean-ropensci-roreviewapi2 — read:org, repo
+  Expires on Sat, Feb 20 2027.
   ```
