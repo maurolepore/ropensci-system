@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#
+# ro-server-pull-env-to-tmp - Download the roreviewapi .env from the droplet
+# to a dated file in /tmp, without displaying its contents.
+#
+# Usage: ro-server-pull-env-to-tmp
+#
+# Read-only on the server: scp only downloads bytes, and nothing is executed
+# or printed remotely. The local file is created with mode 0600; an existing
+# destination is never overwritten, and a failed transfer leaves no partial
+# file behind.
+#
+# Overrides (environment):
+#   RO_SERVER_HOST               ssh destination (default: mauro@167.99.34.163)
+#   RO_SERVER_ENV_PATH           remote file    (default: /home/shared/roreviewapi/.env)
+#   RO_SERVER_ENV_DATE_FORMAT    date +FORMAT   (default: %Y-%d-%m, i.e. yyyy-dd-mm)
+#                                Set to %Y-%m-%d for ISO yyyy-mm-dd.
+
+set -euo pipefail
+umask 077
+
+SERVER="${RO_SERVER_HOST:-mauro@167.99.34.163}"
+src="${RO_SERVER_ENV_PATH:-/home/shared/roreviewapi/.env}"
+date_format="${RO_SERVER_ENV_DATE_FORMAT:-%Y-%d-%m}"
+dest="/tmp/$(date "+$date_format").env"
+
+if [ -e "$dest" ]; then
+    echo "Error: refusing to overwrite existing file: $dest" >&2
+    exit 1
+fi
+
+cleanup () {
+    [ -f "$dest" ] && rm -f -- "$dest"
+}
+trap cleanup EXIT
+
+printf 'Downloading %s:%s to %s\n' "$SERVER" "$src" "$dest"
+scp -q "$SERVER:$src" "$dest"
+chmod 600 "$dest"
+trap - EXIT
+printf 'Saved to %s\n' "$dest"

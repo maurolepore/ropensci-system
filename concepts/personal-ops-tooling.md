@@ -37,6 +37,9 @@ sources:
   - id: copy-check-script
     title: tools/bin/ro-server-copy-check-gh-pat
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-server-copy-check-gh-pat
+  - id: pull-env-script
+    title: tools/bin/ro-server-pull-env-to-tmp
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-server-pull-env-to-tmp
   - id: summarize-thread-template
     title: tools/md/summarize-thread.md
     resource: /Users/maurolepore/git/ropensci-system/tools/md/summarize-thread.md
@@ -112,6 +115,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `ro-server-check-gh-pat` | script in this repo's `tools/bin/`[^server-check-script] | Print each expected result, run it, and assert PASS/FAIL for read-only checks that the GitHub PAT used by the roreviewapi container is valid, belongs to `ropensci-review-bot`, can read the rOpenSci editors team, and can write to `ropensci/software-review` issues and `ropensci-review-tools/roreviewapi` (gh-pages). Run on the droplet with `sudo bash /tmp/ro-server-check-gh-pat` from the project directory; exits non-zero if any check fails, and changes nothing. |
 | `ro-server-copy` | script in this repo's `tools/bin/`[^copy-script] | Copy a local file to the roreviewapi droplet with `scp`, preserving mode and timestamps. Usage: `ro-server-copy <file> [server-destination]`; with no destination the file lands in `/tmp/` on the server. |
 | `ro-server-copy-check-gh-pat` | script in this repo's `tools/bin/`[^copy-check-script] | Copy `ro-server-check-gh-pat` from this repo's `tools/bin/` to `/tmp/` on the roreviewapi droplet, preserving its executable mode. Takes no arguments. |
+| `ro-server-pull-env-to-tmp` | script in this repo's `tools/bin/`[^pull-env-script] | Download the roreviewapi `.env` from the droplet to a dated file in local `/tmp/` with `scp` (read-only on the server; contents are never printed). Creates the file with mode 0600, refuses to overwrite an existing destination, and removes partial files on failure. Takes no arguments; `RO_SERVER_ENV_DATE_FORMAT` defaults to `%Y-%d-%m` (set to `%Y-%m-%d` for ISO). |
 | `ro-url-airtable-eic-rotation` | alias[^aliases] | Print the Airtable view URL used for the EiC rotation. |
 
 ## Prompt templates
@@ -149,6 +153,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^server-check-script]: Source `server-check-script` - see frontmatter `sources`.
 [^copy-script]: Source `copy-script` - see frontmatter `sources`.
 [^copy-check-script]: Source `copy-check-script` - see frontmatter `sources`.
+[^pull-env-script]: Source `pull-env-script` - see frontmatter `sources`.
 [^editors-status-script]: Source `editors-status-script` - see frontmatter `sources`.
 [^summarize-thread-template]: Source `summarize-thread-template` - see frontmatter `sources`.
 [^my-thread-summary-style-template]: Source `my-thread-summary-style-template` - see frontmatter `sources`.
