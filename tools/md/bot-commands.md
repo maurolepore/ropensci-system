@@ -1,0 +1,61 @@
+
+# Add a review's info to the ROpenSci logs
+@ropensci-review-bot submit review <REVIEW_URL> time <REVIEW_HOURS(ex. 10.5)>
+
+# List all available commands
+@ropensci-review-bot help
+
+# Show our Code of Conduct
+@ropensci-review-bot code of conduct
+
+# Checks peer-review badge is in README.md
+@ropensci-review-bot check readme
+
+# Switch to 'seeking reviewers'
+@ropensci-review-bot seeking reviewers
+
+# Approves a package. This command will close the issue.
+@ropensci-review-bot approve package-name
+
+# Invite the author of a package to the corresponding rOpenSci team. This command should be issued by the author of the package.
+@ropensci-review-bot invite me to ropensci/package-name
+
+# Adds package's repo to the rOpenSci team. This command should be issued after approval and transfer of the package.
+@ropensci-review-bot finalize transfer of package-name
+
+# Mint package as [bronze/silver/gold]
+@ropensci-review-bot mint silver
+
+# Add a user to this issue's reviewers list
+@ropensci-review-bot assign xxxxx as reviewer
+
+# Remove a user from the reviewers list
+@ropensci-review-bot remove xxxxx from reviewers
+
+# Assign a user as the editor of this submission
+@ropensci-review-bot assign @username as editor
+
+# Put the submission on hold for the next 90 days
+@ropensci-review-bot put on hold
+
+# Remove the editor assigned to this submission
+@ropensci-review-bot remove editor
+
+# Change or add a review's due date for a reviewer
+@ropensci-review-bot set due date for @reviewer to YYYY-MM-DD
+
+# Close the issue
+@ropensci-review-bot out of scope
+
+# Various package checks
+@ropensci-review-bot check package
+
+# List similar packages from rOpenSci and CRAN
+@ropensci-review-bot similar packages
+
+# Checks srr documentation for stats packages
+@ropensci-review-bot check srr
+
+# Send emails to editorial board requesting volunteers
+@ropensci-review-bot ping editors
+
