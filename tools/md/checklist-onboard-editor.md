@@ -27,15 +27,7 @@ end of hidden block -->
 
 ----
 
-Full editors start here
-
-- [ ] Add to ["team.json" file of website](https://github.com/ropensci/roweb3/blob/main/data/team/team.json) with `"editor": true`, and also `"stats": true` for stats editors. That will automatically add new editors to the editorial team shown on the [rOpenSci website](https://ropensci.org/software-review/).
-
-- [ ] Inform rOpenSci community manager so that an introductory blog post can be put together.
-
-- [ ] Update the "editor" field in the Airtable ["reviewers-prod" table](https://airtable.com/app8dssb6a7PG6Vwj/tblIBMYXKsF4DwhEW) (this is used to identify and list current editors within this _Dev Guide_) {to Editor}
-
-Guest editors start here
+## Joins as guest editor
 
 - [ ] [Two-factor authentication (2FA) for GitHub](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa).
   - [ ] Request
@@ -61,7 +53,13 @@ Guest editors start here
   - What didn't go so well?
   - How can we improve?
 
-- Joins as full editor?
-  - [ ] Yes: Use the checklist for full editors.
-  - [ ] No: Thank them for their work in the next news letter. 
+- [ ] Thank them for their work in the next news letter. 
+
+## Joins as full editor
+
+- [ ] Add to ["team.json" file of website](https://github.com/ropensci/roweb3/blob/main/data/team/team.json) with `"editor": true`, and also `"stats": true` for stats editors. That will automatically add new editors to the editorial team shown on the [rOpenSci website](https://ropensci.org/software-review/).
+
+- [ ] Inform rOpenSci community manager so that an introductory blog post can be put together.
+
+- [ ] Update the "editor" field in the Airtable ["reviewers-prod" table](https://airtable.com/app8dssb6a7PG6Vwj/tblIBMYXKsF4DwhEW) (this is used to identify and list current editors within this _Dev Guide_) {to Editor}
 
