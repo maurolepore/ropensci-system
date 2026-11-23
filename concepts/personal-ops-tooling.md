@@ -70,6 +70,9 @@ sources:
   - id: pattern-unstable-repo-template
     title: tools/md/pattern-unstable-repo.md
     resource: /Users/maurolepore/git/ropensci-system/tools/md/pattern-unstable-repo.md
+  - id: learn-checklist-for-any-role-template
+    title: tools/md/learn-checklist-for-any-role
+    resource: /Users/maurolepore/git/ropensci-system/tools/md/learn-checklist-for-any-role
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -113,7 +116,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 
 ## Prompt templates
 
-`tools/md/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching wrapper in `tools/bin/` - `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` template, named after its input format), checklist templates use `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, `ro-checklist-offboard-editor`, and `ro-checklist-rotate-gh-pat-in-server`), and pattern templates use `ro-pattern-<name>` (`ro-pattern-stats-need-pre-submission`, `ro-pattern-short-history`, `ro-pattern-unstable-repo`) - ready to paste or to feed a prompt to an agent.
+`tools/md/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching wrapper in `tools/bin/` - `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` template, named after its input format, and `ro-learn-checklist-for-any-role`), checklist templates use `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, `ro-checklist-offboard-editor`, and `ro-checklist-rotate-gh-pat-in-server`), and pattern templates use `ro-pattern-<name>` (`ro-pattern-stats-need-pre-submission`, `ro-pattern-short-history`, `ro-pattern-unstable-repo`) - ready to paste or to feed a prompt to an agent.
 
 | Template | Description |
 | --- | --- |
@@ -128,6 +131,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `checklist-editor`[^checklist-editor-template] | Ready-to-paste editor-checks comment for a submission issue: the required dev-guide checkboxes for the author to address or justify, a request to keep the `mlNN` tag sequence and the branch stable, a note that AI must not write the posted comments, and a hidden TODO block of Mauro's review commands. |
 | `checklist-blog-new-editor`[^checklist-blog-new-editor-template] | Details to collect from a new editor for their welcome blog post - full name and preferred spelling, headshot, links, the date they joined, a bio, and a quote about why they joined; links to the 2024 editors post as an example. |
 | `checklist-rotate-gh-pat-in-server`[^checklist-rotate-gh-pat-in-server-template] | Checklist for rotating the GitHub PAT used in the roreviewapi server's `.env` - create and test a new token, update the `.env` and restart the service, notify staff, and revoke the old token; printed by `ro-checklist-rotate-gh-pat-in-server`. |
+| `learn-checklist-for-any-role`[^learn-checklist-for-any-role-template] | Prompt for a terse, action-oriented workflow checklist for any rOpenSci role based strictly on one dev-guide URL - required R and bot commands, deadlines, and direct links in sequence, optional background and style nits in a separate tail section, output escaped for pasting into a GitHub issue; printed by `ro-learn-checklist-for-any-role`. |
 
 ## Related
 
@@ -157,3 +161,4 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^pattern-stats-template]: Source pattern-stats-template - see frontmatter `sources`.
 [^pattern-short-history-template]: Source pattern-short-history-template - see frontmatter `sources`.
 [^pattern-unstable-repo-template]: Source pattern-unstable-repo-template - see frontmatter `sources`.
+[^learn-checklist-for-any-role-template]: Source learn-checklist-for-any-role-template - see frontmatter `sources`.
