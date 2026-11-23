@@ -1,7 +1,7 @@
 - [ ] On GitHub switch to ropensci-review-bot
 - [ ] Create a new PAT: https://github.com/settings/tokens/new
   - note: yyyy-mm-dd-for-env-in-digitalocean-ropensci-roreviewapi2
-  - scopes: `repo` (classic PAT) -- covers public-repo writes and the org team read needed by editor search; `public_repo` alone is not sufficient (alternatively `public_repo` + `read:org`)
+  - scopes: `public_repo` + `read:org` (classic PAT) -- least privilege for public-repo writes, issue writes, and the org team read used by `ping editors`; `public_repo` alone is not sufficient
   - expire: 90 days
 - [ ] Login to the server
 - [ ] Copy the script to test the PAT
@@ -37,5 +37,7 @@
 - [ ] Notify in #review-infra: https://ropensci.slack.com/archives/C0CAN1WUSQ0
   ```
   New GITHUB_PAT in the server ropensci roreviewapi2 at /home/shared/roreviewapi/.env
-  TODO paste the info from https://github.com/settings/tokens
+  TODO paste the info from https://github.com/settings/tokens, e.g.
+  for-env-in-digitalocean-ropensci-roreviewapi2 — public_repo, read:org
+  Expires on Sat, Feb 20 2027.
   ```
