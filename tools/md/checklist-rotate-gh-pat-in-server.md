@@ -37,7 +37,5 @@
 - [ ] Notify in #review-infra: https://ropensci.slack.com/archives/C0CAN1WUSQ0
   ```
   New GITHUB_PAT in the server ropensci roreviewapi2 at /home/shared/roreviewapi/.env
-  TODO paste the info from https://github.com/settings/tokens, e.g.
-  for-env-in-digitalocean-ropensci-roreviewapi2 — repo
-  Expires on Sat, Feb 20 2027.
+  TODO paste the info from https://github.com/settings/tokens
   ```
