@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# ro-new - Scaffold a new ro-* command in tools/bin.
+# Usage: ro-new <command-name>
+# Creates tools/bin/ro-<command-name>, executable, with an empty quoted heredoc
+# ready to fill. Refuses invalid names and existing files.
+
+set -euo pipefail
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: ro-new <command-name>" >&2
+    exit 2
+fi
+
+name=$1
+if ! printf '%s' "$name" | grep -Eq '^[a-z0-9]+(-[a-z0-9]+)*$'; then
+    echo "Error: Invalid command name: $name (use lowercase letters, digits, and hyphens)" >&2
+    exit 2
+fi
+
+bin_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+target="$bin_dir/ro-$name"
+
+if [ -e "$target" ]; then
+    echo "Error: Already exists: $target" >&2
+    exit 1
+fi
+
+cat > "$target" <<'RO_NEW_EOF'
+#!/usr/bin/env bash
+
+cat <<'RO_TEMPLATE_EOF'
+RO_TEMPLATE_EOF
+RO_NEW_EOF
+
+chmod +x "$target"
+printf 'Created %s\n' "$target"
