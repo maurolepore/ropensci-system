@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-cat tools/md/pattern-unstable-repo.md
+cat <<'RO_TEMPLATE_EOF'
+> While your package is under review, please refrain from making any change, apart from hot fixes. Indeed, reviewers should be able to review the latest (best until now) version of your software, and that version should not be changing.
+> -- https://devguide.ropensci.org/softwarereview_author.html#the-review-process
+
+RO_TEMPLATE_EOF

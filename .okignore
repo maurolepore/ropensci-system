@@ -7,7 +7,6 @@
 /ropensci-review-tools/
 /ropenscilabs/
 
-# Personal shell tooling and its prompt templates: cat'ed verbatim by the
-# ro-* wrappers, so frontmatter leaks into the printed prompt. OK's frontmatter
-# requirement does not apply to them.
+# Personal shell tooling: ro-* scripts embed their prompt text as heredocs.
+# Not curated KB content, so OK's frontmatter requirement does not apply.
 /tools/

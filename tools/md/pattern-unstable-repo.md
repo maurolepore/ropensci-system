@@ -1,3 +1,0 @@
-> While your package is under review, please refrain from making any change, apart from hot fixes. Indeed, reviewers should be able to review the latest (best until now) version of your software, and that version should not be changing.
-> -- https://devguide.ropensci.org/softwarereview_author.html#the-review-process
-

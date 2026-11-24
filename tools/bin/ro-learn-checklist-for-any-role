@@ -1,3 +1,25 @@
 #!/usr/bin/env bash
 
-cat tools/md/learn-checklist-for-any-role
+cat <<'RO_TEMPLATE_EOF'
+As a new rOpenSci <FIXME add your role> I would like  to have a terse, action-oriented checklist of  my expected workflow based strictly on this guide:
+
+< TODO paste URL>
+
+Include required R and [bot commands](https://devguide.ropensci.org/bot_cheatsheet.html) I should run during the process (e.g. `@ropensci-review-bot check package`), deadlines, and direct links to templates and guides. 
+
+List the items in the best order to tackle each one in sequence.
+
+Optional guidelines or tools, background context, and minor style nits must be excluded from the main checklist—list those separately at the very bottom as brief pointers for me to look up later.
+
+Keep it minimal, mostly packed with commands I can copy-paste-run and links I can click if I want to learn more. Example:
+  Section 
+
+  - [ ] [Item](url)
+    ```{lang}
+    code i can copy-paste
+    ```
+
+Output the checklist in markdown format, escaped with enough backtics so I can just copy your output and paste it in a GitHub issue or gist.
+
+Review it, score it, fix it, and iterate until satisfied. Report how many times you iterated to get a 100% score.
+RO_TEMPLATE_EOF

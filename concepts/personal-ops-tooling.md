@@ -4,6 +4,9 @@ sources:
   - id: aliases
     title: tools/aliases.zsh (this repo)
     resource: /Users/maurolepore/git/ropensci-system/tools/aliases.zsh
+  - id: bot-commands-script
+    title: tools/bin/ro-bot-commands
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-bot-commands
   - id: zshrc
     title: dotfiles zshrc (PATH + sourcing)
     resource: /Users/maurolepore/git/dotfiles/zshrc
@@ -41,41 +44,41 @@ sources:
     title: tools/bin/ro-server-pull-env-to-tmp
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-server-pull-env-to-tmp
   - id: summarize-thread-template
-    title: tools/md/summarize-thread.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/summarize-thread.md
+    title: tools/bin/ro-learn-summarize-thread
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-learn-summarize-thread
   - id: pre-submission-conversion-template
-    title: tools/md/pre-submission-conversion.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/pre-submission-conversion.md
+    title: tools/bin/ro-learn-full-to-pre-submission-conversion
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-learn-full-to-pre-submission-conversion
   - id: my-thread-summary-style-template
-    title: tools/md/my-thread-summary-style.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/my-thread-summary-style.md
+    title: tools/bin/ro-learn-my-thread-summary-style
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-learn-my-thread-summary-style
   - id: checklist-onboard-editor-template
-    title: tools/md/checklist-onboard-editor.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/checklist-onboard-editor.md
+    title: tools/bin/ro-checklist-onboard-editor
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-checklist-onboard-editor
   - id: checklist-offboard-editor-template
-    title: tools/md/checklist-offboard-editor.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/checklist-offboard-editor.md
+    title: tools/bin/ro-checklist-offboard-editor
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-checklist-offboard-editor
   - id: checklist-editor-template
-    title: tools/md/checklist-editor.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/checklist-editor.md
+    title: tools/bin/ro-checklist-editor
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-checklist-editor
   - id: checklist-blog-new-editor-template
-    title: tools/md/checklist-blog-new-editor.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/checklist-blog-new-editor.md
+    title: tools/bin/ro-checklist-blog-new-editor
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-checklist-blog-new-editor
   - id: checklist-rotate-gh-pat-in-server-template
-    title: tools/md/checklist-rotate-gh-pat-in-server.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/checklist-rotate-gh-pat-in-server.md
+    title: tools/bin/ro-checklist-rotate-gh-pat-in-server
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-checklist-rotate-gh-pat-in-server
   - id: pattern-stats-template
-    title: tools/md/pattern-stats-need-pre-submission.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/pattern-stats-need-pre-submission.md
+    title: tools/bin/ro-pattern-stats-need-pre-submission
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-stats-need-pre-submission
   - id: pattern-short-history-template
-    title: tools/md/pattern-short-history.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/pattern-short-history.md
+    title: tools/bin/ro-pattern-short-history
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-short-history
   - id: pattern-unstable-repo-template
-    title: tools/md/pattern-unstable-repo.md
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/pattern-unstable-repo.md
+    title: tools/bin/ro-pattern-unstable-repo
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-unstable-repo
   - id: learn-checklist-for-any-role-template
-    title: tools/md/learn-checklist-for-any-role
-    resource: /Users/maurolepore/git/ropensci-system/tools/md/learn-checklist-for-any-role
+    title: tools/bin/ro-learn-checklist-for-any-role
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-learn-checklist-for-any-role
 title: Personal ops tooling (ro-*)
 status: draft
 tags:
@@ -97,6 +100,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | Tool | Type | Description |
 | --- | --- | --- |
 | `ro-bot-alert-if-down` | script in the owner's `~/git/bin/`, outside this repo[^alert-script] | Health-check the review API. The [roreviewapi](./roreviewapi.md) plumber API has no route at `/`, so a healthy server answers HTTP 404 at the root; the script treats `404` as UP and anything else as down. |
+| `ro-bot-commands` | script in this repo's `tools/bin/`[^bot-commands-script] | Print the list of `@ropensci-review-bot` chat-ops commands with a one-line description of each. |
 | `ro-bot-releases` | alias[^aliases] | List the [buffy](./buffy.md) Heroku app's releases, newest first - check when buffy last deployed. |
 | `ro-commits-monthly` | script in this repo's `tools/bin/`[^commits-monthly-script] | Print a text histogram of the Git commit count per month for the current Git repository, including zero-commit months; `--commits-per-dot NUM` (or a positional `NUM`) marks one dot per NUM commits (default 1). |
 | `ro-editors-status` | script in this repo's `tools/bin/`[^editors-status-script] | List the members of the ropensci reviewtools Slack channel with their Slack status, alphabetized; `--unavailable` shows only members whose Slack status is `unavailable`. Reads the `SLACK_TOKEN` environment variable. |
@@ -120,7 +124,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 
 ## Prompt templates
 
-`tools/md/` holds prompt templates, one markdown file per prompt, each printed to stdout by the matching wrapper in `tools/bin/` - `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` template, named after its input format, and `ro-learn-checklist-for-any-role`), checklist templates use `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, `ro-checklist-offboard-editor`, and `ro-checklist-rotate-gh-pat-in-server`), and pattern templates use `ro-pattern-<name>` (`ro-pattern-stats-need-pre-submission`, `ro-pattern-short-history`, `ro-pattern-unstable-repo`) - ready to paste or to feed a prompt to an agent.
+Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and prints it to stdout, so it works from any directory with no separate template file to keep in sync. Naming follows `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` text, named after its input format, and `ro-learn-checklist-for-any-role`), `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, `ro-checklist-offboard-editor`, and `ro-checklist-rotate-gh-pat-in-server`), and `ro-pattern-<name>` (`ro-pattern-stats-need-pre-submission`, `ro-pattern-short-history`, `ro-pattern-unstable-repo`) - ready to paste or to feed a prompt to an agent.
 
 | Template | Description |
 | --- | --- |
@@ -167,3 +171,4 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 [^pattern-short-history-template]: Source pattern-short-history-template - see frontmatter `sources`.
 [^pattern-unstable-repo-template]: Source pattern-unstable-repo-template - see frontmatter `sources`.
 [^learn-checklist-for-any-role-template]: Source learn-checklist-for-any-role-template - see frontmatter `sources`.
+[^bot-commands-script]: Source `bot-commands-script` - see frontmatter `sources`.
