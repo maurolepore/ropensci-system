@@ -29,8 +29,8 @@ sources:
     title: tools/bin/ro-editors-status
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-editors-status
   - id: editors-active-script
-    title: tools/bin/ro-ro-editors-active
-    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-ro-editors-active
+    title: tools/bin/ro-editors-active
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-editors-active
   - id: commits-monthly-script
     title: tools/bin/ro-commits-monthly
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-commits-monthly
@@ -122,7 +122,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `ro-project-query` | alias[^aliases] | List the ropensci GitHub Project (project 12) items matching a filter query, e.g. `ro-project-query "assignee:@me is:issue"`. |
 | `ro-project-status` | alias[^aliases] | Show the Status of the items assigned to you in the current iteration - runs `ro-project-query` with the default query `assignee:@me iteration:@current`. |
 | `ro-project-sync` | script in this repo's `tools/bin/`[^project-sync-script] | Add every open issue and pull request of every repository already represented on the ropensci GitHub Project board (project 12), skipping anything already on the board; ends with a count of the items actually added. `--dry-run` prints the report without mutating. |
-| `ro-ro-editors-active` | script in this repo's `tools/bin/`[^editors-active-script] | Print an aligned terminal table of active editors from the Airtable editors view, excluding Emeritus and On Leave, with columns `github`, `editor`, `other_langs`, `email`, `comfort_other_langs`; reads `AIRTABLE_API_KEY` from this repo's `.env`. |
+| `ro-editors-active` | script in this repo's `tools/bin/`[^editors-active-script] | Print an aligned terminal table of active editors from the Airtable editors view, excluding Emeritus and On Leave, with columns `github`, `editor`, `other_langs`, `email`, `comfort_other_langs`; reads `AIRTABLE_API_KEY` from this repo's `.env`. |
 | `ro-server` | alias[^aliases] | SSH into the Digital Ocean droplet that hosts roreviewapi (reviewbot.ropensci.org). |
 | `ro-server-check-gh-pat` | script in this repo's `tools/bin/`[^server-check-script] | Print each expected result, run it, and assert PASS/FAIL for read-only checks that the GitHub PAT used by the roreviewapi container is valid, belongs to `ropensci-review-bot`, can read the rOpenSci editors team, and can write to `ropensci/software-review` issues and `ropensci-review-tools/roreviewapi` (gh-pages). Run on the droplet with `sudo bash /tmp/ro-server-check-gh-pat` from the project directory; exits non-zero if any check fails, and changes nothing. |
 | `ro-server-copy` | script in this repo's `tools/bin/`[^copy-script] | Copy a local file to the roreviewapi droplet with `scp`, preserving mode and timestamps. Usage: `ro-server-copy <file> [server-destination]`; with no destination the file lands in `/tmp/` on the server. |
@@ -132,7 +132,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 
 ## Prompt templates
 
-Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and prints it to stdout, so it works from any directory with no separate template file to keep in sync. Naming follows `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` text, named after its input format, and `ro-learn-checklist-for-any-role`), `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, `ro-checklist-offboard-editor`, and `ro-checklist-rotate-gh-pat-in-server`), and `ro-pattern-<name>` (`ro-pattern-stats-need-pre-submission`, `ro-pattern-short-history`, `ro-pattern-unstable-repo`) - ready to paste or to feed a prompt to an agent.
+Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and prints it to stdout, so it works from any directory with no separate template file to keep in sync. Naming follows `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` text, named after its input format, and `ro-learn-checklist-for-any-role`), `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, `ro-checklist-offboard-editor`, and `ro-checklist-rotate-gh-pat-in-server`), and `ro-pattern-<name>` (`ro-pattern-stats-need-pre-submission`, `ro-pattern-short-history`, `ro-pattern-unstable-repo`, `ro-pattern-large-backlog`, `ro-pattern-large-repo`, `ro-pattern-see-goodpractice`, `ro-pattern-use-pkgdown-github-pages`) - ready to paste or to feed a prompt to an agent.
 
 | Template | Description |
 | --- | --- |
@@ -142,6 +142,10 @@ Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and print
 | `pattern-stats-need-pre-submission`[^pattern-stats-template] | Ready-to-paste quote from the stats dev guide that all statistical software submissions should begin with a pre-submission enquiry, with its source URL; printed by `ro-pattern-stats-need-pre-submission`. |
 | `pattern-short-history`[^pattern-short-history-template] | Ready-to-paste comment for a submission whose repo has a short history: flags instability and the need for a stable branch, links the code-frequency graph, and puts the submission on hold with bot reminders every 3 months up to 1 year; printed by `ro-pattern-short-history`. |
 | `pattern-unstable-repo`[^pattern-unstable-repo-template] | Ready-to-paste quote from the dev guide asking the author to keep the branch unchanged during review apart from hot fixes, so reviewers assess a stable version; printed by `ro-pattern-unstable-repo`. |
+| `pattern-large-backlog`[^pattern-large-backlog-template] | Ready-to-paste note that finding an available editor may take a while because of a large backlog; printed by `ro-pattern-large-backlog`. |
+| `pattern-large-repo`[^pattern-large-repo-template] | Ready-to-paste note asking the author to remove large, unnecessary files from the `.git` history, pointing to `git-filter-repo` as recommended by `git filter-branch --help`; printed by `ro-pattern-large-repo`. |
+| `pattern-see-goodpractice`[^pattern-see-goodpractice-template] | Ready-to-paste comment directing the author to the details, particularly the recommendations in the "goodpractice" section; printed by `ro-pattern-see-goodpractice`. |
+| `pattern-use-pkgdown-github-pages`[^pattern-use-pkgdown-github-pages-template] | Ready-to-paste note that a pkgdown site is already present in the branch, linking to `usethis::use_pkgdown_github_pages()` for publishing it to the `gh-pages` branch; printed by `ro-pattern-use-pkgdown-github-pages`. |
 | `checklist-onboard-editor`[^checklist-onboard-editor-template] | Onboarding checklist for a new guest or full editor - the details to collect, the links used at each step, the full-editor and guest-editor setup items (each split into Invite and Confirm sub-tasks), and a hidden TODO block for items to send in one email. |
 | `checklist-offboard-editor`[^checklist-offboard-editor-template] | Offboarding checklist for an editor who is leaving, mirroring the dev guide - thank them, tell staff so the newsletter announces the departure, remove them from the "editors-only" channel and the GitHub editors team, edit `team.json`, remove Airtable access and relabel them "Emeritus" there, then check the generated editor lists the next day. |
 | `checklist-editor`[^checklist-editor-template] | Ready-to-paste editor-checks comment for a submission issue: the required dev-guide checkboxes for the author to address or justify, a request to keep the `mlNN` tag sequence and the branch stable, a note that AI must not write the posted comments, and a hidden TODO block of Mauro's review commands. |
@@ -179,6 +183,10 @@ Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and print
 [^pattern-stats-template]: Source pattern-stats-template - see frontmatter `sources`.
 [^pattern-short-history-template]: Source pattern-short-history-template - see frontmatter `sources`.
 [^pattern-unstable-repo-template]: Source pattern-unstable-repo-template - see frontmatter `sources`.
+[^pattern-large-backlog-template]: Source pattern-large-backlog-template - see frontmatter `sources`.
+[^pattern-large-repo-template]: Source pattern-large-repo-template - see frontmatter `sources`.
+[^pattern-see-goodpractice-template]: Source pattern-see-goodpractice-template - see frontmatter `sources`.
+[^pattern-use-pkgdown-github-pages-template]: Source pattern-use-pkgdown-github-pages-template - see frontmatter `sources`.
 [^learn-checklist-for-any-role-template]: Source learn-checklist-for-any-role-template - see frontmatter `sources`.
 [^bot-commands-script]: Source `bot-commands-script` - see frontmatter `sources`.
 [^new-script]: Source `new-script` - see frontmatter `sources`.
