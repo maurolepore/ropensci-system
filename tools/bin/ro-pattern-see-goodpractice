@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cat <<'RO_TEMPLATE_EOF'
+Please see the details, particularly the "goodpractice" section has some recomendations.
+RO_TEMPLATE_EOF

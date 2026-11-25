@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cat <<'RO_TEMPLATE_EOF'
+For example, I see the pkgdown website in this branch. See [use_pkgdown_github_pages()`](https://usethis.r-lib.org/reference/use_pkgdown.html) for how to setup the website on the `gh-pages` branch.
+RO_TEMPLATE_EOF

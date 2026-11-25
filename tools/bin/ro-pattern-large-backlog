@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cat <<'RO_TEMPLATE_EOF'
+Please note it may take a while to find an available editor. We currently have a large backlog.
+RO_TEMPLATE_EOF

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cat <<'RO_TEMPLATE_EOF'
+The repository seems quite large. Consider removing large and unnecessary files from the .git history. The documentation in `git filter-branch --help` recommends [filter-repo](https://github.com/newren/git-filter-repo).
+RO_TEMPLATE_EOF
