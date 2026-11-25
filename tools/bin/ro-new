@@ -35,3 +35,4 @@ RO_NEW_EOF
 
 chmod +x "$target"
 printf 'Created %s\n' "$target"
+vim "$target"
