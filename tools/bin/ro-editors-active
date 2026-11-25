@@ -55,8 +55,9 @@ cell <- function(x) {
   paste(unlist(x), collapse = "; ")
 }
 
-to_df <- function(records, columns = c("github", "editor", "other_langs",
-                                       "email", "comfort_other_langs")) {
+to_df <- function(records, columns = c("name", "github", "editor",
+                                       "other_langs", "email",
+                                       "comfort_other_langs")) {
   keep(records, function(r) {
     !any(excluded_editors %in% unlist(r$fields$editor))
   }) |>
