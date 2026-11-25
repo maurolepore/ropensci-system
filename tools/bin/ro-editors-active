@@ -56,7 +56,7 @@ cell <- function(x) {
 }
 
 to_df <- function(records, columns = c("name", "github", "editor",
-                                       "other_langs", "email",
+                                       "other_langs",
                                        "comfort_other_langs")) {
   keep(records, function(r) {
     !any(excluded_editors %in% unlist(r$fields$editor))
