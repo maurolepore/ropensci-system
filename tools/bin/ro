@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cat <<'RO_TEMPLATE_EOF'
+RO_TEMPLATE_EOF
