@@ -20,7 +20,7 @@ Knowledge base for all things [rOpenSci](https://ropensci.org/), particularly th
 
 ## Personal ops tooling
 
-- [Personal ops tooling (ro-*)](./concepts/personal-ops-tooling.md) - maurolepore's personal CLI tools for the review infrastructure, hosted in this repo's `tools/` directory; includes self-contained scripts that print prompt text and checklists, e.g. `ro-checklist-rotate-gh-pat-in-server` for rotating the review bot's GitHub PAT and `ro-learn-checklist-for-any-role` for generating a role-specific action checklist from a dev-guide URL
+- [Personal ops tooling (ro-*)](./concepts/personal-ops-tooling.md) - maurolepore's personal CLI tools for the review infrastructure, hosted in this repo's `tools/` directory; includes self-contained scripts that print prompt text and checklists, e.g. `ro-checklist-rotate-gh-pat-in-server` for rotating the review bot's GitHub PAT and `ro-learn-checklist-for-any-role` for generating a role-specific action checklist from a dev-guide URL; the `ro-pattern-*` scripts print ready-to-paste comments for recurring situations such as a large backlog or a large repository
 
 ## Conventions
 

@@ -79,6 +79,18 @@ sources:
   - id: pattern-unstable-repo-template
     title: tools/bin/ro-pattern-unstable-repo
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-unstable-repo
+  - id: pattern-large-backlog-template
+    title: tools/bin/ro-pattern-large-backlog
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-large-backlog
+  - id: pattern-large-repo-template
+    title: tools/bin/ro-pattern-large-repo
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-large-repo
+  - id: pattern-see-goodpractice-template
+    title: tools/bin/ro-pattern-see-goodpractice
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-see-goodpractice
+  - id: pattern-use-pkgdown-github-pages-template
+    title: tools/bin/ro-pattern-use-pkgdown-github-pages
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-use-pkgdown-github-pages
   - id: learn-checklist-for-any-role-template
     title: tools/bin/ro-learn-checklist-for-any-role
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-learn-checklist-for-any-role
