@@ -4,6 +4,9 @@ sources:
   - id: aliases
     title: tools/aliases.zsh (this repo)
     resource: /Users/maurolepore/git/ropensci-system/tools/aliases.zsh
+  - id: ro-script
+    title: tools/bin/ro
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro
   - id: bot-commands-script
     title: tools/bin/ro-bot-commands
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-bot-commands
@@ -117,6 +120,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 
 | Tool | Type | Description |
 | --- | --- | --- |
+| `ro` | script in this repo's `tools/bin/`[^ro-script] | List the commands available in `tools/bin/`; `ro <pattern>` lists only command names matching the pattern (like `ls tools/bin \| rg <pattern>`). |
 | `ro-bot-alert-if-down` | script in the owner's `~/git/bin/`, outside this repo[^alert-script] | Health-check the review API. The [roreviewapi](./roreviewapi.md) plumber API has no route at `/`, so a healthy server answers HTTP 404 at the root; the script treats `404` as UP and anything else as down. |
 | `ro-bot-commands` | script in this repo's `tools/bin/`[^bot-commands-script] | Print the list of `@ropensci-review-bot` chat-ops commands with a one-line description of each. |
 | `ro-bot-releases` | alias[^aliases] | List the [buffy](./buffy.md) Heroku app's releases, newest first - check when buffy last deployed. |
@@ -200,5 +204,6 @@ Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and print
 [^pattern-see-goodpractice-template]: Source pattern-see-goodpractice-template - see frontmatter `sources`.
 [^pattern-use-pkgdown-github-pages-template]: Source pattern-use-pkgdown-github-pages-template - see frontmatter `sources`.
 [^learn-checklist-for-any-role-template]: Source learn-checklist-for-any-role-template - see frontmatter `sources`.
+[^ro-script]: Source `ro-script` - see frontmatter `sources`.
 [^bot-commands-script]: Source `bot-commands-script` - see frontmatter `sources`.
 [^new-script]: Source `new-script` - see frontmatter `sources`.

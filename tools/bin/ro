@@ -1,4 +1,18 @@
 #!/usr/bin/env bash
+#
+# ro - List available commands in tools/bin.
+# Usage: ro [pattern]
+# With a pattern, lists only command names matching it (like ls tools/bin | rg pattern).
 
-cat <<'RO_TEMPLATE_EOF'
-RO_TEMPLATE_EOF
+bin_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+
+if [ "$#" -gt 1 ]; then
+    echo "Usage: ro [pattern]" >&2
+    exit 2
+fi
+
+if [ "$#" -eq 1 ]; then
+    ls -1 "$bin_dir" | rg -- "$1"
+else
+    ls -1 "$bin_dir"
+fi
