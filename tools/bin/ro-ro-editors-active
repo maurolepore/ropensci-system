@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+ROOT=$(dirname "$(dirname "$SCRIPT_DIR")")
+
+set -a
+# shellcheck disable=SC1091
+source "$ROOT/.env" >/dev/null 2>&1
+set +a
+
+if [[ -z "${AIRTABLE_TOKEN:-}" ]]; then
+  export AIRTABLE_TOKEN="${AIRTABLE_API_KEY:-}"
+fi
+unset AIRTABLE_API_KEY
+
+if [[ -z "${AIRTABLE_TOKEN:-}" ]]; then
+  echo "Error: no Airtable token found in $ROOT/.env" >&2
+  exit 1
+fi
+
+Rscript - <<'RSCRIPT' | column -t -s $'\t'
+suppressPackageStartupMessages({
+  library(httr2)
+  library(purrr)
+  library(dplyr)
+})
+
+base  <- "app8dssb6a7PG6Vwj"
+table <- "tblIBMYXKsF4DwhEW"
+view  <- "viwtCcPZXpi5V8xTX"
+token <- Sys.getenv("AIRTABLE_TOKEN")
+excluded_editors <- c("Emeritus", "On Leave")
+
+fetch_page <- function(offset = NULL) {
+  req <- request(paste0("https://api.airtable.com/v0/", base, "/", table)) |>
+    req_auth_bearer_token(token) |>
+    req_url_query(view = view, pageSize = 100)
+  if (!is.null(offset)) req <- req_url_query(req, offset = offset)
+  req |> req_perform() |> resp_body_json()
+}
+
+records <- list()
+offset <- NULL
+repeat {
+  page <- fetch_page(offset)
+  records <- c(records, page$records)
+  offset <- page$offset
+  if (is.null(offset)) break
+}
+
+cell <- function(x) {
+  if (is.null(x)) return(NA_character_)
+  paste(unlist(x), collapse = "; ")
+}
+
+to_df <- function(records, columns = c("github", "editor", "other_langs",
+                                       "email", "comfort_other_langs")) {
+  keep(records, function(r) {
+    !any(excluded_editors %in% unlist(r$fields$editor))
+  }) |>
+    map_dfr(function(r) {
+      fields <- r$fields
+      if (length(fields) == 0) return(NULL)
+      as_tibble(set_names(map(fields, cell), names(fields)))
+    }) |>
+    select(all_of(columns))
+}
+
+df <- to_df(records)
+df[] <- lapply(df, function(x) {
+  x[is.na(x) | x == ""] <- "-"
+  x
+})
+
+cat(paste(names(df), collapse = "\t"), "\n", sep = "")
+write.table(df, file = "", sep = "\t", quote = FALSE,
+            row.names = FALSE, col.names = FALSE, na = "")
+RSCRIPT

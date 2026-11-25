@@ -28,6 +28,9 @@ sources:
   - id: editors-status-script
     title: tools/bin/ro-editors-status
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-editors-status
+  - id: editors-active-script
+    title: tools/bin/ro-ro-editors-active
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-ro-editors-active
   - id: commits-monthly-script
     title: tools/bin/ro-commits-monthly
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-commits-monthly
@@ -119,6 +122,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `ro-project-query` | alias[^aliases] | List the ropensci GitHub Project (project 12) items matching a filter query, e.g. `ro-project-query "assignee:@me is:issue"`. |
 | `ro-project-status` | alias[^aliases] | Show the Status of the items assigned to you in the current iteration - runs `ro-project-query` with the default query `assignee:@me iteration:@current`. |
 | `ro-project-sync` | script in this repo's `tools/bin/`[^project-sync-script] | Add every open issue and pull request of every repository already represented on the ropensci GitHub Project board (project 12), skipping anything already on the board; ends with a count of the items actually added. `--dry-run` prints the report without mutating. |
+| `ro-ro-editors-active` | script in this repo's `tools/bin/`[^editors-active-script] | Print an aligned terminal table of active editors from the Airtable editors view, excluding Emeritus and On Leave, with columns `github`, `editor`, `other_langs`, `email`, `comfort_other_langs`; reads `AIRTABLE_API_KEY` from this repo's `.env`. |
 | `ro-server` | alias[^aliases] | SSH into the Digital Ocean droplet that hosts roreviewapi (reviewbot.ropensci.org). |
 | `ro-server-check-gh-pat` | script in this repo's `tools/bin/`[^server-check-script] | Print each expected result, run it, and assert PASS/FAIL for read-only checks that the GitHub PAT used by the roreviewapi container is valid, belongs to `ropensci-review-bot`, can read the rOpenSci editors team, and can write to `ropensci/software-review` issues and `ropensci-review-tools/roreviewapi` (gh-pages). Run on the droplet with `sudo bash /tmp/ro-server-check-gh-pat` from the project directory; exits non-zero if any check fails, and changes nothing. |
 | `ro-server-copy` | script in this repo's `tools/bin/`[^copy-script] | Copy a local file to the roreviewapi droplet with `scp`, preserving mode and timestamps. Usage: `ro-server-copy <file> [server-destination]`; with no destination the file lands in `/tmp/` on the server. |
@@ -163,6 +167,7 @@ Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and print
 [^copy-check-script]: Source `copy-check-script` - see frontmatter `sources`.
 [^pull-env-script]: Source `pull-env-script` - see frontmatter `sources`.
 [^editors-status-script]: Source `editors-status-script` - see frontmatter `sources`.
+[^editors-active-script]: Source `editors-active-script` - see frontmatter `sources`.
 [^summarize-thread-template]: Source `summarize-thread-template` - see frontmatter `sources`.
 [^my-thread-summary-style-template]: Source `my-thread-summary-style-template` - see frontmatter `sources`.
 [^pre-submission-conversion-template]: Source `pre-submission-conversion-template` - see frontmatter `sources`.
