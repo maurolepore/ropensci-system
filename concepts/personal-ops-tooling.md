@@ -76,9 +76,9 @@ sources:
   - id: pattern-short-history-template
     title: tools/bin/ro-pattern-short-history
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-short-history
-  - id: pattern-unstable-repo-template
-    title: tools/bin/ro-pattern-unstable-repo
-    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-unstable-repo
+  - id: pattern-repo-stability-template
+    title: tools/bin/ro-pattern-repo-stability
+    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-repo-stability
   - id: pattern-large-backlog-template
     title: tools/bin/ro-pattern-large-backlog
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-pattern-large-backlog
@@ -144,7 +144,7 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 
 ## Prompt templates
 
-Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and prints it to stdout, so it works from any directory with no separate template file to keep in sync. Naming follows `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` text, named after its input format, and `ro-learn-checklist-for-any-role`), `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, `ro-checklist-offboard-editor`, and `ro-checklist-rotate-gh-pat-in-server`), and `ro-pattern-<name>` (`ro-pattern-stats-need-pre-submission`, `ro-pattern-short-history`, `ro-pattern-unstable-repo`, `ro-pattern-large-backlog`, `ro-pattern-large-repo`, `ro-pattern-see-goodpractice`, `ro-pattern-use-pkgdown-github-pages`) - ready to paste or to feed a prompt to an agent.
+Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and prints it to stdout, so it works from any directory with no separate template file to keep in sync. Naming follows `ro-learn-<name>` (`ro-learn-full-to-pre-submission-conversion` for the `pre-submission-conversion` text, named after its input format, and `ro-learn-checklist-for-any-role`), `ro-checklist-<name>` (`ro-checklist-editor`, `ro-checklist-blog-new-editor`, `ro-checklist-onboard-editor`, `ro-checklist-offboard-editor`, and `ro-checklist-rotate-gh-pat-in-server`), and `ro-pattern-<name>` (`ro-pattern-stats-need-pre-submission`, `ro-pattern-short-history`, `ro-pattern-repo-stability`, `ro-pattern-large-backlog`, `ro-pattern-large-repo`, `ro-pattern-see-goodpractice`, `ro-pattern-use-pkgdown-github-pages`) - ready to paste or to feed a prompt to an agent.
 
 | Template | Description |
 | --- | --- |
@@ -153,7 +153,7 @@ Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and print
 | `pre-submission-conversion`[^pre-submission-conversion-template] | Populate a pre-submission-inquiry template (EN, ES, or PT) from the raw first comment of a full-submission issue. |
 | `pattern-stats-need-pre-submission`[^pattern-stats-template] | Ready-to-paste quote from the stats dev guide that all statistical software submissions should begin with a pre-submission enquiry, with its source URL; printed by `ro-pattern-stats-need-pre-submission`. |
 | `pattern-short-history`[^pattern-short-history-template] | Ready-to-paste comment for a submission whose repo has a short history: flags instability and the need for a stable branch, links the code-frequency graph, and puts the submission on hold with bot reminders every 3 months up to 1 year; printed by `ro-pattern-short-history`. |
-| `pattern-unstable-repo`[^pattern-unstable-repo-template] | Ready-to-paste quote from the dev guide asking the author to keep the branch unchanged during review apart from hot fixes, so reviewers assess a stable version; printed by `ro-pattern-unstable-repo`. |
+| `pattern-repo-stability`[^pattern-repo-stability-template] | Ready-to-paste quote from the dev guide asking the author to keep the branch unchanged during review apart from hot fixes, so reviewers assess a stable version; printed by `ro-pattern-repo-stability`. |
 | `pattern-large-backlog`[^pattern-large-backlog-template] | Ready-to-paste note that finding an available editor may take a while because of a large backlog; printed by `ro-pattern-large-backlog`. |
 | `pattern-large-repo`[^pattern-large-repo-template] | Ready-to-paste note asking the author to remove large, unnecessary files from the `.git` history, pointing to `git-filter-repo` as recommended by `git filter-branch --help`; printed by `ro-pattern-large-repo`. |
 | `pattern-see-goodpractice`[^pattern-see-goodpractice-template] | Ready-to-paste comment directing the author to the details, particularly the recommendations in the "goodpractice" section; printed by `ro-pattern-see-goodpractice`. |
@@ -193,7 +193,7 @@ Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and print
 [^checklist-rotate-gh-pat-in-server-template]: Source `checklist-rotate-gh-pat-in-server-template` - see frontmatter `sources`.
 [^pattern-stats-template]: Source pattern-stats-template - see frontmatter `sources`.
 [^pattern-short-history-template]: Source pattern-short-history-template - see frontmatter `sources`.
-[^pattern-unstable-repo-template]: Source pattern-unstable-repo-template - see frontmatter `sources`.
+[^pattern-repo-stability-template]: Source pattern-repo-stability-template - see frontmatter `sources`.
 [^pattern-large-backlog-template]: Source pattern-large-backlog-template - see frontmatter `sources`.
 [^pattern-large-repo-template]: Source pattern-large-repo-template - see frontmatter `sources`.
 [^pattern-see-goodpractice-template]: Source pattern-see-goodpractice-template - see frontmatter `sources`.
