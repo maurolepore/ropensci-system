@@ -23,6 +23,26 @@ fi
 fields_to_add=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    -h|--help)
+      cat <<'HELP'
+Usage: ro-editors-airtable [-f|--fields-to-add FIELD]...
+
+Print an aligned table of active editors from the Airtable editors view,
+excluding Emeritus and On Leave. Default columns: name, github, editor,
+other_langs.
+
+Options:
+  -f, --fields-to-add FIELD  Add an Airtable field to the output; repeat the
+                             flag or pass a comma-separated list.
+
+Example:
+  ro-editors-airtable -f comfort_other_langs,email
+
+Inspect the table in your browser:
+  https://airtable.com/app8dssb6a7PG6Vwj/tblIBMYXKsF4DwhEW/viwtCcPZXpi5V8xTX
+HELP
+      exit 0
+      ;;
     -f|--fields-to-add)
       if [[ $# -lt 2 || "$2" == -* ]]; then
         echo "Error: $1 requires a field name (usage: ro-editors-airtable [-f|--fields-to-add FIELD]...)" >&2
