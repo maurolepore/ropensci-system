@@ -20,6 +20,25 @@ if [[ -z "${AIRTABLE_TOKEN:-}" ]]; then
   exit 1
 fi
 
+fields_to_add=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -f|--fields-to-add)
+      if [[ $# -lt 2 || "$2" == -* ]]; then
+        echo "Error: $1 requires a field name (usage: ro-editors-airtable [-f|--fields-to-add FIELD]...)" >&2
+        exit 1
+      fi
+      fields_to_add="${fields_to_add:+$fields_to_add,}$2"
+      shift 2
+      ;;
+    *)
+      echo "Error: unknown argument: $1 (usage: ro-editors-airtable [-f|--fields-to-add FIELD]...)" >&2
+      exit 1
+      ;;
+  esac
+done
+export FIELDS_TO_ADD="$fields_to_add"
+
 Rscript - <<'RSCRIPT' | column -t -s $'\t'
 suppressPackageStartupMessages({
   library(httr2)
@@ -32,6 +51,10 @@ table <- "tblIBMYXKsF4DwhEW"
 view  <- "viwtCcPZXpi5V8xTX"
 token <- Sys.getenv("AIRTABLE_TOKEN")
 excluded_editors <- c("Emeritus", "On Leave")
+extra_columns <- strsplit(Sys.getenv("FIELDS_TO_ADD", unset = ""), ",", fixed = TRUE)[[1]] |>
+  trimws() |>
+  keep(nzchar)
+out_columns <- unique(c("name", "github", "editor", "other_langs", extra_columns))
 
 fetch_page <- function(offset = NULL) {
   req <- request(paste0("https://api.airtable.com/v0/", base, "/", table)) |>
@@ -55,9 +78,7 @@ cell <- function(x) {
   paste(unlist(x), collapse = "; ")
 }
 
-to_df <- function(records, columns = c("name", "github", "editor",
-                                       "other_langs",
-                                       "comfort_other_langs")) {
+to_df <- function(records, columns = out_columns) {
   keep(records, function(r) {
     !any(excluded_editors %in% unlist(r$fields$editor))
   }) |>
