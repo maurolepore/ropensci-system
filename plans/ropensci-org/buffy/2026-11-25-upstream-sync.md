@@ -107,6 +107,23 @@ generated:
                     SCENARIO 5: watch deploy ─► SCENARIO 9: close-out
 ```
 
+```mermaid
+flowchart TD
+  T["Triage: which case am I in?"] --> S0["Scenario 0: preflight / park changes"]
+  S0 --> S1["Scenario 1: rehearsal in throwaway copy"]
+  S1 -->|"merge-tree exit 0 - clean"| S3["Scenario 3: Docker bundle exec rspec"]
+  S1 -->|"merge-tree exit 1 - conflicts"| S2["Scenario 2: resolve, then git merge --continue"]
+  S2 --> S3
+  S3 -->|"0 failures"| G1["G1: approval to mutate real clone"]
+  G1 --> S4["Scenario 4: PR branch, green CI, push main, merge PR"]
+  S4 -->|"failure before push"| S6["Scenario 6: local undo"]
+  S4 -->|"failure after push"| S7["Scenario 7: git revert or rewind"]
+  S7 --> S8["Scenario 8: Heroku containment + side effects"]
+  S4 --> S5["Scenario 5: watch deploy, sandbox smoke test"]
+  S5 -->|"bad deploy or smoke test"| S8
+  S5 -->|"green deploy and reply"| S9["Scenario 9: close-out, addendum, wiki, KB"]
+```
+
 ---
 
 ### Scenario 0 — Preflight (read-only unless the tree is dirty)
