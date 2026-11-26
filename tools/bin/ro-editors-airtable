@@ -29,14 +29,14 @@ Usage: ro-editors-airtable [-f|--fields-to-add FIELD]...
 
 Print an aligned table of active editors from the Airtable editors view,
 excluding Emeritus and On Leave. Default columns: name, github, editor,
-other_langs.
+other_langs, email.
 
 Options:
   -f, --fields-to-add FIELD  Add an Airtable field to the output; repeat the
                              flag or pass a comma-separated list.
 
 Example:
-  ro-editors-airtable -f comfort_other_langs,email
+  ro-editors-airtable -f comfort_other_langs,Affiliation
 
 Inspect the table in your browser:
   https://airtable.com/app8dssb6a7PG6Vwj/tblIBMYXKsF4DwhEW/viwtCcPZXpi5V8xTX
@@ -74,7 +74,7 @@ excluded_editors <- c("Emeritus", "On Leave")
 extra_columns <- strsplit(Sys.getenv("FIELDS_TO_ADD", unset = ""), ",", fixed = TRUE)[[1]] |>
   trimws() |>
   keep(nzchar)
-out_columns <- unique(c("name", "github", "editor", "other_langs", extra_columns))
+out_columns <- unique(c("name", "github", "editor", "other_langs", "email", extra_columns))
 
 fetch_page <- function(offset = NULL) {
   req <- request(paste0("https://api.airtable.com/v0/", base, "/", table)) |>
