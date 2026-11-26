@@ -28,9 +28,6 @@ sources:
   - id: jobs-script
     title: tools/bin/ro-jobs
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-jobs
-  - id: editors-status-script
-    title: tools/bin/ro-editors-status
-    resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-editors-status
   - id: editors-active-script
     title: tools/bin/ro-editors-active
     resource: /Users/maurolepore/git/ropensci-system/tools/bin/ro-editors-active
@@ -125,7 +122,6 @@ maurolepore's personal tools. They are not part of official rOpenSci infrastruct
 | `ro-bot-commands` | script in this repo's `tools/bin/`[^bot-commands-script] | Print the list of `@ropensci-review-bot` chat-ops commands with a one-line description of each. |
 | `ro-bot-releases` | alias[^aliases] | List the [buffy](./buffy.md) Heroku app's releases, newest first - check when buffy last deployed. |
 | `ro-commits-monthly` | script in this repo's `tools/bin/`[^commits-monthly-script] | Print a text histogram of the Git commit count per month for the current Git repository, including zero-commit months; `--commits-per-dot NUM` (or a positional `NUM`) marks one dot per NUM commits (default 1). |
-| `ro-editors-status` | script in this repo's `tools/bin/`[^editors-status-script] | List the members of the ropensci reviewtools Slack channel with their Slack status, alphabetized; `--unavailable` shows only members whose Slack status is `unavailable`. Reads the `SLACK_TOKEN` environment variable. |
 | `ro-email` | alias[^aliases] | Print the reviewtools@ropensci.org address and the reviewtools Google Group URL. |
 | `ro-gh-review` | alias[^aliases] | Run a `gh` command against the [software-review repository](./software-review-repo.md), e.g. `ro-gh-review issue list`. |
 | `ro-gh-review-meta` | alias[^aliases] | Run a `gh` command against the software-review-meta repository, e.g. `ro-gh-review-meta issue list`. |
@@ -186,7 +182,6 @@ Each prompt script in `tools/bin/` embeds its text in a quoted heredoc and print
 [^copy-script]: Source `copy-script` - see frontmatter `sources`.
 [^copy-check-script]: Source `copy-check-script` - see frontmatter `sources`.
 [^pull-env-script]: Source `pull-env-script` - see frontmatter `sources`.
-[^editors-status-script]: Source `editors-status-script` - see frontmatter `sources`.
 [^editors-active-script]: Source `editors-active-script` - see frontmatter `sources`.
 [^summarize-thread-template]: Source `summarize-thread-template` - see frontmatter `sources`.
 [^my-thread-summary-style-template]: Source `my-thread-summary-style-template` - see frontmatter `sources`.
