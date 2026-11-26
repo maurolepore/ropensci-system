@@ -266,3 +266,11 @@ Expected: 15 `-wiki` worktrees on disk and 15 `wiki` refs on the forks; no `wiki
 Run `ok audit` on the KB and compare the Current wikis table to the inventory.
 
 Expected: no audit errors; table rows match the on-disk and remote state exactly.
+
+---
+
+## 2026-11-26 addendum: stamp the snapshot you actually read
+
+Task 2's literal expectation "source_commit = `git -C <clone> rev-parse HEAD`" is wrong when the clone checkout is on a feature branch. Here the clone was on `mauro` (15 commits behind `origin/main`), so the first wiki generation read stale source while stamping the newer snapshot — the final review caught this as Critical.
+
+Rule for the remaining waves: generate from the same checkout you stamp. Create the `wiki` worktree from `origin/main`, read source code from that worktree with native tools, and stamp that source snapshot's commit. Do not read source from the code clone unless its HEAD equals the stamp. `source_commit` is a source-snapshot anchor, not the wiki branch HEAD (which advances with each wiki commit). See the final-review entry in this plan's SDD ledger for the corrected pages and verification.
