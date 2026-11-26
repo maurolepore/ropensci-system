@@ -114,3 +114,22 @@ Wiki and PR cannot contaminate each other because they are different branches in
 | Repo | Wiki | Worktree | Branch pushed to |
 | --- | --- | --- | --- |
 | ropensci-org/buffy | [wiki/OVERVIEW.md](https://github.com/maurolepore/buffy/blob/wiki/wiki/OVERVIEW.md)[^buffy-wiki] | `ropensci-org/buffy-wiki/` | `mine/wiki` (maurolepore/buffy) |
+| ropensci-review-tools/roreviewapi | [wiki/OVERVIEW.md](https://github.com/maurolepore/roreviewapi/blob/wiki/wiki/OVERVIEW.md) | `ropensci-review-tools/roreviewapi-wiki/` | `mine/wiki` (maurolepore/roreviewapi) |
+
+Pending rows come from the [per-repo codebase wiki plan](../plans/maurolepore/ropensci-system/2026-11-26-per-repo-codebase-wikis.md):
+
+| Wave | Repo | Worktree | Branch pushed to |
+| --- | --- | --- | --- |
+| 1 | `ropensci/software-review` | `ropensci/software-review-wiki/` | `mine/wiki` (planned) |
+| 1 | `ropensci-review-tools/dashboard` | `ropensci-review-tools/dashboard-wiki/` | `mine/wiki` (planned) |
+| 2 | `ropensci-org/badges` | `ropensci-org/badges-wiki/` | `mine/wiki` (planned) |
+| 2 | `ropensci-review-tools/pkgcheck` | `ropensci-review-tools/pkgcheck-wiki/` | `mine/wiki` (planned) |
+| 2 | `ropensci-review-tools/pkgstats` | `ropensci-review-tools/pkgstats-wiki/` | `mine/wiki` (planned) |
+| 2 | `ropensci-review-tools/srr` | `ropensci-review-tools/srr-wiki/` | `mine/wiki` (planned) |
+| 3 | `ropensci-review-tools/pkgcheck-action` | `ropensci-review-tools/pkgcheck-action-wiki/` | `mine/wiki` (planned) |
+| 3 | `ropensci-review-tools/ropensci-review-tools` | `ropensci-review-tools/ropensci-review-tools-wiki/` | `mine/wiki` (planned) |
+| 4 | `ropensci/dev_guide` | `ropensci/dev_guide-wiki/` | `mine/wiki` (planned) |
+| 4 | `ropensci/roweb3` | `ropensci/roweb3-wiki/` | `mine/wiki` (planned) |
+| 4 | `ropensci/software-review-meta` | `ropensci/software-review-meta-wiki/` | `mine/wiki` (planned) |
+| 4 | `ropensci/statistical-software-review-book` | `ropensci/statistical-software-review-book-wiki/` | `mine/wiki` (planned) |
+| 4 | `ropenscilabs/statistical-software-review` | `ropenscilabs/statistical-software-review-wiki/` | `mine/wiki` (planned) |
