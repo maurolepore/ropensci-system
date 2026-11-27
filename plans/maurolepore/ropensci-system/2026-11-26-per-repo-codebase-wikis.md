@@ -124,3 +124,12 @@ Run once per repo, substituting `<org>/<repo>` and the focus phrase from the mat
 ## 2026-11-26 addendum: stamp the snapshot you actually read
 
 The original Task 2 expected `source_commit = git -C <clone> rev-parse HEAD`, which is wrong when the clone checkout is on a feature branch. The software-review clone was on `mauro` (15 commits behind `origin/main`), so the first generation read stale source while stamping the newer snapshot — the final review caught this as Critical. Ten pages were regenerated from the stamped snapshot (`e84a113`); a source-accuracy check went RED→GREEN. The corrected rule is in Global Constraints and the canonical recipe above. The SDD ledger from that run was deleted after the review; the record is in git history, not a live ledger.
+
+## 2026-11-27 addendum: install the guard hook by symlink, not by copy
+
+The canonical recipe (step 6) and Global Constraints above still say the guard hook is "copied as-is from `ropensci-org/buffy/.git/hooks/pre-push`". That installation detail is superseded: the script now lives once, versioned, at `scripts/wiki-pre-push` in this KB, and each clone's `.git/hooks/pre-push` is an ABSOLUTE symlink to it.
+
+- Why: the script was already repo-generic (it derives both worktrees from `git rev-parse --git-common-dir` and the remote coordinates from the clone's own config), so the per-clone copies were pure duplication that could drift.
+- What stays: `core.hooksPath` remains an absolute, per-clone path, and the `commit-msg` symlink is untouched. No global `core.hooksPath` - that is the failure mode that silently disabled the guard in the first place.
+- Applied 2026-11-27 to the four live wikis (buffy, roreviewapi, software-review, dashboard), with dry-runs re-verified: `wiki -> origin` rejected, feature -> `mine` rejected, `wiki -> mine` passes.
+- Two remote gaps surfaced while smoke-testing and were fixed: the buffy clone had no `mine` remote (added; the fork already existed), and `maurolepore/roreviewapi` had been deleted (re-forked). The new roreviewapi fork still needs a first real `git push mine wiki` to restore its backup.

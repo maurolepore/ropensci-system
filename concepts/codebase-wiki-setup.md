@@ -30,7 +30,7 @@ This KB has **two layers**. The curated OKF layer (`index.md`, `concepts/`, `pla
 
 ## Recipe: add a codebase wiki for repo `<org>/<repo>`
 
-Run from the KB root. Requires `gh`, git, and the `ok` CLI.
+Run from the KB root. Requires `gh`, git, and the `ok` CLI. For steps 1-3 and 6 below, run `tools/bin/ro-wiki-setup <org>/<repo>`: it is idempotent, symlinks the canonical guard hook, and never creates a fork or pushes. Fork creation and any OK-server restart stay explicit, approval-gated steps.
 
 ```bash
 # 1. Fork (remote mutation - needs explicit user approval)
@@ -61,17 +61,20 @@ Then ask an agent: "Generate the codebase wiki, audience public, depth standard.
 ```bash
 # 4. Guard the remotes (shared gitdir => covers both worktrees).
 #    Hook: mine only ever receives refs/heads/wiki; origin never does.
-#    Copy the hook from ropensci-org/buffy/.git/hooks/pre-push (the
-#    reference implementation - it is repo-GENERIC: at push time it derives
-#    the code/wiki worktree paths from the common gitdir and the upstream/
-#    fork coordinates from the clone's own remote URLs, but it assumes the
-#    recipe's conventions: remote names 'origin' and 'mine', branch 'wiki',
-#    sibling worktree '<repo>-wiki') into <org>/<repo>/.git/hooks/pre-push.
-#    THEN point the repo at its hooks dir with an ABSOLUTE path - a repo
-#    ".git/hooks" is silently ignored when core.hooksPath is set globally
-#    (e.g. ~/.config/git/hooks), and a RELATIVE hooksPath breaks in linked
-#    worktrees. Carry over any global hooks the repo should keep (e.g. a
-#    global commit-msg hook is a symlink in the global hooks dir):
+#    Install a SYMLINK to the canonical <KB root>/scripts/wiki-pre-push -
+#    one versioned copy for every wiki, never a per-clone copy. The script
+#    stays repo-GENERIC: at push time it derives the code/wiki worktree
+#    paths from the common gitdir and the upstream/fork coordinates from
+#    the clone's own remote URLs, but it assumes the recipe's conventions:
+#    remote names 'origin' and 'mine', branch 'wiki', sibling worktree
+#    '<repo>-wiki'. THEN point the repo at its hooks dir with an ABSOLUTE
+#    path - a repo ".git/hooks" is silently ignored when core.hooksPath is
+#    set globally (e.g. ~/.config/git/hooks), and a RELATIVE hooksPath
+#    breaks in linked worktrees. core.hooksPath stays absolute and per
+#    clone: a global hooksPath silently disables this guard. Carry over any
+#    global hooks the repo should keep (e.g. a global commit-msg hook is a
+#    symlink in the global hooks dir):
+ln -sf <KB root>/scripts/wiki-pre-push <org>/<repo>/.git/hooks/pre-push
 git -C <org>/<repo> config core.hooksPath /abs/path/<org>/<repo>/.git/hooks
 git -C <org>/<repo> config branch.wiki.pushRemote mine
 
@@ -85,7 +88,7 @@ Verified live (2026-10-24): the day this recipe shipped, a real `push origin wik
 
 ## Enforce the remotes (do not skip)
 
-Both worktrees share the clone's single seine remote config, so config alone cannot tell them apart. Install a `pre-push` hook in `<org>/<repo>/.git/hooks/` (shared by all worktrees) that rejects any push where `mine` would receive something other than `wiki`, or `origin` would receive `wiki`; it prints the correct command for each worktree. Also set `git config branch.wiki.pushRemote mine` so a bare `git push` on the wiki branch is correct by default.
+Both worktrees share the clone's single seine remote config, so config alone cannot tell them apart. Install a `pre-push` symlink to the canonical `scripts/wiki-pre-push` in `<org>/<repo>/.git/hooks/` (shared by all worktrees); it rejects any push where `mine` would receive something other than `wiki`, or `origin` would receive `wiki`; it prints the correct command for each worktree. Also set `git config branch.wiki.pushRemote mine` so a bare `git push` on the wiki branch is correct by default.
 
 Discoverability needs **no per-clone files** (no personal `AGENTS.md` bridges in shared repos - they are untracked clutter and a PR-leak risk; keep clones shared-only). The KB root `AGENTS.md` carries the generalized convention - "wiki worktree always at `<org>/<repo>-wiki/`", "fork remote always `mine` = `maurolepore/<repo>`", push rules, and this doc's workflow - and OpenCode loads it upward in any session rooted inside the clones, and lazily when a KB-rooted session reads a clone's files.
 

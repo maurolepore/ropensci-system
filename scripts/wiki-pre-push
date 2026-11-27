@@ -1,0 +1,33 @@
+#!/bin/sh
+# Generic guard for every worktree of every clone with a wiki (copy as-is).
+# Rule: fork remote `mine` only ever receives the `wiki` branch;
+#       upstream remote `origin` never receives the `wiki` branch.
+# Org/owner/repo/paths are derived from the remotes - nothing hardcoded.
+remote="$1"
+common=$(git rev-parse --git-common-dir)
+case "$common" in /*) ;; *) common="$(git rev-parse --show-toplevel)/$common" ;; esac
+code_dir=$(dirname "$common")
+wiki_dir=$(dirname "$code_dir")/"$(basename "$code_dir")"-wiki
+label() { u=$(git config --get "remote.$1.url"); echo "${u#git@github.com:}"; }  # <owner>/<repo>.git
+guide() {
+  echo >&2 ""
+  echo >&2 "How to push correctly:"
+  echo >&2 "   code worktree ($code_dir):   git push origin <feature-branch>   # upstream: $(label origin)"
+  echo >&2 "   wiki worktree ($wiki_dir):   git push mine wiki                 # fork: $(label mine)"
+  echo >&2 "Rule: 'mine' receives only 'wiki'; 'origin' never does."
+  exit 1
+}
+z40=0000000000000000000000000000000000000000
+while read local_ref local_sha remote_ref remote_sha; do
+  [ "$local_sha" = "$z40" ] && continue  # ref deletions are fine
+  shortref="${local_ref#refs/heads/}"
+  if [ "$remote" = "mine" ] && [ "$local_ref" != "refs/heads/wiki" ]; then
+    echo >&2 "pre-push: rejected — '$shortref' must not go to 'mine' (your fork)."
+    guide
+  fi
+  if [ "$remote" = "origin" ] && [ "$local_ref" = "refs/heads/wiki" ]; then
+    echo >&2 "pre-push: rejected — 'wiki' must not go to 'origin' (upstream)."
+    guide
+  fi
+done
+exit 0
