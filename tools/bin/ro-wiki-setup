@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+#
+# ro-wiki-setup - Set up the codebase-wiki worktree for a cloned repo.
+# Usage: ro-wiki-setup <org>/<repo>
+#
+# Runs the deterministic half of the canonical setup recipe: branch + worktree,
+# remotes, guard-hook symlink, git config, and the nested OK project. It never
+# creates a fork, never pushes, and never restarts the OK server. Those stay
+# explicit, approval-gated steps.
+
+set -euo pipefail
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: ro-wiki-setup <org>/<repo>" >&2
+    exit 2
+fi
+
+spec=$1
+if ! printf '%s' "$spec" | grep -Eq '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$'; then
+    echo "Error: expected <org>/<repo>, got: $spec" >&2
+    exit 2
+fi
+org=${spec%%/*}
+repo=${spec##*/}
+
+bin_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+kb_root=$(cd "$bin_dir/../.." && pwd)
+clone="$kb_root/$org/$repo"
+worktree="$kb_root/$org/$repo-wiki"
+hook_src="$kb_root/scripts/wiki-pre-push"
+hooks="$clone/.git/hooks"
+fork_url="git@github.com:maurolepore/$repo.git"
+
+if [ ! -d "$clone/.git" ] && [ ! -f "$clone/.git" ]; then
+    echo "Error: no clone at $clone" >&2
+    exit 1
+fi
+if [ ! -f "$hook_src" ]; then
+    echo "Error: canonical guard hook missing at $hook_src" >&2
+    exit 1
+fi
+
+# Fork creation is a remote mutation and needs explicit user approval.
+if ! gh api "repos/maurolepore/$repo" --jq .full_name >/dev/null 2>&1; then
+    echo "Error: fork maurolepore/$repo not found." >&2
+    echo "Ask the user to approve, then run: gh repo fork $spec --clone=false" >&2
+    exit 1
+fi
+
+echo "==> $spec: fetch and snapshot"
+git -C "$clone" fetch origin main
+if git -C "$clone" show-ref --verify --quiet refs/heads/wiki; then
+    echo "    branch wiki: already exists"
+else
+    git -C "$clone" branch wiki origin/main
+fi
+if git -C "$clone" worktree list --porcelain | grep -Fxq "worktree $worktree"; then
+    echo "    worktree: already exists"
+else
+    git -C "$clone" worktree add "$worktree" wiki
+fi
+
+echo "==> $spec: remotes"
+if git -C "$clone" config --get remote.mine.url >/dev/null; then
+    git -C "$clone" remote set-url mine "$fork_url"
+else
+    git -C "$clone" remote add mine "$fork_url"
+fi
+
+echo "==> $spec: guard hook"
+chmod +x "$hook_src"
+mkdir -p "$hooks"
+rm -f "$hooks/pre-push"
+ln -s "$hook_src" "$hooks/pre-push"
+if [ ! -e "$hooks/commit-msg" ] && [ ! -L "$hooks/commit-msg" ]; then
+    ln -s "$HOME/.config/git/hooks/commit-msg" "$hooks/commit-msg"
+fi
+git -C "$clone" config core.hooksPath "$hooks"
+git -C "$clone" config branch.wiki.pushRemote mine
+
+echo "==> $spec: nested OK project"
+mkdir -p "$worktree/.ok"
+if [ ! -f "$worktree/.ok/config.yml" ]; then
+    printf '# OpenKnowledge project config\n' > "$worktree/.ok/config.yml"
+    (cd "$worktree" && ok init && ok seed --pack codebase-wiki -y)
+else
+    echo "    already initialised"
+fi
+
+echo "==> $spec: ready"
+echo "    worktree:    $worktree"
+echo "    source stamp: $(git -C "$worktree" rev-parse HEAD)"
+echo "    hook:         $(readlink "$hooks/pre-push")"
+echo "    hooksPath:    $(git -C "$clone" config --get core.hooksPath)"
+echo
+echo "Next steps (still explicit):"
+echo "  1. If OK MCP with cwd=$worktree hits a content-ownership collision, ask before"
+echo "     restarting the shared server: ok stop --force && ok start --no-open-browser"
+echo "     (KB root), then ok start --no-open-browser in the worktree."
+echo "  2. Ask an agent: 'Generate the codebase wiki, audience public, depth standard."
+echo "     Focus: <matrix focus>'. Author via OK MCP with paths prefixed wiki/."
+echo "  3. Verify (ok audit, links, leak grep, guard dry-runs), commit, push mine/wiki,"
+echo "     then move the repo's row into Current wikis in concepts/codebase-wiki-setup.md."
