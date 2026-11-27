@@ -116,12 +116,12 @@ Wiki and PR cannot contaminate each other because they are different branches in
 | ropensci-org/buffy | [wiki/OVERVIEW.md](https://github.com/maurolepore/buffy/blob/wiki/wiki/OVERVIEW.md)[^buffy-wiki] | `ropensci-org/buffy-wiki/` | `mine/wiki` (maurolepore/buffy) |
 | ropensci-review-tools/roreviewapi | [wiki/OVERVIEW.md](https://github.com/maurolepore/roreviewapi/blob/wiki/wiki/OVERVIEW.md) | `ropensci-review-tools/roreviewapi-wiki/` | `mine/wiki` (maurolepore/roreviewapi) |
 | ropensci/software-review | [wiki/OVERVIEW.md](https://github.com/maurolepore/software-review/blob/wiki/wiki/OVERVIEW.md) | `ropensci/software-review-wiki/` | `mine/wiki` (maurolepore/software-review) |
+| ropensci-review-tools/dashboard | [wiki/OVERVIEW.md](https://github.com/maurolepore/dashboard/blob/wiki/wiki/OVERVIEW.md) | `ropensci-review-tools/dashboard-wiki/` | `mine/wiki` (maurolepore/dashboard) |
 
 Pending rows come from the [per-repo codebase wiki plan](../plans/maurolepore/ropensci-system/2026-11-26-per-repo-codebase-wikis.md):
 
 | Wave | Repo | Worktree | Branch pushed to |
 | --- | --- | --- | --- |
-| 1 | `ropensci-review-tools/dashboard` | `ropensci-review-tools/dashboard-wiki/` | `mine/wiki` (planned) |
 | 2 | `ropensci-org/badges` | `ropensci-org/badges-wiki/` | `mine/wiki` (planned) |
 | 2 | `ropensci-review-tools/pkgcheck` | `ropensci-review-tools/pkgcheck-wiki/` | `mine/wiki` (planned) |
 | 2 | `ropensci-review-tools/pkgstats` | `ropensci-review-tools/pkgstats-wiki/` | `mine/wiki` (planned) |
