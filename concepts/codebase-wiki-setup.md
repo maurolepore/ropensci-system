@@ -115,7 +115,7 @@ Wiki and PR cannot contaminate each other because they are different branches in
 | --- | --- | --- | --- |
 | ropensci-org/buffy | [wiki/OVERVIEW.md](https://github.com/maurolepore/buffy/blob/wiki/wiki/OVERVIEW.md)[^buffy-wiki] | `ropensci-org/buffy-wiki/` | `mine/wiki` (maurolepore/buffy) |
 | ropensci-review-tools/roreviewapi | [wiki/OVERVIEW.md](https://github.com/maurolepore/roreviewapi/blob/wiki/wiki/OVERVIEW.md) | `ropensci-review-tools/roreviewapi-wiki/` | `mine/wiki` (maurolepore/roreviewapi) |
-| ropensci/software-review | [wiki/OVERVIEW.md](https://github.com/maurolepore/onboarding/blob/wiki/wiki/OVERVIEW.md) | `ropensci/software-review-wiki/` | `mine/wiki` (maurolepore/onboarding) |
+| ropensci/software-review | [wiki/OVERVIEW.md](https://github.com/maurolepore/software-review/blob/wiki/wiki/OVERVIEW.md) | `ropensci/software-review-wiki/` | `mine/wiki` (maurolepore/software-review) |
 
 Pending rows come from the [per-repo codebase wiki plan](../plans/maurolepore/ropensci-system/2026-11-26-per-repo-codebase-wikis.md):
 
