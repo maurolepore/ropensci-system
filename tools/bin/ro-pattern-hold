@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+cat <<'RO_TEMPLATE_EOF'
+> The author can choose to have their submission put on hold (editor applies the holding label). The holding status will be revisited every 3 months, and after one year the issue will be closed.
+> -- https://devguide.ropensci.org/softwarereview_policies.html#policiesreviewprocess
+RO_TEMPLATE_EOF
